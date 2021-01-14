@@ -2,6 +2,9 @@ package boot.jeju.data;
 
 import org.apache.ibatis.type.Alias;
 
+import lombok.Data;
+
+
 @Alias("spotlist")
 public class SpotlistDto {
 	private String contentsid;
@@ -11,13 +14,6 @@ public class SpotlistDto {
 	private String roadaddr;
 	private String addr;
 	private String latitude;
-	private String longitude;
-	private String tag;
-	private String introduction;
-	private String img;
-	private String thumbnail;
-	private int star;
-	private int likes;
 	
 	public String getContentsid() {
 		return contentsid;
@@ -103,5 +99,11 @@ public class SpotlistDto {
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-	
+	private String longitude;
+	private String tag;
+	private String introduction;
+	private String img;
+	private String thumbnail;
+	private int star;
+	private int likes;
 }

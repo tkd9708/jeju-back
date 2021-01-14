@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boot.jeju.mapper.WishlistMapper">
+	<insert id="insertAround" parameterType="wishlist">
+		insert into wishlist (memId,aroundId,content,wishday,wishtime)
+		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime})
+	
+	</insert>
+	<insert id="insertSpot" parameterType="wishlist">
+		insert into wishlist (memId,spotId,content,wishday,wishtime)
+		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		
+	</insert>
+	<select id="isSpotSearch" parameterType="HashMap" resultType="boolean">
+		select * from wishlist where spotId=#{spotId} and memId=#{memId}
+	
+	</select>
+	
+	<select id="isShareSearch" parameterType="String" resultType="boolean">
+		select * from wishlist where shareNum=#{shareNum}
+	
+	</select>
+	
+	<insert id="insertContent" parameterType="wishlist">
+		insert into wishlist (memId,content,wishday,wishtime)
+		 values (#{memId},#{content},#{wishday},#{wishtime})
+	
+	</insert>
+	
+	<insert id="insertshare" parameterType="wishlist">
+		insert into wishlist (memId,shareNum,wishday,content,wishtime)
+		 values (#{memId},#{shareNum},#{wishday},0,#{wishtime})
+	
+	</insert>
+	
+	<delete id="deleteContent" parameterType="String">
+		delete from wishlist where num=#{num}
+	
+	</delete>
+	
+	<select id="getList" parameterType="String" resultType="wishlist">
+		select * from wishlist where memId=#{memId} order by wishday asc
+	
+	</select>
+	
+	<select id="getMyreviews" parameterType="HashMap" resultType="spotreview">
+		select * from spotreview where memNum=#{memNum} order by num desc #{start},#{end}
+	
+	</select>
+	
+	<select id="getRecentreviews" parameterType="String" resultType="spotreview">
+		select * from spotreview where memNum=#{memNum} order by num desc limit 1,5
+	
+	</select>
+	
+	<select id="getSpottitle" parameterType="String" resultType="String">
+		select title from spotlist where contentsid=#{contentsid}
+	
+	</select>
+	
+	<select id="getTotalCount" parameterType="String" resultType="int">
+		select count(*) from spotreview where memNum=#{memNum}
+	
+	</select>
+	
+	<select id="getShareSubject" parameterType="String" resultType="String">
+		select subject from shareboard where shareNum=#{shareNum}
+	
+	</select>
+	
+	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
+		<choose>
+			<when test="category==around">
+				select  count(*) from wishlist where aroundid!='0' or sharenum!='0'
+				and memId=#{memId}
+			
+			</when>
+			<when test="category==spot">
+				select select count(*) from wishlist where spotId != '0' and memId=#{memId}
+			
+			</when>
+			<when test="category==my">
+				select count(*) from wishlist where aroundid = '0' and sharenum='0' and spotid='0' and memId=#{memId}
+			
+			</when>
+		
+		</choose>
+	
+	</select>
+
+
+</mapper>

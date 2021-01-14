@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.37</version>
+			<version>8.0.11</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -79,6 +79,26 @@
                  <artifactId>jstl</artifactId>
                  <version>1.2</version>
          </dependency>
+         
+         <!-- chatting : add websocket -->
+         <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<!-- chatting : View JSP -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		</dependency>
+		
+		<!-- chatting : json simple  -->
+		<dependency>
+		  <groupId>com.googlecode.json-simple</groupId>
+		  <artifactId>json-simple</artifactId>
+		  <version>1.1.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

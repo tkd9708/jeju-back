@@ -60,7 +60,7 @@
 	</insert>
 	
 	<update id="update" parameterType="spotlist">
-		update spotlist set title=#{title}, label1=#{label1}, label2=#{label2}, addr=#{addr}, roadaddr=#{roadaddr}, latitude=#{latitude}, longitude=#{longitude}, 
+		update spotlist set title=#{title}, label1=#{label1}, label2=#{label2}, roadaddr=#{roadaddr}, latitude=#{latitude}, longitude=#{longitude}, 
 			tag=#{tag}, introduction=#{introduction}
 			<if test="img != null">
 				, img=#{img}

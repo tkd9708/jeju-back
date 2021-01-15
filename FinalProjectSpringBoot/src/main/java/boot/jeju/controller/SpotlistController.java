@@ -31,6 +31,8 @@ public class SpotlistController {
 	@Autowired
 	SpotreviewMapper reviewMapper;
 	
+	//String uploadImg;
+	//String uploadThumbnail;
 	
 	@GetMapping("/spot/list")
 	public List<SpotlistDto> getList(@RequestParam int start, @RequestParam int perPage, 
@@ -60,12 +62,9 @@ public class SpotlistController {
 	}
 	
 	
-	@PostMapping(value = "/spot/insert")
-	public void insert(HttpServletRequest request, @RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
-		
-		/* img, thumbnail은 required로 무조건 이미지 설정하기 */
-		
-		SpotlistDto dto = new SpotlistDto();
+	@PostMapping(value = "/spot/insert", consumes = {"multipart/form-data"})
+	public void insert(@RequestBody SpotlistDto dto, HttpServletRequest request,
+			@RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
 		// 경로
 		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
 		System.out.println(path);
@@ -97,98 +96,57 @@ public class SpotlistController {
 		dto.setImg(uploadImg);
 		dto.setThumbnail(uploadThumbnail);
 		
-		dto.setAddr(request.getParameter("addr"));
-		dto.setContentsid(request.getParameter("contentsid"));
-		dto.setLabel1(request.getParameter("label1"));
-		dto.setIntroduction(request.getParameter("introduction"));
-		dto.setLabel2(request.getParameter("label2"));
-		dto.setLatitude(request.getParameter("latitude"));
-		dto.setLongitude(request.getParameter("longitude"));
-		dto.setRoadaddr(request.getParameter("roadaddr"));
-		dto.setTag(request.getParameter("tag"));
-		dto.setTitle(request.getParameter("title"));
-		
 		mapper.insert(dto);
 		
 	}
 	
-	@PostMapping(value = "/spot/update")
-	public void update(HttpServletRequest request, @RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
+	@PostMapping(value = "/spot/update", consumes = {"multipart/form-data"})
+	public void update(@RequestBody SpotlistDto dto, HttpServletRequest request,
+			@RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
 		
-		SpotlistDto dto = new SpotlistDto();
-		dto.setContentsid(request.getParameter("contentsid"));
+		// 기존 이미지 지우기
+		String delImg = mapper.getData(dto.getContentsid()).getImg();
+		String delThumbnail = mapper.getData(dto.getContentsid()).getThumbnail();
+		
 		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		
-		if(img.isEmpty()) {
-			dto.setImg(null);
-		}
-		else {
-			// 기존 이미지 지우기
-			String delImg = mapper.getData(dto.getContentsid()).getImg();
+		if(!delImg.equals("no")) {
 			File file = new File(path + "\\" + delImg);
 			if(file.exists())
 				file.delete();
-			
-			// 이미지의 확장자 가져오기
-			int pos = img.getOriginalFilename().lastIndexOf(".");
-			String ext = img.getOriginalFilename().substring(pos);
-			
-			// 저장할 이미지명
-			
-			String uploadImg = "img" + sdf.format(date) + ext;
-			
-			try {
-				img.transferTo(new File(path + "\\" + uploadImg));
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			dto.setImg(uploadImg);
 		}
 		
-		if(thumbnail.isEmpty()) {
-			dto.setThumbnail(null);
-		}
-		else {
-			// 기존 이미지 지우기
-			String delThumbnail = mapper.getData(dto.getContentsid()).getThumbnail();
+		if(!delThumbnail.equals("no")) {
 			File file = new File(path + "\\" + delThumbnail);
 			if(file.exists())
 				file.delete();
-						
-			int pos = thumbnail.getOriginalFilename().lastIndexOf(".");
-			String ext = thumbnail.getOriginalFilename().substring(pos);
-			String uploadThumbnail = "thumbnail" + sdf.format(date) + ext;
-			
-			try {
-				thumbnail.transferTo(new File(path + "\\" + uploadThumbnail));
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			dto.setThumbnail(uploadThumbnail);
 		}
 		
-		dto.setAddr(request.getParameter("addr"));
-		dto.setLabel1(request.getParameter("label1"));
-		dto.setIntroduction(request.getParameter("introduction"));
-		dto.setLabel2(request.getParameter("label2"));
-		dto.setLatitude(request.getParameter("latitude"));
-		dto.setLongitude(request.getParameter("longitude"));
-		dto.setRoadaddr(request.getParameter("roadaddr"));
-		dto.setTag(request.getParameter("tag"));
-		dto.setTitle(request.getParameter("title"));
-	
+		// 이미지의 확장자 가져오기
+		int pos = img.getOriginalFilename().lastIndexOf(".");
+		String ext = img.getOriginalFilename().substring(pos);
+		
+		// 저장할 이미지명
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String uploadImg = "img" + sdf.format(date) + ext;
+				
+		pos = thumbnail.getOriginalFilename().lastIndexOf(".");
+		ext = thumbnail.getOriginalFilename().substring(pos);
+		String uploadThumbnail = "thumbnail" + sdf.format(date) + ext;
+		
+		try {
+			img.transferTo(new File(path + "\\" + uploadImg));
+			thumbnail.transferTo(new File(path + "\\" + uploadThumbnail));
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		dto.setImg(uploadImg);
+		dto.setThumbnail(uploadThumbnail);
 		mapper.update(dto);
 		
 	}
@@ -225,4 +183,57 @@ public class SpotlistController {
 		mapper.updateStar(contentsid, avgStar);
 	}
 	
+//	@PostMapping(value = "/spot/imgupload", consumes = {"multipart/form-data"})
+//	public void imgUpload(@RequestParam MultipartFile photo, HttpServletRequest request){
+//		// 경로
+//		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+//		System.out.println(path);
+//		
+//		// 이미지의 확장자 가져오기
+//		int pos = photo.getOriginalFilename().lastIndexOf(".");
+//		String ext = photo.getOriginalFilename().substring(pos);
+//		
+//		// 저장할 이미지명
+//		Date date = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//		uploadImg = "jeju" + sdf.format(date) + ext;
+//		
+//		try {
+//			photo.transferTo(new File(path + "\\" + uploadImg));
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
+//	@PostMapping(value = "/spot/thumbnailupload", consumes = {"multipart/form-data"})
+//	public void thumbnailUpload(@RequestParam MultipartFile photo, HttpServletRequest request){
+//		// 경로
+//		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+//		System.out.println(path);
+//		
+//		// 이미지의 확장자 가져오기
+//		int pos = photo.getOriginalFilename().lastIndexOf(".");
+//		String ext = photo.getOriginalFilename().substring(pos);
+//		
+//		// 저장할 이미지명
+//		Date date = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//		uploadThumbnail = "jeju" + sdf.format(date) + ext;
+//		
+//		try {
+//			photo.transferTo(new File(path + "\\" + uploadThumbnail));
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
 }

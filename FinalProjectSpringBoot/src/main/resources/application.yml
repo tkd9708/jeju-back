@@ -1,11 +1,6 @@
 #tomacat port
 server:
   port: 9002
-  #JSP to Modify Not Restart Server
-  servlet:
-    jsp:
-      init-parameters:
-        development: true
 #jsp
 spring:
   mvc:
@@ -21,11 +16,3 @@ spring:
     jdbc-url: jdbc:mysql://jeju.cvqasulqrodj.ap-northeast-2.rds.amazonaws.com:3306/finalproject?useSSL=false
     username: admin
     password: alsl8125+
-    
-#multipart
-#  servlet:
-#    multipart:
-#      enabled: true
-#      location: C:\Users\tkd97\git\jeju-back\FinalProjectSpringBoot\src\main\webapp\WEB-INF\photo
-#      max-file-size: 100KB
-#      max-request-size: 100KB

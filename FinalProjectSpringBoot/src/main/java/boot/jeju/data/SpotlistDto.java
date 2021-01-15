@@ -18,7 +18,6 @@ public class SpotlistDto {
 	private String thumbnail;
 	private int star;
 	private int likes;
-	
 	public String getContentsid() {
 		return contentsid;
 	}
@@ -103,5 +102,4 @@ public class SpotlistDto {
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-	
 }

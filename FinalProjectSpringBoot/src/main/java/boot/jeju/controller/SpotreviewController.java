@@ -77,45 +77,50 @@ public class SpotreviewController {
 //		
 //	}
 	
-	@PostMapping(value = "/sreview/insert", consumes = {"multipart/form-data"})
-	public void insert(@RequestBody SpotreviewDto dto, @RequestParam MultipartFile photo, HttpServletRequest request) {
-		
-		if(photo == null)
-			dto.setPhoto("no");
-		else {
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-			System.out.println(path);
-			
-			// 이미지의 확장자 가져오기
-			int pos = photo.getOriginalFilename().lastIndexOf(".");
-			String ext = photo.getOriginalFilename().substring(pos);
-			
-			// 저장할 이미지명
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String photoname = "jeju" + sdf.format(date) + ext;
-			
-			try {
-				//System.out.println(photoname);
-				//System.out.println(uploadFile);
-				
-				photo.transferTo(new File(path + "\\" + photoname));
-				
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			dto.setPhoto(photoname);
-			
-//			photoname = null;
-//			uploadFile = null;
-		}
-		mapper.insert(dto);
-	}
+	@PostMapping(value = "/sreview/insert")
+	   public void insert(@RequestParam MultipartFile photo, HttpServletRequest request) {
+	      
+	      SpotreviewDto dto = new SpotreviewDto();
+	      if(photo.isEmpty())
+	         dto.setPhoto("no");
+	      else {
+	         
+	         String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+	         System.out.println(path);
+	         
+	         // 이미지의 확장자 가져오기
+	         int pos = photo.getOriginalFilename().lastIndexOf(".");
+	         String ext = photo.getOriginalFilename().substring(pos);
+	         
+	         // 저장할 이미지명
+	         Date date = new Date();
+	         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	         String photoname = "jeju" + sdf.format(date) + ext;
+	         
+	         try {
+	            System.out.println(photoname);
+	            System.out.println(photo);
+	            
+	            photo.transferTo(new File(path + "\\" + photoname));
+	            
+	         } catch (IllegalStateException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	         } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	         }
+	         
+	         dto.setPhoto(photoname);
+	         
+	      }
+	      
+	      dto.setContent(request.getParameter("content"));
+	      dto.setContentsid(request.getParameter("contentsid"));
+	      dto.setMemNum(request.getParameter("memNum"));
+	      dto.setStar(Integer.parseInt(request.getParameter("star")));
+	      mapper.insert(dto);
+	   }
 	
 	@PostMapping(value = "/sreview/update", consumes = {"multipart/form-data"})
 	public void update(@RequestBody SpotreviewDto dto, @RequestParam MultipartFile photo, HttpServletRequest request) {

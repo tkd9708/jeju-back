@@ -15,7 +15,6 @@ public class SpotreviewDto {
 	private int likes;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp writeday;
-	
 	public String getNum() {
 		return num;
 	}
@@ -64,5 +63,4 @@ public class SpotreviewDto {
 	public void setWriteday(Timestamp writeday) {
 		this.writeday = writeday;
 	}
-	
 }

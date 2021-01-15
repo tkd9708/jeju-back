@@ -31,6 +31,7 @@ public class SpotlistController {
 	@Autowired
 	SpotreviewMapper reviewMapper;
 	
+	// github 테스트테스트
 	
 	@GetMapping("/spot/list")
 	public List<SpotlistDto> getList(@RequestParam int start, @RequestParam int perPage, 

@@ -45,7 +45,7 @@ public class MemberController {
 			HttpServletRequest request)
 	{
 		//이미지 저장경로 구하기
-		String path=request.getSession().getServletContext().getRealPath("/photo/member");
+		String path=request.getSession().getServletContext().getRealPath("/photo");
 		System.out.println(path);
 		//이미지의 확장자 가져오기
 		int pos=photoName.getOriginalFilename().lastIndexOf(".");//마지막 도트의 위치

@@ -19,7 +19,7 @@ public interface ShareboardMapper {
 	public void updateRestep(@Param("regroup") int regroup,@Param("restep") int restep);
 	public void isGroupStep(int regroup);
 	public int isNextStep(@Param("regroup") int regroup,@Param("relevel") int relevel,@Param("restep") int restep);
-	public void sharedelete(@Param("num") String num1,@Param("regroup") String num2);
+	public void sharedelete(@Param("num") String num,@Param("regroup") int regroup);
 	public void deleteReview(String num);
 	public int getCount(@Param("regroup") String num);
 	public void updateShareBoard(ShareboardDto dto);

@@ -50,7 +50,7 @@
 	
 	</select>
 	<delete id="sharedelete" parameterType="HashMap">
-		delete from shareboard where num=#{num} and regroup=#{regroup}
+		delete from shareboard where num=#{num} or regroup=#{regroup}
 	
 	</delete>
 	
@@ -64,29 +64,21 @@
 	</select>
 	
 	<update id="updateShareBoard" parameterType="shareboard">
-		<choose>
-			<when test="dto.getPhoto()==null">
-				update shareboard set subject=#{subject}, addr=#{addr}, content=#{content}, 
-				star=#{star} where num=#{num}
-			
-			</when>
-			<otherwise>
-				update shareboard set subject=#{subject}, addr=#{addr}, photo=#{photo}, 
-				content=#{content}, star=#{star} where num=#{num}
-			
-			</otherwise>
-		
-		</choose> 
+		update shareboard set subject=#{subject}, addr=#{addr}
+		<if test="photo!=null">
+		, photo=#{photo}
+		</if>  
+		,content=#{content}, star=#{star} where num=#{num} 
 	
 	</update>
 	
 	<select id="getSearchList" parameterType="HashMap" resultType="shareboard">
-		select * from shareboard where addr  like concat('%',#{search},'%') limit #{start},#{perPage} 
+		select * from shareboard where addr  like CONCAT('%',#{search},'%') limit #{start},#{perPage} 
 	
 	</select>
 	
 	<select id="getSearchTotalCount" parameterType="String" resultType="int">
-		select count(*) from shareboard where addr like concat('%',#{search},'%')
+		select count(*) from shareboard where addr like CONCAT('%',#{search},'%')
 	
 	</select>
 	

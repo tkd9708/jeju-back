@@ -87,7 +87,10 @@
 	
 	</update>
 	
+	<select id="getPhotos" parameterType="int" resultType="shareboard">
+		select photo from shareboard where regroup=#{regroup}
 	
+	</select>
 	
 
 </mapper>

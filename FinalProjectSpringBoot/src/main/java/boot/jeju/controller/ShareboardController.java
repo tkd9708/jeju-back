@@ -3,6 +3,7 @@ package boot.jeju.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,16 +49,23 @@ public class ShareboardController {
 	  
 	
 	  
-	  @PostMapping(value = "/share/insert")
+	  @PostMapping(value = "/share/insert",consumes = {"multipart/form-data"})
 	  public void insert(@RequestParam(value="num",defaultValue = "0") String num,
 			  @RequestParam(value="regroup",defaultValue = "0") int regroup,
 			  @RequestParam(value="restep",defaultValue = "0") int restep,
 			  @RequestParam(value="relevel",defaultValue = "0") int relevel,
 			  @RequestParam MultipartFile upload,
+			  @ModelAttribute ShareboardDto dto,
 			  HttpServletRequest request)
 	  {
 		  
-		  ShareboardDto dto=new ShareboardDto();
+		  try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		  System.out.println(dto.getAddr());
 		  if(upload.isEmpty())
 			  dto.setPhoto("no");
 		  else {
@@ -96,17 +105,34 @@ public class ShareboardController {
 			  
 			  relevel+=1;
 			  restep+=1;
+				
+		      dto.setRelevel(relevel);
+				 
+		  }
+		  if(dto.getRelevel()!=0) {
+			  dto.setSubject("no"); 
+			  dto.setAddr("no");  
+			  dto.setLikes(0);
+		      dto.setStar("0");
+		      dto.setId(request.getParameter("id"));
+		      dto.setContent(request.getParameter("content"));
+		      
+		      dto.setRegroup(regroup);
+			  dto.setRestep(restep);
+		  }else {
+			  dto.setSubject(request.getParameter("subject"));
+			  dto.setContent(request.getParameter("content"));
+			  dto.setAddr(request.getParameter("addr"));
+			  dto.setLikes(0);
+			  dto.setStar(request.getParameter("star"));
+			  dto.setRegroup(regroup);
+			  dto.setRelevel(relevel);
+			  dto.setRestep(restep);
+			  dto.setId(request.getParameter("id"));
 		  }
 		  
-		  dto.setId(request.getParameter("id"));
-		  dto.setSubject(request.getParameter("subject"));
-		  dto.setContent(request.getParameter("content"));
-		  dto.setAddr(request.getParameter("addr"));
-		  dto.setLikes(Integer.parseInt(request.getParameter("likes")));
-		  dto.setStar(request.getParameter("star"));
-		  dto.setRegroup(regroup);
-		  dto.setRelevel(relevel);
-		  dto.setRestep(restep);
+		  
+		  
 		  
 		  mapper.insertBoard(dto);
 		 
@@ -131,29 +157,35 @@ public class ShareboardController {
 	  
 	  @GetMapping("/share/delete")
 	  public void sharedelete(@RequestParam int regroup,@RequestParam String num,HttpServletRequest request) {
-		  String deletePhoto=mapper.getData(num).getPhoto();
+		  List<ShareboardDto> deletePhotos=mapper.getPhotos(regroup);
 		  
-		  if(!deletePhoto.equals("no")) {
-			  String path=request.getSession().getServletContext().getRealPath("/photo");
-			  System.out.println(path);
-			  File file=new File(path+"\\"+deletePhoto);
-			  if(file.exists())
-				  file.delete();
+			  for(int i=0; i<deletePhotos.size(); i++) {
+				  String photos = deletePhotos.get(i).getPhoto();
+				  
+				  if(!photos.equals("no")) {
+				  String path=request.getSession().getServletContext().getRealPath("/photo");
+				  //System.out.println(path);
+				  File file=new File(path+"\\"+photos);
+				  if(file.exists())
+					  file.delete();
+			     }
+			  } 
 			  
+			  mapper.sharedelete(num,regroup);
 		  }
 			  
-		  mapper.sharedelete(num,regroup);
-	  }
+		  
+
 	  
 	  @GetMapping("/share/deleteanswer")
 	  public void deleteReview(@RequestParam String num,HttpServletRequest request) {
 		  String deletePhoto=mapper.getData(num).getPhoto();
-		  if(!deletePhoto.equals("no")) {
-			  String path=request.getSession().getServletContext().getRealPath("/photo");
-			  File file =new File(path+"\\"+deletePhoto);
-			  if(file.exists())
-				  file.delete();
-		  }
+		  if(!deletePhoto.equals("no")) { 
+			  String path=request.getSession().getServletContext().getRealPath("/photo"); 
+			  File file =new File(path+"\\"+deletePhoto); 
+			  if(file.exists()) 
+				  file.delete(); 
+		  } 
 		  mapper.deleteReview(num);
 	  }
 	  
@@ -222,6 +254,8 @@ public class ShareboardController {
 	  public void updateshareboardanswer(@RequestParam String content,@RequestParam String num) {
 		  mapper.updateShareBoardAnswer(content, num);
 	  }
+	  
+	  
 	  
 	  
 	  

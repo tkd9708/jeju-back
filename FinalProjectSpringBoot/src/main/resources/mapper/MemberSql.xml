@@ -20,12 +20,12 @@
 	<update id="updateOfMember" parameterType="member">
 		update member set name=#{name},gender=#{gender}, photo=#{photo}, 
 		address=#{address}, addrdetail=#{addrdetail}, 
-		email=#{email}, email2=#{email2}, hp=#{hp} where num=#{num}
+		email=#{email}, email2=#{email2}, hp=#{hp} where id=#{id}
 	</update>
 	<update id="updateOfPass" parameterType="member">
-		update member set pass=#{pass} where num=#{num}
+		update member set pass=#{pass} where id=#{id}
 	</update>
 	<delete id="deleteOfMember" parameterType="String">
-		delete from member where num=#{num}	
+		delete from member where id=#{id}	
 	</delete>
 </mapper>

@@ -73,12 +73,12 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/delete")
-	public void delete(@RequestParam String num,
+	public void delete(@RequestParam String id,
 			HttpServletRequest request)
 	{	
 		String path=request.getSession().getServletContext().getRealPath("/photo/member");
 		System.out.println(path);
-		String deleteFileName=mapper.getDataOfMember(num).getPhoto();
+		String deleteFileName=mapper.getDataOfMember(id).getPhoto();
 		if(deleteFileName!=null)
 		{
 			File file=new File(path+"\\"+deleteFileName);
@@ -86,13 +86,13 @@ public class MemberController {
 				file.delete();//업로드했던 이미지 삭제
 		}
 
-		mapper.deleteOfMember(num);
+		mapper.deleteOfMember(id);
 	}
 	
-	@GetMapping("/member/detail")
-	public MemberDto getData(@RequestParam String num)
+	@GetMapping("/member/getdata")
+	public MemberDto getData(@RequestParam String id)
 	{
-		return mapper.getDataOfMember(num);
+		return mapper.getDataOfMember(id);
 	}
 	
 	@PostMapping(value = "/member/update")

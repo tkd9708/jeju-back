@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boot.jeju.mapper.MemberMapper">
+	<select id="getListOfMember" resultType="member">
+		select * from member
+	</select>
+	<select id="getDataOfMember" parameterType="String" resultType="member">
+		select * from member where num=#{num}
+	</select>
+	<select id="totalCountOfMember" resultType="int">
+		select count(*) from member
+	</select>
+	<insert id="insertOfMember" parameterType="member">
+		insert into member (id,pass,name,gender,photo,address,addrdetail,
+			email,email2,hp,gaipday)
+			values (#{id},#{pass},#{name},#{gender}
+			,IFNULL(#{photo}, 'no')
+			,#{address},#{addrdetail},#{email},#{email2},#{hp},now())
+	</insert>
+	<update id="updateOfMember" parameterType="member">
+		update member set name=#{name},gender=#{gender}, photo=#{photo}, 
+		address=#{address}, addrdetail=#{addrdetail}, 
+		email=#{email}, email2=#{email2}, hp=#{hp} where num=#{num}
+	</update>
+	<update id="updateOfPass" parameterType="member">
+		update member set pass=#{pass} where num=#{num}
+	</update>
+	<delete id="deleteOfMember" parameterType="String">
+		delete from member where num=#{num}	
+	</delete>
+</mapper>

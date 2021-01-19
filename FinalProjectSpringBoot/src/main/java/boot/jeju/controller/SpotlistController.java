@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,12 +37,96 @@ public class SpotlistController {
 	
 	@GetMapping("/spot/list")
 	public List<SpotlistDto> getList(@RequestParam int start, @RequestParam int perPage, 
-									@RequestParam String label2, String select){
+									@RequestParam String label2, @RequestParam(defaultValue = "star") String select){
+		switch(label2) {
+		case "jeju" : 
+			label2 = "제주";
+			break;
+		case "jocheon" : 
+			label2 = "조천";
+			break;
+		case "gujwa" : 
+			label2 = "구좌";
+			break;
+		case "sungsan" : 
+			label2 = "성산";
+			break;
+		case "pyoseon" : 
+			label2 = "표선";
+			break;
+		case "namwon" : 
+			label2 = "남원";
+			break;
+		case "seogwipo" : 
+			label2 = "서귀포";
+			break;
+		case "andeok" : 
+			label2 = "안덕";
+			break;
+		case "daejung" : 
+			label2 = "대정";
+			break;
+		case "hangyeong" : 
+			label2 = "한경";
+			break;
+		case "hanrim" : 
+			label2 = "한림";
+			break;
+		case "aewol" : 
+			label2 = "애월";
+			break;
+		case "udo" : 
+			label2 = "우도";
+			break;
+		}
+		
 		return mapper.getList(start, perPage, label2, select);
 	}
 	
 	@GetMapping("/spot/count")
 	public int getTotalCount(String label2) {
+		switch(label2) {
+		case "jeju" : 
+			label2 = "제주";
+			break;
+		case "jocheon" : 
+			label2 = "조천";
+			break;
+		case "gujwa" : 
+			label2 = "구좌";
+			break;
+		case "sungsan" : 
+			label2 = "성산";
+			break;
+		case "pyoseon" : 
+			label2 = "표선";
+			break;
+		case "namwon" : 
+			label2 = "남원";
+			break;
+		case "seogwipo" : 
+			label2 = "서귀포";
+			break;
+		case "andeok" : 
+			label2 = "안덕";
+			break;
+		case "daejung" : 
+			label2 = "대정";
+			break;
+		case "hangyeong" : 
+			label2 = "한경";
+			break;
+		case "hanrim" : 
+			label2 = "한림";
+			break;
+		case "aewol" : 
+			label2 = "애월";
+			break;
+		case "udo" : 
+			label2 = "우도";
+			break;
+		}
+		
 		return mapper.getTotalCount(label2);
 	}
 	

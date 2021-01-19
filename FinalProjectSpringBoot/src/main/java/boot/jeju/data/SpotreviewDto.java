@@ -10,6 +10,13 @@ public class SpotreviewDto {
 	private String contentsid;
 	private String memNum;
 	private String content;
+	private String photo;
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	private int star;
 	private int likes;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")

@@ -1,5 +1,7 @@
 package boot.jeju.data;
 
+import java.sql.Timestamp;
+
 import org.apache.ibatis.type.Alias;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,7 +15,7 @@ public class WishlistDto {
 	private String aroundId;
 	private String content;
 	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
-	private String wishday;
+	private Timestamp wishday;
 	private String title;
 	private String subject;
 	private String wishtime;
@@ -53,10 +55,11 @@ public class WishlistDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getWishday() {
+	
+	public Timestamp getWishday() {
 		return wishday;
 	}
-	public void setWishday(String wishday) {
+	public void setWishday(Timestamp wishday) {
 		this.wishday = wishday;
 	}
 	public String getTitle() {

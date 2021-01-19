@@ -39,29 +39,34 @@ public class MemberController {
 		return mapper.totalCountOfMember();
 	}
 	
-	@PostMapping("/member/insert")
-	public void insert(@ModelAttribute MemberDto dto,
-			@RequestParam MultipartFile photoName,
+	@PostMapping(value = "/member/insert")
+	public void insert(@RequestParam MultipartFile photo,
 			HttpServletRequest request)
 	{
-		//이미지 저장경로 구하기
-		String path=request.getSession().getServletContext().getRealPath("/photo");
-		System.out.println(path);
-		//이미지의 확장자 가져오기
-		int pos=photoName.getOriginalFilename().lastIndexOf(".");//마지막 도트의 위치
-		String ext=photoName.getOriginalFilename().substring(pos);//예  [.jpg] 형태로 얻음
-		//저장할 이미지명 변경하기
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-		String fileName="photo"+sdf.format(date)+ext;	
-		
-		dto.setPhoto(fileName);//db에 저장할 파일명(실제 업로드된 파일명)
-		try {
-			//이미지를 photo 폴더에 저장하기
-			photoName.transferTo(new File(path+"\\"+fileName));
-		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		MemberDto dto = new MemberDto();
+		if(photo.isEmpty())
+			dto.setPhoto("no");
+		else {
+			//이미지 저장경로 구하기
+			String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo/member");
+			System.out.println(path);
+			//이미지의 확장자 가져오기
+			int pos=photo.getOriginalFilename().lastIndexOf(".");//마지막 도트의 위치
+			String ext=photo.getOriginalFilename().substring(pos);//예  [.jpg] 형태로 얻음
+			//저장할 이미지명 변경하기
+			Date date=new Date();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+			String photoname="member"+sdf.format(date)+ext;	
+			
+			try {
+				//이미지를 photo 폴더에 저장하기
+				photo.transferTo(new File(path+"\\"+photoname));
+			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			dto.setPhoto(photoname);//db에 저장할 파일명(실제 업로드된 파일명)
 		}
 		//db 에 저장
 		mapper.insertOfMember(dto);
@@ -90,31 +95,46 @@ public class MemberController {
 		return mapper.getDataOfMember(num);
 	}
 	
-	@PostMapping("/member/update")
-	public void update(@ModelAttribute MemberDto dto,
-			@RequestParam MultipartFile photo,
+	@PostMapping(value = "/member/update")
+	public void update(@RequestParam MultipartFile photo,
 			HttpServletRequest request)
 	{
-		//이미지 저장경로 구하기
-		String path=request.getSession().getServletContext().getRealPath("/photo/member");
-		System.out.println(path);
-		//이미지의 확장자 가져오기
-		int pos=photo.getOriginalFilename().lastIndexOf(".");//마지막 도트의 위치
-		String ext=photo.getOriginalFilename().substring(pos);//예  [.jpg] 형태로 얻음
-		//저장할 이미지명 변경하기
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-		String fileName="photo"+sdf.format(date)+ext;	
-		
-		dto.setPhoto(fileName);//db에 저장할 파일명(실제 업로드된 파일명)
-		try {
-			//이미지를 photo 폴더에 저장하기
-			photo.transferTo(new File(path+"\\"+fileName));
-		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		MemberDto dto = new MemberDto();
+		if(photo.isEmpty())
+			dto.setPhoto(null);
+		else {
+			// 기존 이미지 지우기
+				String deletePhoto = mapper.getDataOfMember(dto.getNum()).getPhoto();
+					
+				if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
+					String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+					File file = new File(path + "\\" + deletePhoto);
+				
+					if(file.exists())
+						file.delete();
+				}
+			//이미지 저장경로 구하기
+			String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo/member");
+			System.out.println(path);
+			//이미지의 확장자 가져오기
+			int pos=photo.getOriginalFilename().lastIndexOf(".");//마지막 도트의 위치
+			String ext=photo.getOriginalFilename().substring(pos);//예  [.jpg] 형태로 얻음
+			//저장할 이미지명 변경하기
+			Date date=new Date();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+			String photoname="member"+sdf.format(date)+ext;	
+			
+			try {
+				//이미지를 photo 폴더에 저장하기
+				photo.transferTo(new File(path+"\\"+photoname));
+			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			dto.setPhoto(photoname);//db에 저장할 파일명(실제 업로드된 파일명)
 		}
-		//db수정
+		//db 에 저장
 		mapper.updateOfMember(dto);
 	}
 	

@@ -11,6 +11,12 @@ public class SpotreviewDto {
 	private String memNum;
 	private String content;
 	private String photo;
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	private int star;
 	private int likes;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -39,12 +45,6 @@ public class SpotreviewDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
 	public int getStar() {
 		return star;
 	}
@@ -63,4 +63,7 @@ public class SpotreviewDto {
 	public void setWriteday(Timestamp writeday) {
 		this.writeday = writeday;
 	}
+	
+	
+	
 }

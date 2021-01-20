@@ -21,6 +21,9 @@
 	<update id="updateOfStar" parameterType="notice">
 		update noticeboard set star=#{star} where num=#{num}
 	</update>
+	<update id="updateReadcount" parameterType="notice">
+		update noticeboard set readcount=#{readcount} where num=#{num}
+	</update>
 	<delete id="deleteOfNotice" parameterType="String">
 		delete from noticeboard where num=#{num}	
 	</delete>

@@ -13,6 +13,8 @@ public class NoticeDto {
 	private String content;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp writeday;
+	private int readcount;
+	private String star;
 	
 	public String getNum() {
 		return num;
@@ -38,4 +40,17 @@ public class NoticeDto {
 	public void setWriteday(Timestamp writeday) {
 		this.writeday = writeday;
 	}
+	public int getReadcount() {
+		return readcount;
+	}
+	public void setReadcount(int readcount) {
+		this.readcount = readcount;
+	}
+	public String getStar() {
+		return star;
+	}
+	public void setStar(String star) {
+		this.star = star;
+	}
+	
 }

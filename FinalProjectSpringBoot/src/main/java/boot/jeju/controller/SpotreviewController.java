@@ -160,7 +160,7 @@ public class SpotreviewController {
 		String deletePhoto = mapper.getData(num).getPhoto();
 		
 		if(!deletePhoto.equals("no")) {
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photos");
 			File file = new File(path + "\\" + deletePhoto);
 		
 			if(file.exists())

@@ -5,7 +5,7 @@
 		select * from member
 	</select>
 	<select id="getDataOfMember" parameterType="String" resultType="member">
-		select * from member where num=#{num}
+		select * from member where id=#{id}
 	</select>
 	<select id="totalCountOfMember" resultType="int">
 		select count(*) from member

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,10 @@ public class SpotlistController {
 	@Autowired
 	SpotreviewMapper reviewMapper;
 	
-	// github 테스트테스트
+	MultipartFile imgUpload;
+	String imgName;
+	MultipartFile thumbnaiilUpload;
+	String thumbnailName;
 	
 	@GetMapping("/spot/list")
 	public List<SpotlistDto> getList(@RequestParam int start, @RequestParam int perPage, 
@@ -145,33 +149,60 @@ public class SpotlistController {
 		return mapper.getData(contentsid);
 	}
 	
+	@PostMapping(value = "/spot/imgupload", consumes = {"multipart/form-data"})
+	public Map<String, String> imgUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
+		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		System.out.println(uploadPath);
+		
+		// 이미지의 확장자 가져오기
+		int pos = uploadFile.getOriginalFilename().lastIndexOf("."); // 마지막 도트의 위치
+		String ext = uploadFile.getOriginalFilename().substring(pos);
+		
+		// 저장할 이미지명 변경하기
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		imgName = "img" + sdf.format(date) + ext;
+		
+		imgUpload= uploadFile;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("photoname", imgName);
+		return map;
+	}
+	
+	@PostMapping(value = "/spot/thumbnailupload", consumes = {"multipart/form-data"})
+	public Map<String, String> thumbnailUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
+		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		System.out.println(uploadPath);
+		
+		// 이미지의 확장자 가져오기
+		int pos = uploadFile.getOriginalFilename().lastIndexOf("."); // 마지막 도트의 위치
+		String ext = uploadFile.getOriginalFilename().substring(pos);
+		
+		// 저장할 이미지명 변경하기
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		thumbnailName = "thumbnail" + sdf.format(date) + ext;
+		
+		thumbnaiilUpload = uploadFile;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("photoname", thumbnailName);
+		return map;
+	}
 	
 	@PostMapping(value = "/spot/insert")
-	public void insert(HttpServletRequest request, @RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
+	public void insert(HttpServletRequest request, @RequestBody SpotlistDto dto) {
 		
 		/* img, thumbnail은 required로 무조건 이미지 설정하기 */
 		
-		SpotlistDto dto = new SpotlistDto();
 		// 경로
 		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
 		System.out.println(path);
 		
-		// 이미지의 확장자 가져오기
-		int pos = img.getOriginalFilename().lastIndexOf(".");
-		String ext = img.getOriginalFilename().substring(pos);
-		
-		// 저장할 이미지명
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String uploadImg = "img" + sdf.format(date) + ext;
-		
-		pos = thumbnail.getOriginalFilename().lastIndexOf(".");
-		ext = thumbnail.getOriginalFilename().substring(pos);
-		String uploadThumbnail = "thumbnail" + sdf.format(date) + ext;
-		
 		try {
-			img.transferTo(new File(path + "\\" + uploadImg));
-			thumbnail.transferTo(new File(path + "\\" + uploadThumbnail));
+			imgUpload.transferTo(new File(path + "\\" + imgName));
+			thumbnaiilUpload.transferTo(new File(path + "\\" + thumbnailName));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,22 +211,15 @@ public class SpotlistController {
 			e.printStackTrace();
 		}
 		
-		dto.setImg(uploadImg);
-		dto.setThumbnail(uploadThumbnail);
-		
-		dto.setAddr(request.getParameter("addr"));
-		dto.setContentsid(request.getParameter("contentsid"));
-		dto.setLabel1(request.getParameter("label1"));
-		dto.setIntroduction(request.getParameter("introduction"));
-		dto.setLabel2(request.getParameter("label2"));
-		dto.setLatitude(request.getParameter("latitude"));
-		dto.setLongitude(request.getParameter("longitude"));
-		dto.setRoadaddr(request.getParameter("roadaddr"));
-		dto.setTag(request.getParameter("tag"));
-		dto.setTitle(request.getParameter("title"));
+		dto.setImg(imgName);
+		dto.setThumbnail(thumbnailName);
 		
 		mapper.insert(dto);
 		
+		imgName = null;
+		thumbnailName = null;
+		imgUpload = null;
+		thumbnaiilUpload = null;
 	}
 	
 	@PostMapping(value = "/spot/update")

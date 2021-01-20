@@ -83,8 +83,6 @@ public class ShareboardController {
 	           @RequestBody ShareboardDto dto,
 	           HttpServletRequest request)
 	        {
-	        //ShareboardDto dto=new ShareboardDto();
-	     
 	        System.out.println(dto.getAddr());
 	        
 	        if(photoname == null) {
@@ -134,9 +132,11 @@ public class ShareboardController {
 	           dto.setRegroup(regroup);
 	           dto.setRelevel(relevel);
 	           dto.setRestep(restep);
-	           dto.setId(request.getParameter("id"));
 	        }
 	        mapper.insertBoard(dto);
+	        
+	        photoname = null;
+	        upload = null;
 	  }
 	  
 	  @GetMapping("/share/select")

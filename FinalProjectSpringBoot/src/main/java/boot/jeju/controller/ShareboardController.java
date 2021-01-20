@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -141,81 +139,6 @@ public class ShareboardController {
 	        mapper.insertBoard(dto);
 	  }
 	  
-//	  @RequestMapping(value = "/share/insert", method = RequestMethod.POST)
-//	    public void insert(@RequestParam(value="num",defaultValue = "0") String num,
-//	           @RequestParam(value="regroup",defaultValue = "0") int regroup,
-//	           @RequestParam(value="restep",defaultValue = "0") int restep,
-//	           @RequestParam(value="relevel",defaultValue = "0") int relevel,
-//	           @RequestParam MultipartFile upload, HttpServletRequest request)
-//	     {
-//	        ShareboardDto dto=new ShareboardDto();
-//	        
-//	        System.out.println(request.getParameter("addr"));
-//	        if(upload.isEmpty())
-//	           dto.setPhoto("no");
-//	        else {
-//	           String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-//	           System.out.println(path);
-//	           
-//	           
-//	           
-//	           int pos=upload.getOriginalFilename().lastIndexOf(".");
-//	           String ext=upload.getOriginalFilename().substring(pos);
-//	           Date date=new Date();
-//	           SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-//	           photoname="jeju"+sdf.format(date)+ext;
-//	           //this.upload=upload;
-//	           try {
-//	            upload.transferTo(new File(path+"\\"+photoname));
-//	         } catch (IllegalStateException | IOException e) {
-//	            // TODO Auto-generated catch block
-//	            e.printStackTrace();
-//	         }
-//	           
-//	           
-//	           dto.setPhoto(photoname);
-//	         }
-//	           
-//	        
-//	        if(num.equals("0")) {
-//	           regroup=mapper.getMaxNum()+1;
-//	           restep=0;
-//	           relevel=0;
-//	        }else {
-//	           mapper.updateRestep(regroup, restep);
-//	           
-//	           relevel+=1;
-//	           restep+=1;
-//	            
-//	            dto.setRelevel(relevel);
-//	             
-//	        }
-//	        if(dto.getRelevel()!=0) {
-//	           dto.setSubject("no"); 
-//	           dto.setAddr("no");  
-//	           dto.setLikes(0);
-//	            dto.setStar("0");
-//	            dto.setId(request.getParameter("id"));
-//	            dto.setContent(request.getParameter("content"));
-//	            
-//	            dto.setRegroup(regroup);
-//	           dto.setRestep(restep);
-//	        }else {
-//	           dto.setSubject(request.getParameter("subject"));
-//	           dto.setContent(request.getParameter("content"));
-//	           dto.setAddr(request.getParameter("addr"));
-//	           dto.setLikes(0);
-//	           dto.setStar(request.getParameter("star"));
-//	           dto.setRegroup(regroup);
-//	           dto.setRelevel(relevel);
-//	           dto.setRestep(restep);
-//	           dto.setId(request.getParameter("id"));
-//	        }
-//	        mapper.insertBoard(dto);
-//	  }
-	  
-	  
-	  
 	  @GetMapping("/share/select")
 	  public ShareboardDto getData(@RequestParam String num) {
 		  return mapper.getData(num);
@@ -232,7 +155,7 @@ public class ShareboardController {
 	  }
 	  
 	  @GetMapping("/share/delete")
-	  public void sharedelete(@RequestParam String num1,@RequestParam String num2) {
+	  public void sharedelete(@RequestParam String num1,@RequestParam int num2) {
 		  mapper.sharedelete(num1, num2);
 	  }
 	  

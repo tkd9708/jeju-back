@@ -9,7 +9,7 @@
 			select * from spotlist where label2 like CONCAT('%',#{label2},'%') order by likes desc, title asc limit #{start},#{perPage}
 		</if>
 		<if test="select=='title'">
-			select * from spotlist where label2 like CONCAT('%',#{label2},'%') order by title desc, title asc limit #{start},#{perPage}
+			select * from spotlist where label2 like CONCAT('%',#{label2},'%') order by title asc limit #{start},#{perPage}
 		</if>
 	</select>
 	

@@ -223,15 +223,11 @@ public class SpotlistController {
 	}
 	
 	@PostMapping(value = "/spot/update")
-	public void update(HttpServletRequest request, @RequestParam MultipartFile img, @RequestParam MultipartFile thumbnail) {
+	public void update(HttpServletRequest request, @RequestBody SpotlistDto dto) {
 		
-		SpotlistDto dto = new SpotlistDto();
-		dto.setContentsid(request.getParameter("contentsid"));
 		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		
-		if(img.isEmpty()) {
+		if(imgName == null) {
 			dto.setImg(null);
 		}
 		else {
@@ -241,16 +237,9 @@ public class SpotlistController {
 			if(file.exists())
 				file.delete();
 			
-			// 이미지의 확장자 가져오기
-			int pos = img.getOriginalFilename().lastIndexOf(".");
-			String ext = img.getOriginalFilename().substring(pos);
-			
-			// 저장할 이미지명
-			
-			String uploadImg = "img" + sdf.format(date) + ext;
 			
 			try {
-				img.transferTo(new File(path + "\\" + uploadImg));
+				imgUpload.transferTo(new File(path + "\\" + imgName));
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -259,10 +248,10 @@ public class SpotlistController {
 				e.printStackTrace();
 			}
 			
-			dto.setImg(uploadImg);
+			dto.setImg(imgName);
 		}
 		
-		if(thumbnail.isEmpty()) {
+		if(thumbnailName == null) {
 			dto.setThumbnail(null);
 		}
 		else {
@@ -271,13 +260,9 @@ public class SpotlistController {
 			File file = new File(path + "\\" + delThumbnail);
 			if(file.exists())
 				file.delete();
-						
-			int pos = thumbnail.getOriginalFilename().lastIndexOf(".");
-			String ext = thumbnail.getOriginalFilename().substring(pos);
-			String uploadThumbnail = "thumbnail" + sdf.format(date) + ext;
 			
 			try {
-				thumbnail.transferTo(new File(path + "\\" + uploadThumbnail));
+				thumbnaiilUpload.transferTo(new File(path + "\\" + thumbnailName));
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -286,21 +271,15 @@ public class SpotlistController {
 				e.printStackTrace();
 			}
 
-			dto.setThumbnail(uploadThumbnail);
+			dto.setThumbnail(thumbnailName);
 		}
 		
-		dto.setAddr(request.getParameter("addr"));
-		dto.setLabel1(request.getParameter("label1"));
-		dto.setIntroduction(request.getParameter("introduction"));
-		dto.setLabel2(request.getParameter("label2"));
-		dto.setLatitude(request.getParameter("latitude"));
-		dto.setLongitude(request.getParameter("longitude"));
-		dto.setRoadaddr(request.getParameter("roadaddr"));
-		dto.setTag(request.getParameter("tag"));
-		dto.setTitle(request.getParameter("title"));
-	
 		mapper.update(dto);
 		
+		imgName = null;
+		thumbnailName = null;
+		imgUpload = null;
+		thumbnaiilUpload = null;
 	}
 	
 	@GetMapping("/spot/delete")

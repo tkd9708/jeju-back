@@ -33,6 +33,7 @@ public class MemberController {
 	
 	MultipartFile upload;
 	String photoname;
+	String idcanUse="false";
 	
 	@GetMapping("/member/list")
 	public List<MemberDto> getList(){
@@ -65,6 +66,15 @@ public class MemberController {
 		return map;
 	}
 	
+	@GetMapping("/member/checkid")
+	public void checkid(@RequestParam String id,
+			HttpServletRequest request)
+	{	
+		//중복 아이디 있는지 체크
+		if (mapper.idCheckOfMember(id) == 0) {
+			idcanUse = "true";
+		}	
+	}
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{
@@ -92,13 +102,18 @@ public class MemberController {
 		photoname = null;
 	}
 	
-	@GetMapping("/member/delete")
-	public void delete(@RequestParam String id,
-			HttpServletRequest request)
+	@PostMapping("/member/delete")
+	public boolean delete(@RequestBody MemberDto dto,
+				HttpServletRequest request)
 	{	
+		
+		if (mapper.passCheckOfMember(dto) == 0) {
+			return false;
+		}	
+		
 		String path=request.getSession().getServletContext().getRealPath("/photo/member");
 		System.out.println(path);
-		String deleteFileName=mapper.getDataOfMember(id).getPhoto();
+		String deleteFileName=mapper.getDataOfMember(dto.getId()).getPhoto();
 		if(deleteFileName!=null)
 		{
 			File file=new File(path+"\\"+deleteFileName);
@@ -106,7 +121,8 @@ public class MemberController {
 				file.delete();//업로드했던 이미지 삭제
 		}
 
-		mapper.deleteOfMember(id);
+		mapper.deleteOfMember(dto.getId());
+		return true;
 	}
 	
 	@GetMapping("/member/getdata")

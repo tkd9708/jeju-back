@@ -27,6 +27,6 @@ public interface ShareboardMapper {
 	public int getSearchTotalCount(String search);
 	public void updateShareBoardAnswer(@Param("content") String content,@Param("num") String num);
 	public List<ShareboardDto> getPhotos(int regroup);
-	
+	public String getNum();
 	
 }

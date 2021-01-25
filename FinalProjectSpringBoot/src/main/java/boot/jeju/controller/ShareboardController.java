@@ -9,16 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +55,7 @@ public class ShareboardController {
 	  
 	  @PostMapping(value = "/share/upload", consumes = {"multipart/form-data"})
 		public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
-			String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			String uploadPath = request.getSession().getServletContext().getRealPath("");
 			System.out.println(uploadPath);
 			
 			// 이미지의 확장자 가져오기
@@ -92,12 +89,12 @@ public class ShareboardController {
              dto.setPhoto("no");
           }
           else {
-             String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+             String path=request.getSession().getServletContext().getRealPath("");
               System.out.println(path);
             
               // 저장폴더에 저장
            try {
-              upload.transferTo(new File(path + "\\" + photoname));
+              upload.transferTo(new File(path + photoname));
            } catch (IllegalStateException e) {
               // TODO Auto-generated catch block
               e.printStackTrace();
@@ -142,12 +139,8 @@ public class ShareboardController {
           upload = null;
     }
 	  
-	  @GetMapping("/share/num")
-	  public String getNum() {
-		  return mapper.getNum(); 
-	  }
-	  
-	  
+
+
 	  @GetMapping("/share/select")
 	  public ShareboardDto getData(@RequestParam String num) {
 		  return mapper.getData(num);
@@ -173,9 +166,9 @@ public class ShareboardController {
 				  String photos = deletePhotos.get(i).getPhoto();
 				  
 				  if(!photos.equals("no")) {
-				  String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+				  String path=request.getSession().getServletContext().getRealPath("");
 				  //System.out.println(path);
-				  File file=new File(path+"\\"+photos);
+				  File file=new File(path+photos);
 				  if(file.exists())
 					  file.delete();
 			     }
@@ -188,8 +181,8 @@ public class ShareboardController {
 	  public void deleteReview(@RequestParam String num,HttpServletRequest request) {
 		  String deletePhoto=mapper.getData(num).getPhoto();
 		  if(!deletePhoto.equals("no")) { 
-			  String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo"); 
-			  File file =new File(path+"\\"+deletePhoto); 
+			  String path=request.getSession().getServletContext().getRealPath(""); 
+			  File file =new File(path+deletePhoto); 
 			  if(file.exists()) 
 				  file.delete(); 
 		  } 
@@ -202,24 +195,25 @@ public class ShareboardController {
 	  }
 	  
 	  @PostMapping(value = "/share/update")
-	  public void updateShareboard(@RequestBody ShareboardDto dto,HttpServletRequest request) {
+
+	  public void updateShareboard(@RequestBody ShareboardDto dto, HttpServletRequest request) {
 		  
 		  if(photoname == null)
 			  dto.setPhoto(null);
 		  else {
 			//기존 이미지존재할 경우 지우기
 			  String deletePhoto=mapper.getData(dto.getNum()).getPhoto();
-			  String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			  String path=request.getSession().getServletContext().getRealPath("");
 			  System.out.println(path);
 			  
 			  if(!deletePhoto.equals("no")) {
-				  File file=new File(path+"\\"+deletePhoto);
+				  File file=new File(path+deletePhoto);
 				  if(file.exists())
 					  file.delete();
 			  }
 				  
 			  try {
-				  upload.transferTo(new File(path+"\\"+photoname));
+				  upload.transferTo(new File(path+photoname));
 			  } catch (IllegalStateException | IOException e) {
 				  // TODO Auto-generated catch block
 				  e.printStackTrace();

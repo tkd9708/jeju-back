@@ -19,7 +19,7 @@
 	</insert>
 	<update id="updateOfMember" parameterType="member">
 		update member set name=#{name},gender=#{gender}, photo=#{photo}, 
-		address=#{address}, addrdetail=#{addrdetail}, 
+		address=#{address}, addrdetail=#{addrdetail}, pass=#{pass},
 		email=#{email}, email2=#{email2}, hp=#{hp} where id=#{id}
 	</update>
 	<update id="updateOfPass" parameterType="member">
@@ -28,4 +28,10 @@
 	<delete id="deleteOfMember" parameterType="String">
 		delete from member where id=#{id}	
 	</delete>
+	<select id="idCheckOfMember" parameterType="String" resultType="int">
+		select count(*) from member where id=#{id}
+	</select>
+	<select id="passCheckOfMember" parameterType="member" resultType="int">
+		select count(*) from member where id=#{id} and pass=#{pass}
+	</select>
 </mapper>

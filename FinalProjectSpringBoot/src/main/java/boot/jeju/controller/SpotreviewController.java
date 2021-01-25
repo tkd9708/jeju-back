@@ -65,14 +65,8 @@ public class SpotreviewController {
 		upload = uploadFile;
 		
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("photoname", uploadFile.getOriginalFilename());
+		map.put("photoname", photoname);
 		return map;
-	}
-	
-	@GetMapping(value = "/sreview/delupload")
-	public void fileUpload(){
-		photoname = null;
-		upload = null;
 	}
 	
 	@PostMapping(value = "/sreview/insert")

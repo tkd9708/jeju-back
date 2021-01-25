@@ -91,6 +91,9 @@
 		select photo from shareboard where regroup=#{regroup}
 	
 	</select>
+	<select id="getNum" resultType="String">
+		select num from shareboard
+	</select>
 	
 
 </mapper>

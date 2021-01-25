@@ -47,7 +47,7 @@ public class MemberController {
 	
 	@PostMapping(value = "/member/upload", consumes = {"multipart/form-data"})
 	public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
-		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String uploadPath = request.getSession().getServletContext().getRealPath("");
 		System.out.println(uploadPath);
 		
 		// 이미지의 확장자 가져오기
@@ -82,12 +82,12 @@ public class MemberController {
 			dto.setPhoto("no");
 		else {
 			//이미지 저장경로 구하기
-			String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo/member");
+			String path=request.getSession().getServletContext().getRealPath("");
 			System.out.println(path);
 			
 			try {
 				//이미지를 photo 폴더에 저장하기
-				upload.transferTo(new File(path+"\\"+photoname));
+				upload.transferTo(new File(path+photoname));
 			} catch (IllegalStateException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,17 +106,18 @@ public class MemberController {
 	public boolean delete(@RequestBody MemberDto dto,
 				HttpServletRequest request)
 	{	
+
 		
 		if (mapper.passCheckOfMember(dto) == 0) {
 			return false;
 		}	
 		
-		String path=request.getSession().getServletContext().getRealPath("/photo/member");
+		String path=request.getSession().getServletContext().getRealPath("");
 		System.out.println(path);
 		String deleteFileName=mapper.getDataOfMember(dto.getId()).getPhoto();
 		if(deleteFileName!=null)
 		{
-			File file=new File(path+"\\"+deleteFileName);
+			File file=new File(path+deleteFileName);
 			if(file.exists())
 				file.delete();//업로드했던 이미지 삭제
 		}
@@ -141,11 +142,11 @@ public class MemberController {
 				String deletePhoto = mapper.getDataOfMember(dto.getNum()).getPhoto();
 					
 				//이미지 저장경로 구하기
-				String path=request.getSession().getServletContext().getRealPath("/WEB-INF/photo/member");
+				String path=request.getSession().getServletContext().getRealPath("");
 				System.out.println(path);
 				
 				if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
-					File file = new File(path + "\\" + deletePhoto);
+					File file = new File(path  + deletePhoto);
 				
 					if(file.exists())
 						file.delete();
@@ -154,7 +155,7 @@ public class MemberController {
 			
 			try {
 				//이미지를 photo 폴더에 저장하기
-				upload.transferTo(new File(path+"\\"+photoname));
+				upload.transferTo(new File(path+photoname));
 			} catch (IllegalStateException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

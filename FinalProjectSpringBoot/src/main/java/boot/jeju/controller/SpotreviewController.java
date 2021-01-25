@@ -50,7 +50,7 @@ public class SpotreviewController {
 	
 	@PostMapping(value = "/sreview/upload", consumes = {"multipart/form-data"})
 	public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
-		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String uploadPath = request.getSession().getServletContext().getRealPath("");
 		System.out.println(uploadPath);
 		
 		// 이미지의 확장자 가져오기
@@ -76,11 +76,11 @@ public class SpotreviewController {
 			dto.setPhoto("no");
 		else {
 			
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			String path = request.getSession().getServletContext().getRealPath("");
 			System.out.println(path);
 			
 			try {
-				upload.transferTo(new File(path + "\\" + photoname));
+				upload.transferTo(new File(path +photoname));
 				
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -110,11 +110,11 @@ public class SpotreviewController {
 			// 기존 이미지 지우기
 			String deletePhoto = mapper.getData(dto.getNum()).getPhoto();
 
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			String path = request.getSession().getServletContext().getRealPath("");
 			System.out.println(path);
 			
 			if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
-				File file = new File(path + "\\" + deletePhoto);
+				File file = new File(path +deletePhoto);
 			
 				if(file.exists())
 					file.delete();
@@ -122,7 +122,7 @@ public class SpotreviewController {
 			
 			try {
 				
-				upload.transferTo(new File(path + "\\" + photoname));
+				upload.transferTo(new File(path + photoname));
 				
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -146,8 +146,8 @@ public class SpotreviewController {
 		String deletePhoto = mapper.getData(num).getPhoto();
 		
 		if(!deletePhoto.equals("no")) {
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photos");
-			File file = new File(path + "\\" + deletePhoto);
+			String path = request.getSession().getServletContext().getRealPath("");
+			File file = new File(path +deletePhoto);
 		
 			if(file.exists())
 				file.delete();

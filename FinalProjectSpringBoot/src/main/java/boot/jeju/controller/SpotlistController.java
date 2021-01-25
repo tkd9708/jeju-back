@@ -151,7 +151,7 @@ public class SpotlistController {
 	
 	@PostMapping(value = "/spot/imgupload", consumes = {"multipart/form-data"})
 	public Map<String, String> imgUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
-		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String uploadPath = request.getSession().getServletContext().getRealPath("");
 		System.out.println(uploadPath);
 		
 		// 이미지의 확장자 가져오기
@@ -172,7 +172,7 @@ public class SpotlistController {
 	
 	@PostMapping(value = "/spot/thumbnailupload", consumes = {"multipart/form-data"})
 	public Map<String, String> thumbnailUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
-		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String uploadPath = request.getSession().getServletContext().getRealPath("");
 		System.out.println(uploadPath);
 		
 		// 이미지의 확장자 가져오기
@@ -197,12 +197,12 @@ public class SpotlistController {
 		/* img, thumbnail은 required로 무조건 이미지 설정하기 */
 		
 		// 경로
-		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String path = request.getSession().getServletContext().getRealPath("");
 		System.out.println(path);
 		
 		try {
-			imgUpload.transferTo(new File(path + "\\" + imgName));
-			thumbnaiilUpload.transferTo(new File(path + "\\" + thumbnailName));
+			imgUpload.transferTo(new File(path + imgName));
+			thumbnaiilUpload.transferTo(new File(path +thumbnailName));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -225,7 +225,7 @@ public class SpotlistController {
 	@PostMapping(value = "/spot/update")
 	public void update(HttpServletRequest request, @RequestBody SpotlistDto dto) {
 		
-		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String path = request.getSession().getServletContext().getRealPath("");
 		
 		if(imgName == null) {
 			dto.setImg(null);
@@ -233,13 +233,13 @@ public class SpotlistController {
 		else {
 			// 기존 이미지 지우기
 			String delImg = mapper.getData(dto.getContentsid()).getImg();
-			File file = new File(path + "\\" + delImg);
+			File file = new File(path + delImg);
 			if(file.exists())
 				file.delete();
 			
 			
 			try {
-				imgUpload.transferTo(new File(path + "\\" + imgName));
+				imgUpload.transferTo(new File(path + imgName));
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -257,12 +257,12 @@ public class SpotlistController {
 		else {
 			// 기존 이미지 지우기
 			String delThumbnail = mapper.getData(dto.getContentsid()).getThumbnail();
-			File file = new File(path + "\\" + delThumbnail);
+			File file = new File(path +delThumbnail);
 			if(file.exists())
 				file.delete();
 			
 			try {
-				thumbnaiilUpload.transferTo(new File(path + "\\" + thumbnailName));
+				thumbnaiilUpload.transferTo(new File(path + thumbnailName));
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -287,15 +287,15 @@ public class SpotlistController {
 		String img = mapper.getData(contentsid).getImg();
 		String thumbnail = mapper.getData(contentsid).getThumbnail();
 		
-		String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+		String path = request.getSession().getServletContext().getRealPath("");
 		if(!img.equals("no")) {
-			File file = new File(path + "\\" + img);
+			File file = new File(path + img);
 			if(file.exists())
 				file.delete();
 		}
 		
 		if(!thumbnail.equals("no")) {
-			File file = new File(path + "\\" + thumbnail);
+			File file = new File(path +thumbnail);
 			if(file.exists())
 				file.delete();
 		}

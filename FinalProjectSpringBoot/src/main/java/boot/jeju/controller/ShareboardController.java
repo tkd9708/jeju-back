@@ -174,16 +174,17 @@ public class ShareboardController {
         mapper.sharedelete(dto.getNum(), dto.getRegroup());
     }
 
-    @GetMapping("/share/deleteanswer")
+    @PostMapping("/share/deleteanswer")
     public void deleteReview(@RequestParam String num, HttpServletRequest request) {
-        String deletePhoto = mapper.getData(num).getPhoto();
-        if (!deletePhoto.equals("no")) {
-            String path = request.getSession().getServletContext().getRealPath("");
-            File file = new File(path + deletePhoto);
-            if (file.exists())
-                file.delete();
-        }
-        mapper.deleteReview(num);
+//        String deletePhoto = mapper.getData(num).getPhoto();
+//        if (!deletePhoto.equals("no")) {
+//            String path = request.getSession().getServletContext().getRealPath("");
+//            File file = new File(path + deletePhoto);
+//            if (file.exists())
+//                file.delete();
+//        }
+//        mapper.deleteReview(num);
+        mapper.updateShareBoardAnswer("삭제된 글입니다.", num);
     }
 
     @GetMapping("/share/answercount")

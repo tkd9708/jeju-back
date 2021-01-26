@@ -75,7 +75,14 @@ public class ShareboardController {
             @RequestParam(value = "relevel", defaultValue = "0") int relevel,
             @RequestBody ShareboardDto dto,
             HttpServletRequest request) {
-        //System.out.println(dto.getAddr());
+//        System.out.println(dto);
+//        System.out.println("num:" + num);
+//        System.out.println("regroup:" + regroup);
+//        System.out.println("restep:" + restep);
+//        System.out.println("relevel:" + relevel);
+//
+//        System.out.println("dto.getNum():" + dto.getNum());
+//        System.out.println("dto.getContent():" + dto.getContent());
 
         if (photoname == null) {
             dto.setPhoto("no");
@@ -109,6 +116,8 @@ public class ShareboardController {
             restep += 1;
 
         }
+
+        //댓글 구별.
         if (dto.getRelevel() != 0) {
             dto.setSubject("no");
             dto.setAddr("no");
@@ -156,7 +165,7 @@ public class ShareboardController {
             if (!photos.equals("no")) {
                 String path = request.getSession().getServletContext().getRealPath("");
                 //System.out.println(path);
-                File file = new File(path +  photos);
+                File file = new File(path + photos);
                 if (file.exists())
                     file.delete();
             }
@@ -170,7 +179,7 @@ public class ShareboardController {
         String deletePhoto = mapper.getData(num).getPhoto();
         if (!deletePhoto.equals("no")) {
             String path = request.getSession().getServletContext().getRealPath("");
-            File file = new File(path +  deletePhoto);
+            File file = new File(path + deletePhoto);
             if (file.exists())
                 file.delete();
         }
@@ -194,13 +203,13 @@ public class ShareboardController {
             System.out.println(path);
 
             if (!deletePhoto.equals("no")) {
-                File file = new File(path +  deletePhoto);
+                File file = new File(path + deletePhoto);
                 if (file.exists())
                     file.delete();
             }
 
             try {
-                upload.transferTo(new File(path +  photoname));
+                upload.transferTo(new File(path + photoname));
             } catch (IllegalStateException | IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

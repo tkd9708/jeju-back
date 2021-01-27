@@ -93,6 +93,16 @@ public class MemberController {
 		return map;
 	}
 	
+	@PostMapping("/member/login")
+	public boolean login(@RequestBody MemberDto dto,
+			HttpServletRequest request)
+	{
+		if (mapper.passCheckOfMember(dto) == 0) {
+			return false;
+		}else 
+			return true;
+	}
+	
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{

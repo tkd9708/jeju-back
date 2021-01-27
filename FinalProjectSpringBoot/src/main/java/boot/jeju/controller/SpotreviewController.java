@@ -65,7 +65,7 @@ public class SpotreviewController {
 		upload = uploadFile;
 		
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("photoname", photoname);
+		map.put("photoname", uploadFile.getOriginalFilename());
 		return map;
 	}
 	
@@ -137,6 +137,12 @@ public class SpotreviewController {
 		
 		mapper.update(dto);
 		
+		photoname = null;
+		upload = null;
+	}
+	
+	@GetMapping("/sreview/delupload")
+	public void delUpload() {
 		photoname = null;
 		upload = null;
 	}

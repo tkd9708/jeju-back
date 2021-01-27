@@ -3,33 +3,32 @@
 <mapper namespace="boot.jeju.mapper.WishlistMapper">
 	<insert id="insertAround" parameterType="wishlist">
 		insert into wishlist (memId,aroundId,content,wishday,wishtime)
-		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime})
+		 values (#{memId},#{aroundId},#{content},now(),#{wishtime})
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
 		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		 values (#{memId},#{spotId},#{content},now(),#{wishtime})
 		
 	</insert>
-	<select id="isSpotSearch" parameterType="HashMap" resultType="boolean">
-		select * from wishlist where spotId=#{spotId} and memId=#{memId}
+	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
+		select count(*) from wishlist where spotId=#{spotId} and memId=#{memId}
 	
 	</select>
 	
-	<select id="isShareSearch" parameterType="String" resultType="boolean">
-		select * from wishlist where shareNum=#{shareNum}
-	
+	<select id="isShareSearch" parameterType="String" resultType="int">
+		select count(*) from wishlist where shareNum=#{shareNum}
 	</select>
 	
 	<insert id="insertContent" parameterType="wishlist">
 		insert into wishlist (memId,content,wishday,wishtime)
-		 values (#{memId},#{content},#{wishday},#{wishtime})
+		 values (#{memId},#{content},now(),#{wishtime})
 	
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
 		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},#{wishday},0,#{wishtime})
+		 values (#{memId},#{shareNum},now(),0,#{wishtime})
 	
 	</insert>
 	
@@ -44,7 +43,7 @@
 	</select>
 	
 	<select id="getMyreviews" parameterType="HashMap" resultType="spotreview">
-		select * from spotreview where memNum=#{memNum} order by num desc #{start},#{end}
+		select * from spotreview where memNum=#{memNum} order by num desc limit #{start},#{end}
 	
 	</select>
 	
@@ -64,22 +63,22 @@
 	</select>
 	
 	<select id="getShareSubject" parameterType="String" resultType="String">
-		select subject from shareboard where shareNum=#{shareNum}
+		select subject from shareboard where num=#{num}
 	
 	</select>
 	
 	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
 		<choose>
-			<when test="category==around">
+			<when test='category.equals("around")'>
 				select  count(*) from wishlist where aroundid!='0' or sharenum!='0'
 				and memId=#{memId}
 			
 			</when>
-			<when test="category==spot">
-				select select count(*) from wishlist where spotId != '0' and memId=#{memId}
+			<when test='category.equals("spot")'>
+				select count(*) from wishlist where spotId != '0' and memId=#{memId}
 			
 			</when>
-			<when test="category==my">
+			<when test='category.equals("my")'>
 				select count(*) from wishlist where aroundid = '0' and sharenum='0' and spotid='0' and memId=#{memId}
 			
 			</when>

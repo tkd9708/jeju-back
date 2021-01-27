@@ -66,15 +66,30 @@ public class MemberController {
 		return map;
 	}
 	
+//	@GetMapping("/member/checkid")
+//	public void checkid(@RequestParam String id,
+//			HttpServletRequest request)
+//	{	
+//		//중복 아이디 있는지 체크
+//		if (mapper.idCheckOfMember(id) == 0) {
+//			idcanUse = "true";
+//		}	
+//	}
+	
 	@GetMapping("/member/checkid")
-	public void checkid(@RequestParam String id,
+	public Map<String, String> checkid(@RequestParam String id,
 			HttpServletRequest request)
 	{	
 		//중복 아이디 있는지 체크
 		if (mapper.idCheckOfMember(id) == 0) {
 			idcanUse = "true";
-		}	
+		}
+		System.out.println("idcanUse 값은 : " + idcanUse);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("idcanUse", idcanUse);
+		return map;
 	}
+	
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{

@@ -84,6 +84,9 @@ public class MemberController {
 		if (mapper.idCheckOfMember(id) == 0) {
 			idcanUse = "true";
 		}
+		else
+			idcanUse = "false";
+		
 		System.out.println("idcanUse 값은 : " + idcanUse);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("idcanUse", idcanUse);

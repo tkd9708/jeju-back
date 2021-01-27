@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +21,12 @@ public class WishlistController {
 	WishlistMapper mapper;
 	
 	@PostMapping("/wish/insertaround")
-	public void insertAround(@ModelAttribute WishlistDto dto) {
+	public void insertAround(@RequestBody WishlistDto dto) {
 		 mapper.insertAround(dto);
 	}
 	
 	@PostMapping("/wish/insertspot")
-	public void insertSpot(@ModelAttribute WishlistDto dto) {
+	public void insertSpot(@RequestBody WishlistDto dto) {
 		mapper.insertSpot(dto);
 	}
 	@GetMapping("/wish/isspot")
@@ -49,12 +48,12 @@ public class WishlistController {
 	}
 	
 	@PostMapping("/wish/insertcontent")
-	public void insertcontent(@ModelAttribute WishlistDto dto) {
+	public void insertcontent(@RequestBody WishlistDto dto) {
 		mapper.insertContent(dto);
 	}
 	
 	@PostMapping("/wish/insertshare")
-	public void insertshare(@ModelAttribute WishlistDto dto) {
+	public void insertshare(@RequestBody WishlistDto dto) {
 		mapper.insertshare(dto);
 	}
 	@GetMapping("/wish/delete")

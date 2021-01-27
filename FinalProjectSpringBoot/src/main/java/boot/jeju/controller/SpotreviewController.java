@@ -13,11 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +25,9 @@ import boot.jeju.mapper.SpotreviewMapper;
 @CrossOrigin
 @RestController
 public class SpotreviewController {
+	
+	MultipartFile upload;
+	String photoname;
 	
 	@Autowired
 	SpotreviewMapper mapper;
@@ -48,31 +48,39 @@ public class SpotreviewController {
 		return mapper.getTotalCount(contentsid);
 	}
 	
-	@PostMapping(value = "/sreview/insert")
-	public void insert(@RequestParam MultipartFile photo, HttpServletRequest request) {
+	@PostMapping(value = "/sreview/upload", consumes = {"multipart/form-data"})
+	public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
+		String uploadPath = request.getSession().getServletContext().getRealPath("");
+		System.out.println(uploadPath);
 		
-		SpotreviewDto dto = new SpotreviewDto();
-		if(photo.isEmpty())
+		// 이미지의 확장자 가져오기
+		int pos = uploadFile.getOriginalFilename().lastIndexOf("."); // 마지막 도트의 위치
+		String ext = uploadFile.getOriginalFilename().substring(pos);
+		
+		// 저장할 이미지명 변경하기
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		photoname = "jeju" + sdf.format(date) + ext;
+		
+		upload = uploadFile;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("photoname", photoname);
+		return map;
+	}
+	
+	@PostMapping(value = "/sreview/insert")
+	public void insert(@RequestBody SpotreviewDto dto, HttpServletRequest request) {
+		
+		if(photoname == null)
 			dto.setPhoto("no");
 		else {
 			
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
+			String path = request.getSession().getServletContext().getRealPath("");
 			System.out.println(path);
 			
-			// 이미지의 확장자 가져오기
-			int pos = photo.getOriginalFilename().lastIndexOf(".");
-			String ext = photo.getOriginalFilename().substring(pos);
-			
-			// 저장할 이미지명
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String photoname = "jeju" + sdf.format(date) + ext;
-			
 			try {
-				System.out.println(photoname);
-				System.out.println(photo);
-				
-				photo.transferTo(new File(path + "\\" + photoname));
+				upload.transferTo(new File(path +photoname));
 				
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -86,48 +94,35 @@ public class SpotreviewController {
 			
 		}
 		
-		dto.setContent(request.getParameter("content"));
-		dto.setMemNum(request.getParameter("memNum"));
-		dto.setStar(Integer.parseInt(request.getParameter("star")));
 		mapper.insert(dto);
+		
+		photoname = null;
+		upload = null;
 	}
 	
 	@PostMapping(value = "/sreview/update")
-	public void update(@RequestParam MultipartFile photo, HttpServletRequest request) {
-	
-		SpotreviewDto dto = new SpotreviewDto();
-		dto.setNum(request.getParameter("num"));
+	public void update(@RequestBody SpotreviewDto dto, HttpServletRequest request) {
 		
-		if(photo.isEmpty()) {
+		if(photoname == null) {
 			dto.setPhoto(null); // 이미지 변경 안할 시 null로 입력
 		}
 		else {
 			// 기존 이미지 지우기
 			String deletePhoto = mapper.getData(dto.getNum()).getPhoto();
+
+			String path = request.getSession().getServletContext().getRealPath("");
+			System.out.println(path);
 			
 			if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
-				String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-				File file = new File(path + "\\" + deletePhoto);
+				File file = new File(path +deletePhoto);
 			
 				if(file.exists())
 					file.delete();
 			}
 			
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-			System.out.println(path);
-			
-			// 이미지의 확장자 가져오기
-			int pos = photo.getOriginalFilename().lastIndexOf(".");
-			String ext = photo.getOriginalFilename().substring(pos);
-			
-			// 저장할 이미지명
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String photoname = "jeju" + sdf.format(date) + ext;
-			
 			try {
 				
-				photo.transferTo(new File(path + "\\" + photoname));
+				upload.transferTo(new File(path + photoname));
 				
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -140,11 +135,10 @@ public class SpotreviewController {
 			dto.setPhoto(photoname);
 		}
 		
-		dto.setContent(request.getParameter("content"));
-		dto.setContentsid(request.getParameter("contentsid"));
-		dto.setStar(Integer.parseInt(request.getParameter("star")));
-		
 		mapper.update(dto);
+		
+		photoname = null;
+		upload = null;
 	}
 	
 	@GetMapping("/sreview/delete")
@@ -152,8 +146,8 @@ public class SpotreviewController {
 		String deletePhoto = mapper.getData(num).getPhoto();
 		
 		if(!deletePhoto.equals("no")) {
-			String path = request.getSession().getServletContext().getRealPath("/WEB-INF/photo");
-			File file = new File(path + "\\" + deletePhoto);
+			String path = request.getSession().getServletContext().getRealPath("");
+			File file = new File(path +deletePhoto);
 		
 			if(file.exists())
 				file.delete();

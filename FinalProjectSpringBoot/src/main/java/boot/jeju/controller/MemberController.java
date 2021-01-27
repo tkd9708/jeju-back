@@ -65,47 +65,7 @@ public class MemberController {
 		map.put("photoname", photoname);
 		return map;
 	}
-	
-//	@GetMapping("/member/checkid")
-//	public void checkid(@RequestParam String id,
-//			HttpServletRequest request)
-//	{	
-//		//중복 아이디 있는지 체크
-//		if (mapper.idCheckOfMember(id) == 0) {
-//			idcanUse = "true";
-//		}	
-//	}
-	
-// 	@GetMapping("/member/checkid")
-// 	public void checkid(@RequestParam String id,
-// 			HttpServletRequest request)
-// 	{	
-// 		//중복 아이디 있는지 체크
-// 		if (mapper.idCheckOfMember(id) == 0) {
-// 			idcanUse = "true";
-// 		}	
-// 	}
-	
-// 	@GetMapping("/member/checkid")
-// 	public void checkid(@RequestParam String id,
-// 			HttpServletRequest request)
-// 	{	
-// 		//중복 아이디 있는지 체크
-// 		if (mapper.idCheckOfMember(id) == 0) {
-// 			idcanUse = "true";
-// 		}	
-// 	}
-	
-// 	@GetMapping("/member/checkid")
-// 	public void checkid(@RequestParam String id,
-// 			HttpServletRequest request)
-// 	{	
-// 		//중복 아이디 있는지 체크
-// 		if (mapper.idCheckOfMember(id) == 0) {
-// 			idcanUse = "true";
-// 		}	
-// 	}
-	
+		
 	@GetMapping("/member/checkid")
 	public Map<String, String> checkid(@RequestParam String id,
 			HttpServletRequest request)

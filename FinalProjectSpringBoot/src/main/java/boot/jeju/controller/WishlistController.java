@@ -76,7 +76,7 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/spottitle")
-	public String getSpottitle(@RequestParam(value="contentsid",defaultValue = "0") String contentsid) {
+	public String getSpottitle(@RequestParam String contentsid) {
 		return mapper.getSpottitle(contentsid);
 	}
 	@GetMapping("/wish/count")
@@ -84,7 +84,7 @@ public class WishlistController {
 		return mapper.getTotalCount(memNum);
 	}
 	@GetMapping("/wish/sharesubject")
-	public String getsharesubject(@RequestParam(value="num",defaultValue = "0") String num ) {
+	public String getsharesubject(@RequestParam String num ) {
 		return mapper.getShareSubject(num);
 		
 	}

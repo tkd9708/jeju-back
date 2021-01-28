@@ -24,4 +24,5 @@ public interface WishlistMapper {
 	public int getTotalCount(String memNum);
 	public String getShareSubject(String num);
 	public int getWishTotalCount(@Param("memId") String memId,String category);
+	
 }

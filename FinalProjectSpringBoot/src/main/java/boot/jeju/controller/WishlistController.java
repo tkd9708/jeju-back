@@ -92,4 +92,9 @@ public class WishlistController {
 	public int getWishtotalCount(@RequestParam String memId) {
 		return mapper.getWishTotalCount(memId);
 	}
+	
+	@GetMapping("/wish/daylist")
+	public List<WishlistDto> getDayMyto(@RequestParam String memId, @RequestParam String day){
+		return mapper.getDayMyto(memId, day);
+	}
 }

@@ -72,4 +72,7 @@
 	</select>
 
 
+	<select id="getDayMyto" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and wishday=#{day}
+	</select>
 </mapper>

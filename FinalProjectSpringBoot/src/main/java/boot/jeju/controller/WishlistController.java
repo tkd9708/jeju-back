@@ -1,5 +1,6 @@
 package boot.jeju.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
+import boot.jeju.mapper.ShareboardMapper;
+import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
 
 @RestController
@@ -20,6 +23,12 @@ import boot.jeju.mapper.WishlistMapper;
 public class WishlistController {
 	@Autowired
 	WishlistMapper mapper;
+	
+	@Autowired
+	SpotlistMapper spotMapper;
+	
+	@Autowired
+	ShareboardMapper shareMapper;
 	
 	@PostMapping("/wish/insertaround")
 	public void insertAround(@RequestBody WishlistDto dto) {
@@ -94,7 +103,20 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/daylist")
-	public List<WishlistDto> getDayMyto(@RequestParam String memId, @RequestParam String day){
-		return mapper.getDayMyto(memId, day);
+	public List<String> getDayMyto(@RequestParam String memId, @RequestParam String day){
+		List<WishlistDto> list = mapper.getDayMyto(memId, day);
+		List<String> result = new ArrayList<String>();
+		
+		for(WishlistDto dto : list) {
+			if(dto.getSpotId()!=null) {
+				result.add(spotMapper.getData(dto.getSpotId()).getTitle() + ",no");
+			}
+			else if(dto.getShareNum()!=null) {
+				result.add(shareMapper.getData(dto.getShareNum()).getSubject() + ",no");
+			}
+			else
+				result.add(dto.getAroundId() + "," + dto.getContent());
+		}
+		return result;
 	}
 }

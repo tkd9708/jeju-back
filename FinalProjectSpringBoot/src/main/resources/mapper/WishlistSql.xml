@@ -3,12 +3,12 @@
 <mapper namespace="boot.jeju.mapper.WishlistMapper">
 	<insert id="insertAround" parameterType="wishlist">
 		insert into wishlist (memId,aroundId,content,wishday,wishtime)
-		 values (#{memId},#{aroundId},#{content},now(),#{wishtime})
+		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime})
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
 		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},now(),#{wishtime})
+		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -22,13 +22,13 @@
 	
 	<insert id="insertContent" parameterType="wishlist">
 		insert into wishlist (memId,content,wishday,wishtime)
-		 values (#{memId},#{content},now(),#{wishtime})
+		 values (#{memId},#{content},#{wishday},#{wishtime})
 	
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
 		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},now(),0,#{wishtime})
+		 values (#{memId},#{shareNum},#{wishday},#{content},#{wishtime})
 	
 	</insert>
 	

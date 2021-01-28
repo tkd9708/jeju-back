@@ -34,4 +34,5 @@
 	<select id="passCheckOfMember" parameterType="member" resultType="int">
 		select count(*) from member where id=#{id} and pass=#{pass}
 	</select>
+	
 </mapper>

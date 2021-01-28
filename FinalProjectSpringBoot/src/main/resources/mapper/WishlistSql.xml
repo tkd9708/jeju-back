@@ -7,8 +7,8 @@
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
-		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,spotId,wishday,wishtime)
+		 values (#{memId},#{spotId},#{wishday},#{wishtime})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -27,8 +27,8 @@
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
-		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},#{wishday},#{content},#{wishtime})
+		insert into wishlist (memId,shareNum,wishday,wishtime)
+		 values (#{memId},#{shareNum},#{wishday},#{wishtime})
 	
 	</insert>
 	
@@ -46,6 +46,7 @@
 		select * from spotreview where memNum=#{memNum} order by num desc limit #{start},#{end}
 	
 	</select>
+	<select id=""></select>
 	
 	<select id="getRecentreviews" parameterType="String" resultType="spotreview">
 		select * from spotreview where memNum=#{memNum} order by num desc limit 1,5
@@ -67,25 +68,12 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
-		<choose>
-			<when test='category.equals("around")'>
-				select  count(*) from wishlist where aroundid!='0' or sharenum!='0'
-				and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("spot")'>
-				select count(*) from wishlist where spotId != '0' and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("my")'>
-				select count(*) from wishlist where aroundid = '0' and sharenum='0' and spotid='0' and memId=#{memId}
-			
-			</when>
-		
-		</choose>
-	
+	<select id="getWishTotalCount" parameterType="String" resultType="int">
+		select  count(*) from wishlist where memId=#{memId}
 	</select>
 
 
+	<select id="getDayMyto" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and wishday=#{day}
+	</select>
 </mapper>

@@ -89,7 +89,7 @@ public class WishlistController {
 		return mapper.getShareSubject(num);
 	}
 	@GetMapping("/wish/wishcount")
-	public int getWishtotalCount(@RequestParam String memId,@RequestParam String category) {
-		return mapper.getWishTotalCount(memId, category);
+	public int getWishtotalCount(@RequestParam String memId) {
+		return mapper.getWishTotalCount(memId);
 	}
 }

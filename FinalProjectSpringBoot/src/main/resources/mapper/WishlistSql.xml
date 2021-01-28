@@ -67,24 +67,8 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
-		<choose>
-			<when test='category.equals("around")'>
-				select  count(*) from wishlist where aroundid!='0' or sharenum!='0'
-				and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("spot")'>
-				select count(*) from wishlist where spotId != '0' and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("my")'>
-				select count(*) from wishlist where aroundid = '0' and sharenum='0' and spotid='0' and memId=#{memId}
-			
-			</when>
-		
-		</choose>
-	
+	<select id="getWishTotalCount" parameterType="String" resultType="int">
+		select  count(*) from wishlist where memId=#{memId}
 	</select>
 
 

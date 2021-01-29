@@ -18,6 +18,7 @@ import boot.jeju.mapper.ShareboardMapper;
 import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
 
+
 @RestController
 @CrossOrigin
 public class WishlistController {
@@ -30,6 +31,26 @@ public class WishlistController {
 	@Autowired
 	ShareboardMapper shareMapper;
 	
+
+	public class Daylist {
+		private String title;
+		private String content;
+		
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getContent() {
+			return content;
+		}
+		public void setContent(String content) {
+			this.content = content;
+		}
+		
+	}
+
 	@PostMapping("/wish/insertaround")
 	public void insertAround(@RequestBody WishlistDto dto) {
 		 mapper.insertAround(dto);
@@ -103,19 +124,25 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/daylist")
-	public List<String> getDayMyto(@RequestParam String memId, @RequestParam String day){
+	public List<Daylist> getDayMyto(@RequestParam String memId, @RequestParam String day){
 		List<WishlistDto> list = mapper.getDayMyto(memId, day);
-		List<String> result = new ArrayList<String>();
+		List<Daylist> result = new ArrayList<Daylist>();
 		
 		for(WishlistDto dto : list) {
+			Daylist dlist = new Daylist();
 			if(dto.getSpotId()!=null) {
-				result.add(spotMapper.getData(dto.getSpotId()).getTitle() + ",no");
+				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+				dlist.setContent("spot");
 			}
 			else if(dto.getShareNum()!=null) {
-				result.add(shareMapper.getData(dto.getShareNum()).getSubject() + ",no");
+				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
+				dlist.setContent("share");
 			}
-			else
-				result.add(dto.getAroundId() + "," + dto.getContent());
+			else {
+				dlist.setTitle(dto.getAroundId());
+				dlist.setContent(dto.getContent());
+			}
+			result.add(dlist);
 		}
 		return result;
 	}

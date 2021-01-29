@@ -150,7 +150,7 @@ public class MemberController {
 			dto.setPhoto(null);
 		else {
 			// 기존 이미지 지우기
-				String deletePhoto = mapper.getDataOfMember(dto.getNum()).getPhoto();
+				String deletePhoto = mapper.getDataOfMember(dto.getId()).getPhoto();
 					
 				//이미지 저장경로 구하기
 				String path=request.getSession().getServletContext().getRealPath("");

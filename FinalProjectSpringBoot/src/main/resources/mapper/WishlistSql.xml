@@ -79,10 +79,14 @@
 	<select id="getPlanList" parameterType="HashMap" resultType="wishlist">
 		select * from wishlist where memId=#{memId} and 
 		<if test="category=='today'">
-			wishday=#{day} order by wishtime asc limit 0,#{perPage}
+			wishday=#{day} order by wishtime asc
 		</if>
 		<if test="category=='nextDay'">
-			wishday>#{day} order by wishday asc, wishtime asc limit 0,#{perPage}
+			wishday>#{day} order by wishday asc, wishtime asc limit 0, 5
 		</if>
+	</select>
+	
+	<select id="getSpot" parameterType="String" resultType="spotlist">
+		select * from spotlist where contentsid=#{contentsid}
 	</select>
 </mapper>

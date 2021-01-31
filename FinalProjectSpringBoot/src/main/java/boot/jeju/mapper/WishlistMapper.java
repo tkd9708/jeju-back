@@ -25,4 +25,6 @@ public interface WishlistMapper {
 	public String getShareSubject(String num);
 	public int getWishTotalCount(String memId);
 	public List<WishlistDto> getDayMyto(String memId, String day);
+	public List<WishlistDto> getPlanList(@Param("memId") String memId, @Param("day") String day, @Param("category") 
+		String category, @Param("perPage") int perPage);
 }

@@ -62,18 +62,25 @@ public class MemberController {
 		upload = uploadFile;
 		
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("photoname", photoname);
+		map.put("photoname", uploadFile.getOriginalFilename());
 		return map;
 	}
 	
+	@GetMapping("/member/delupload")
+	public void delUpload() {
+		photoname = null;
+		upload = null;
+	}
+	
 	@GetMapping("/member/checkid")
-	public void checkid(@RequestParam String id,
+	public boolean checkid(@RequestParam String id,
 			HttpServletRequest request)
 	{	
 		//중복 아이디 있는지 체크
 		if (mapper.idCheckOfMember(id) == 0) {
-			idcanUse = "true";
+			return true;
 		}	
+		return false;
 	}
 	
 	   @PostMapping("/member/login")

@@ -1,6 +1,8 @@
 package boot.jeju.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,16 @@ public class WishlistController {
 	
 
 	public class Daylist {
+		private String num;
 		private String title;
 		private String content;
 		
+		public void setNum(String num) {
+			this.num = num;
+		}
+		public String getNum() {
+			return num;
+		}
 		public String getTitle() {
 			return title;
 		}
@@ -130,6 +139,7 @@ public class WishlistController {
 		
 		for(WishlistDto dto : list) {
 			Daylist dlist = new Daylist();
+			dlist.setNum(dto.getNum());
 			if(dto.getSpotId()!=null) {
 				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 				dlist.setContent("spot");
@@ -138,12 +148,28 @@ public class WishlistController {
 				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
 				dlist.setContent("share");
 			}
-			else {
+			else if(dto.getAroundId() !=null) {
 				dlist.setTitle(dto.getAroundId());
 				dlist.setContent(dto.getContent());
+			}
+			else {
+				dlist.setTitle(dto.getContent());
+				dlist.setContent("myplan");
 			}
 			result.add(dlist);
 		}
 		return result;
+	}
+	
+	@GetMapping("/wish/planlist")
+	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category, 
+			@RequestParam int perPage){
+//		Date date = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//		String nowTime = sdf.format(date);
+		
+		List<WishlistDto> list = mapper.getPlanList(memId, day, category, perPage);
+		
+		return list;
 	}
 }

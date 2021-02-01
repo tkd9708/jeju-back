@@ -17,6 +17,12 @@
 			,IFNULL(#{photo}, 'no')
 			,#{address},#{addrdetail},#{email},#{email2},#{hp},now())
 	</insert>
+	<insert id="insertOfSosialMember" parameterType="member">
+		insert into member (id,provider,name,photo,
+			email,email2,gaipday)
+			values (#{id},#{provider},#{name},#{photo}
+			,#{email},#{email2},now())
+	</insert>
 	<update id="updateOfMember" parameterType="member">
 		update member set name=#{name},gender=#{gender}, photo=#{photo}, 
 		address=#{address}, addrdetail=#{addrdetail}, pass=#{pass},
@@ -34,5 +40,4 @@
 	<select id="passCheckOfMember" parameterType="member" resultType="int">
 		select count(*) from member where id=#{id} and pass=#{pass}
 	</select>
-	
 </mapper>

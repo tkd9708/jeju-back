@@ -16,3 +16,16 @@ spring:
     jdbc-url: jdbc:mysql://localhost:3306/semiproject
     username: root
     password: 1234
+#google login
+google :
+  client :
+    clientId : 256166181377-83u2uuteqgosooa3um2i3o36ho1325md.apps.googleusercontent.com
+    clientSecret: tFRYWTmUHE5cUGI8llsxVDdF
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    clientAuthenticationScheme: form
+    scope:
+    - email
+    - profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo

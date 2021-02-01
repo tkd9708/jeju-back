@@ -1,21 +1,26 @@
 package boot.jeju.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareboardMapper;
 import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
+
 
 @RestController
 @CrossOrigin
@@ -29,6 +34,33 @@ public class WishlistController {
 	@Autowired
 	ShareboardMapper shareMapper;
 	
+
+	public class Daylist {
+		private String num;
+		private String title;
+		private String content;
+		
+		public void setNum(String num) {
+			this.num = num;
+		}
+		public String getNum() {
+			return num;
+		}
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getContent() {
+			return content;
+		}
+		public void setContent(String content) {
+			this.content = content;
+		}
+		
+	}
+
 	@PostMapping("/wish/insertaround")
 	public void insertAround(@RequestBody WishlistDto dto) {
 		 mapper.insertAround(dto);
@@ -103,20 +135,53 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/daylist")
-	public List<String> getDayMyto(@RequestParam String memId, @RequestParam String day){
+	public List<Daylist> getDayMyto(@RequestParam String memId, @RequestParam String day){
 		List<WishlistDto> list = mapper.getDayMyto(memId, day);
-		List<String> result = new ArrayList<String>();
+		List<Daylist> result = new ArrayList<Daylist>();
 		
 		for(WishlistDto dto : list) {
+			Daylist dlist = new Daylist();
+			dlist.setNum(dto.getNum());
 			if(dto.getSpotId()!=null) {
-				result.add(spotMapper.getData(dto.getSpotId()).getTitle() + ",no");
+				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+				dlist.setContent("spot");
 			}
 			else if(dto.getShareNum()!=null) {
-				result.add(shareMapper.getData(dto.getShareNum()).getSubject() + ",no");
+				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
+				dlist.setContent("share");
 			}
-			else
-				result.add(dto.getAroundId() + "," + dto.getContent());
+			else if(dto.getAroundId() !=null) {
+				dlist.setTitle(dto.getAroundId());
+				dlist.setContent(dto.getContent());
+			}
+			else {
+				dlist.setTitle(dto.getContent());
+				dlist.setContent("myplan");
+			}
+			result.add(dlist);
 		}
+		return result;
+	}
+	
+	@GetMapping("/wish/planlist")
+	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
+		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
+		
+		return list;
+	}
+	
+	@GetMapping("/wish/spotlist")
+	public List<SpotlistDto> getSpotList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
+		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
+		List<SpotlistDto> result = new ArrayList<SpotlistDto>();
+		
+		for(WishlistDto dto : list) {
+			if(dto.getSpotId() != null) {
+				SpotlistDto sdto = mapper.getSpot(dto.getSpotId());
+				result.add(sdto);
+			}
+		}
+		
 		return result;
 	}
 }

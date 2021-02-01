@@ -85,6 +85,11 @@ public class SpotlistController {
 
 		return mapper.getList(start, perPage, label2, select);
 	}
+@GetMapping("/spot/hotspotlist")
+	public List<SpotlistDto> getHotSpotList(){
+
+		return mapper.getHotSpotList();
+	}
 
 	@GetMapping("/spot/count")
 	public int getTotalCount(String label2) {
@@ -315,8 +320,9 @@ public class SpotlistController {
 
 	@GetMapping("/spot/updatestar")
 	public void updateStar(@RequestParam String contentsid) {
-		int avgStar = reviewMapper.getAvgStar(contentsid) / reviewMapper.getTotalCount(contentsid);
+		if(reviewMapper.getTotalCount(contentsid) != 0) {int avgStar = reviewMapper.getAvgStar(contentsid) / reviewMapper.getTotalCount(contentsid);
 		mapper.updateStar(contentsid, avgStar);
 	}
+}
 
 }

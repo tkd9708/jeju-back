@@ -11,9 +11,9 @@
 		select count(*) from member
 	</select>
 	<insert id="insertOfMember" parameterType="member">
-		insert into member (id,pass,name,gender,photo,address,addrdetail,
+		insert into member (id,provider,pass,name,gender,photo,address,addrdetail,
 			email,email2,hp,gaipday)
-			values (#{id},#{pass},#{name},#{gender}
+			values (#{id},'no',#{pass},#{name},#{gender}
 			,IFNULL(#{photo}, 'no')
 			,#{address},#{addrdetail},#{email},#{email2},#{hp},now())
 	</insert>

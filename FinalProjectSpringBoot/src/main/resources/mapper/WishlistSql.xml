@@ -7,8 +7,8 @@
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
-		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,spotId,wishday,wishtime)
+		 values (#{memId},#{spotId},#{wishday},#{wishtime})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -27,8 +27,8 @@
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
-		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},#{wishday},#{content},#{wishtime})
+		insert into wishlist (memId,shareNum,wishday,wishtime)
+		 values (#{memId},#{shareNum},#{wishday},#{wishtime})
 	
 	</insert>
 	
@@ -67,8 +67,8 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="String" resultType="int">
-		select  count(*) from wishlist where memId=#{memId}
+	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
+		select  count(*) from wishlist where memId=#{memId} and wishday=#{wishday}
 	</select>
 
 
@@ -84,5 +84,9 @@
 		<if test="category=='nextDay'">
 			wishday>#{day} order by wishday asc, wishtime asc limit 0,#{perPage}
 		</if>
+	</select>
+	
+	<select id="getmonthlist" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and wishday=#{wishday} 
 	</select>
 </mapper>

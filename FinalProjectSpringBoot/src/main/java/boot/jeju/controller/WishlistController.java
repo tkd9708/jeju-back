@@ -1,5 +1,6 @@
 package boot.jeju.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,11 +34,17 @@ public class WishlistController {
 	@Autowired
 	ShareboardMapper shareMapper;
 	
+	WishlistDto dto=new WishlistDto();
+	SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM");
+	SimpleDateFormat sdf2=new SimpleDateFormat("YYYY-MM-dd");
+	
 
 	public class Daylist {
 		private String num;
 		private String title;
 		private String content;
+		private String wishday;
+		private String wishtime;
 		
 		public void setNum(String num) {
 			this.num = num;
@@ -48,6 +55,14 @@ public class WishlistController {
 		public String getTitle() {
 			return title;
 		}
+		
+		public String getWishday() {
+			return wishday;
+		}
+		
+		public String getWishtime() {
+			return wishtime;
+		}
 		public void setTitle(String title) {
 			this.title = title;
 		}
@@ -56,6 +71,14 @@ public class WishlistController {
 		}
 		public void setContent(String content) {
 			this.content = content;
+		}
+		
+		public void setWishday(String wishday) {
+			this.wishday=wishday;
+		}
+		
+		public void setWishtime(String wishtime) {
+			this.wishtime=wishtime;
 		}
 		
 	}
@@ -128,8 +151,8 @@ public class WishlistController {
 		return mapper.getShareSubject(num);
 	}
 	@GetMapping("/wish/wishcount")
-	public int getWishtotalCount(@RequestParam String memId) {
-		return mapper.getWishTotalCount(memId);
+	public int getWishtotalCount(@RequestParam String memId,@RequestParam String wishday) {
+		return mapper.getWishTotalCount(memId,wishday);
 	}
 	
 	@GetMapping("/wish/daylist")
@@ -140,6 +163,9 @@ public class WishlistController {
 		for(WishlistDto dto : list) {
 			Daylist dlist = new Daylist();
 			dlist.setNum(dto.getNum());
+			dlist.setWishday(sdf.format(dto.getWishday()));
+			
+			dlist.setWishtime(dto.getWishtime());
 			if(dto.getSpotId()!=null) {
 				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 				dlist.setContent("spot");
@@ -172,4 +198,45 @@ public class WishlistController {
 		
 		return list;
 	}
+	
+	@GetMapping("/wish/schedulelist")
+	public List<Daylist> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
+		List<WishlistDto> list=mapper.getList(memId);
+		
+		List<Daylist> result=new ArrayList<Daylist>();
+		for(WishlistDto dto:list) {
+			
+			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
+//				System.out.println(dto.getWishday().toString().split("-")[0]);
+//				System.out.println(wishday.split("-")[0]);
+				
+				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
+//					System.out.println(dto.getWishday().toString().split("-")[1]);
+//					System.out.println(wishday.split("-")[1]);
+					Daylist dlist=new Daylist();
+					
+					dlist.setWishday(dto.getWishday().toString());
+					if(dto.getShareNum()!=null) {
+						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
+				
+					}else if(dto.getAroundId()!=null) {
+						dlist.setTitle(dto.getAroundId());
+						
+					}else if(dto.getSpotId()!=null) {
+						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+					}
+					else {
+						dlist.setTitle(dto.getContent());
+					}
+					result.add(dlist);
+				}	
+				
+			}
+				
+		}
+		return result;
+		
+	}
+	
+	 
 }

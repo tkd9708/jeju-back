@@ -86,4 +86,8 @@
 	<update id="updateStar" parameterType="HashMap">
 		update spotlist set star = #{avgStar} where contentsid = #{contentsid}
 	</update>
+
+	<select id="getHotSpotList" resultType="spotlist">
+		select * from spotlist order by likes asc limit 0, 5
+	</select>
 </mapper>

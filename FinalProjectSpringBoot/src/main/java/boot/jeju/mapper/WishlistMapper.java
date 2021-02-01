@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
 
@@ -25,4 +26,6 @@ public interface WishlistMapper {
 	public String getShareSubject(String num);
 	public int getWishTotalCount(String memId);
 	public List<WishlistDto> getDayMyto(String memId, String day);
+	public List<WishlistDto> getPlanList(@Param("memId") String memId, @Param("day") String day, @Param("category") String category);
+	public SpotlistDto getSpot(String contentsid);
 }

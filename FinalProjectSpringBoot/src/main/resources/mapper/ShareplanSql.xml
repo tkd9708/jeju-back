@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boot.jeju.mapper.ShareplanMapper">
+	<select id="getList" resultType="shareplan">
+		select * from shareplan
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from shareplan
+	</select>
+	
+	<select id="getData" parameterType="String" resultType="shareplan">
+		select * from shareplan where num=#{num}
+	</select>
+	
+	<select id="getGroupData" parameterType="HashMap" resultType="shareplan">
+		select * from shareplan where memId=#{memId} and wishday=#{wishday}
+	</select>
+	
+	<insert id="insert" parameterType="shareplan">
+		insert into shareplan(memId, title, content, wishday, wishtime) 
+			values (#{memId}, #{title}, #{content}, #{wishday}, #{wishtime})
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+		delete from shareplan where num=#{num}
+	</delete>
+</mapper>

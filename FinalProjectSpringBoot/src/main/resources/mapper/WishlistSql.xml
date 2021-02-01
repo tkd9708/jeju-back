@@ -7,8 +7,8 @@
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
-		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,spotId,wishday,wishtime)
+		 values (#{memId},#{spotId},#{wishday},#{wishtime})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -27,8 +27,8 @@
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
-		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},#{wishday},#{content},#{wishtime})
+		insert into wishlist (memId,shareNum,wishday,wishtime)
+		 values (#{memId},#{shareNum},#{wishday},#{wishtime})
 	
 	</insert>
 	
@@ -46,6 +46,7 @@
 		select * from spotreview where memNum=#{memNum} order by num desc limit #{start},#{end}
 	
 	</select>
+	<select id=""></select>
 	
 	<select id="getRecentreviews" parameterType="String" resultType="spotreview">
 		select * from spotreview where memNum=#{memNum} order by num desc limit 1,5

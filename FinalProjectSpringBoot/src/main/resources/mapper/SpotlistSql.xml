@@ -20,7 +20,7 @@
 	<select id="getSearchList" parameterType="HashMap" resultType="spotlist">
 		<if test="category == 'all'">
 			select * from spotlist where label1 like CONCAT('%',#{search},'%') or label2 like CONCAT('%',#{search},'%') or title like CONCAT('%',#{search},'%') 
-					or roadaddr like CONCAT('%',#{search},'%')' or addr like CONCAT('%',#{search},'%') or tag like CONCAT('%',#{search},'%') 
+					or roadaddr like CONCAT('%',#{search},'%') or addr like CONCAT('%',#{search},'%') or tag like CONCAT('%',#{search},'%') 
 					order by title asc limit #{start},#{perPage}
 		</if>
 		<if test="category == 'area'">
@@ -82,4 +82,8 @@
 	<update id="updateStar" parameterType="HashMap">
 		update spotlist set star = #{avgStar} where contentsid = #{contentsid}
 	</update>
+	
+	<select id="getHotSpotList" resultType="spotlist">
+		select * from spotlist order by likes asc limit 0, 5
+	</select>
 </mapper>

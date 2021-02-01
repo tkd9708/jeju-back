@@ -3,12 +3,12 @@
 <mapper namespace="boot.jeju.mapper.WishlistMapper">
 	<insert id="insertAround" parameterType="wishlist">
 		insert into wishlist (memId,aroundId,content,wishday,wishtime)
-		 values (#{memId},#{aroundId},#{content},now(),#{wishtime})
+		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime})
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
 		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},now(),#{wishtime})
+		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -22,13 +22,13 @@
 	
 	<insert id="insertContent" parameterType="wishlist">
 		insert into wishlist (memId,content,wishday,wishtime)
-		 values (#{memId},#{content},now(),#{wishtime})
+		 values (#{memId},#{content},#{wishday},#{wishtime})
 	
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
 		insert into wishlist (memId,shareNum,wishday,content,wishtime)
-		 values (#{memId},#{shareNum},now(),0,#{wishtime})
+		 values (#{memId},#{shareNum},#{wishday},#{content},#{wishtime})
 	
 	</insert>
 	
@@ -67,25 +67,26 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
-		<choose>
-			<when test='category.equals("around")'>
-				select  count(*) from wishlist where aroundid!='0' or sharenum!='0'
-				and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("spot")'>
-				select count(*) from wishlist where spotId != '0' and memId=#{memId}
-			
-			</when>
-			<when test='category.equals("my")'>
-				select count(*) from wishlist where aroundid = '0' and sharenum='0' and spotid='0' and memId=#{memId}
-			
-			</when>
-		
-		</choose>
-	
+	<select id="getWishTotalCount" parameterType="String" resultType="int">
+		select  count(*) from wishlist where memId=#{memId}
 	</select>
 
 
+	<select id="getDayMyto" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and wishday=#{day}
+	</select>
+	
+	<select id="getPlanList" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and 
+		<if test="category=='today'">
+			wishday=#{day} order by wishtime asc
+		</if>
+		<if test="category=='nextDay'">
+			wishday>#{day} order by wishday asc, wishtime asc limit 0, 5
+		</if>
+	</select>
+	
+	<select id="getSpot" parameterType="String" resultType="spotlist">
+		select * from spotlist where contentsid=#{contentsid}
+	</select>
 </mapper>

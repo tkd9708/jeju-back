@@ -62,27 +62,37 @@ public class MemberController {
 		upload = uploadFile;
 		
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("photoname", photoname);
+		map.put("photoname", uploadFile.getOriginalFilename());
 		return map;
 	}
-		
+	
+	@GetMapping("/member/delupload")
+	public void delUpload() {
+		photoname = null;
+		upload = null;
+	}
+	
 	@GetMapping("/member/checkid")
-	public Map<String, String> checkid(@RequestParam String id,
+	public boolean checkid(@RequestParam String id,
 			HttpServletRequest request)
 	{	
 		//중복 아이디 있는지 체크
 		if (mapper.idCheckOfMember(id) == 0) {
-			idcanUse = "true";
-		}
-		else
-			idcanUse = "false";
-		
-		System.out.println("idcanUse 값은 : " + idcanUse);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("idcanUse", idcanUse);
-		return map;
+			return true;
+		}	
+		return false;
 	}
 	
+	   @PostMapping("/member/login")
+	   public boolean login(@RequestBody MemberDto dto,
+	         HttpServletRequest request)
+	   {
+	      if (mapper.passCheckOfMember(dto) == 0) {
+	         return false;
+	      }else 
+	         return true;
+	   }
+	   
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{
@@ -147,7 +157,7 @@ public class MemberController {
 			dto.setPhoto(null);
 		else {
 			// 기존 이미지 지우기
-				String deletePhoto = mapper.getDataOfMember(dto.getNum()).getPhoto();
+				String deletePhoto = mapper.getDataOfMember(dto.getId()).getPhoto();
 					
 				//이미지 저장경로 구하기
 				String path=request.getSession().getServletContext().getRealPath("");

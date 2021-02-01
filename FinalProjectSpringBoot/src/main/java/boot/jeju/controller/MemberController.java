@@ -92,7 +92,7 @@ public class MemberController {
 	      }else 
 	         return true;
 	   }
-	   
+
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{
@@ -118,6 +118,12 @@ public class MemberController {
 		
 		upload = null;
 		photoname = null;
+	}
+	
+	@PostMapping("/member/insertsosial")
+	public void insertSosial(HttpServletRequest request, @RequestBody MemberDto dto)
+	{
+		mapper.insertOfSosialMember(dto);
 	}
 	
 	@PostMapping("/member/delete")

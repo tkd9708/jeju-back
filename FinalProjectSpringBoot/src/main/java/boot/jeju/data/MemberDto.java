@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class MemberDto {
 	private String num;
 	private String id;
+	private String provider;
 	private String pass;
 	private String name;
 	private String gender;
@@ -21,7 +22,6 @@ public class MemberDto {
 	private String hp;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp gaipday;
-	
 	public String getNum() {
 		return num;
 	}
@@ -33,6 +33,12 @@ public class MemberDto {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getProvider() {
+		return provider;
+	}
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 	public String getPass() {
 		return pass;

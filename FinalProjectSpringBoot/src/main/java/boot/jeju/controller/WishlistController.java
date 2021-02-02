@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareboardMapper;
@@ -147,8 +148,9 @@ public class WishlistController {
 		return mapper.getTotalCount(memNum);
 	}
 	@GetMapping("/wish/sharesubject")
-	public String getsharesubject(@RequestParam String num) {
+	public String getsharesubject(@RequestParam String num ) {
 		return mapper.getShareSubject(num);
+		
 	}
 	@GetMapping("/wish/wishcount")
 	public int getWishtotalCount(@RequestParam String memId,@RequestParam String wishday) {
@@ -188,17 +190,13 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/planlist")
-	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category, 
-			@RequestParam int perPage){
-//		Date date = new Date();
-//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-//		String nowTime = sdf.format(date);
-		
-		List<WishlistDto> list = mapper.getPlanList(memId, day, category, perPage);
+	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
+		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
 		
 		return list;
 	}
 	
+
 	@GetMapping("/wish/schedulelist")
 	public List<Daylist> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
 		List<WishlistDto> list=mapper.getList(memId);
@@ -239,4 +237,20 @@ public class WishlistController {
 	}
 	
 	 
+
+
+	@GetMapping("/wish/spotlist")
+	public List<SpotlistDto> getSpotList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
+		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
+		List<SpotlistDto> result = new ArrayList<SpotlistDto>();
+		
+		for(WishlistDto dto : list) {
+			if(dto.getSpotId() != null) {
+				SpotlistDto sdto = mapper.getSpot(dto.getSpotId());
+				result.add(sdto);
+			}
+		}
+		
+		return result;
+	}
 }

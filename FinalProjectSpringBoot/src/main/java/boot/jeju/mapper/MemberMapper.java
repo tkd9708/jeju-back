@@ -11,6 +11,7 @@ public interface MemberMapper {
 	public List<MemberDto> getListOfMember();
 	public MemberDto getDataOfMember(String id);
 	public void insertOfMember(MemberDto dto);
+	public void insertOfSosialMember(MemberDto dto);
 	public void deleteOfMember(String id) ;
 	public void updateOfMember(MemberDto dto);
 	public void updateOfPass(MemberDto dto);

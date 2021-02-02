@@ -30,69 +30,69 @@ public class MemberController {
 	@Autowired
 	MemberMapper mapper;
 	//이미지명을 저장할 멤버변수
-	
+
 	MultipartFile upload;
 	String photoname;
 	String idcanUse="false";
-	
+
 	@GetMapping("/member/list")
 	public List<MemberDto> getList(){
 		return mapper.getListOfMember();
 	}
-	
+
 	@GetMapping("/member/count")
 	public int getTotalCount() {
 		return mapper.totalCountOfMember();
 	}
-	
+
 	@PostMapping(value = "/member/upload", consumes = {"multipart/form-data"})
 	public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request){
 		String uploadPath = request.getSession().getServletContext().getRealPath("");
 		System.out.println(uploadPath);
-		
+
 		// 이미지의 확장자 가져오기
 		int pos = uploadFile.getOriginalFilename().lastIndexOf("."); // 마지막 도트의 위치
 		String ext = uploadFile.getOriginalFilename().substring(pos);
-		
+
 		// 저장할 이미지명 변경하기
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		photoname = "jeju" + sdf.format(date) + ext;
-		
+
 		upload = uploadFile;
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("photoname", uploadFile.getOriginalFilename());
 		return map;
 	}
-	
+
 	@GetMapping("/member/delupload")
 	public void delUpload() {
 		photoname = null;
 		upload = null;
 	}
-	
+
 	@GetMapping("/member/checkid")
 	public boolean checkid(@RequestParam String id,
 			HttpServletRequest request)
-	{	
+	{
 		//중복 아이디 있는지 체크
 		if (mapper.idCheckOfMember(id) == 0) {
 			return true;
-		}	
+		}
 		return false;
 	}
-	
+
 	   @PostMapping("/member/login")
 	   public boolean login(@RequestBody MemberDto dto,
 	         HttpServletRequest request)
 	   {
 	      if (mapper.passCheckOfMember(dto) == 0) {
 	         return false;
-	      }else 
+	      }else
 	         return true;
 	   }
-	   
+
 	@PostMapping(value = "/member/insert")
 	public void insert(HttpServletRequest request, @RequestBody MemberDto dto)
 	{
@@ -102,7 +102,7 @@ public class MemberController {
 			//이미지 저장경로 구하기
 			String path=request.getSession().getServletContext().getRealPath("");
 			System.out.println(path);
-			
+
 			try {
 				//이미지를 photo 폴더에 저장하기
 				upload.transferTo(new File(path+photoname));
@@ -110,26 +110,32 @@ public class MemberController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			dto.setPhoto(photoname);//db에 저장할 파일명(실제 업로드된 파일명)
 		}
 		//db 에 저장
 		mapper.insertOfMember(dto);
-		
+
 		upload = null;
 		photoname = null;
 	}
-	
+
+	@PostMapping("/member/insertsosial")
+	public void insertSosial(HttpServletRequest request, @RequestBody MemberDto dto)
+	{
+		mapper.insertOfSosialMember(dto);
+	}
+
 	@PostMapping("/member/delete")
 	public boolean delete(@RequestBody MemberDto dto,
 				HttpServletRequest request)
-	{	
+	{
 
-		
+
 		if (mapper.passCheckOfMember(dto) == 0) {
 			return false;
-		}	
-		
+		}
+
 		String path=request.getSession().getServletContext().getRealPath("");
 		System.out.println(path);
 		String deleteFileName=mapper.getDataOfMember(dto.getId()).getPhoto();
@@ -143,13 +149,13 @@ public class MemberController {
 		mapper.deleteOfMember(dto.getId());
 		return true;
 	}
-	
+
 	@GetMapping("/member/getdata")
 	public MemberDto getData(@RequestParam String id)
 	{
 		return mapper.getDataOfMember(id);
 	}
-	
+
 	@PostMapping(value = "/member/update")
 	public void update(@RequestBody MemberDto dto, HttpServletRequest request)
 	{
@@ -158,19 +164,19 @@ public class MemberController {
 		else {
 			// 기존 이미지 지우기
 				String deletePhoto = mapper.getDataOfMember(dto.getId()).getPhoto();
-					
+
 				//이미지 저장경로 구하기
 				String path=request.getSession().getServletContext().getRealPath("");
 				System.out.println(path);
-				
+
 				if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
 					File file = new File(path  + deletePhoto);
-				
+
 					if(file.exists())
 						file.delete();
 				}
-			
-			
+
+
 			try {
 				//이미지를 photo 폴더에 저장하기
 				upload.transferTo(new File(path+photoname));
@@ -178,16 +184,16 @@ public class MemberController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			dto.setPhoto(photoname);//db에 저장할 파일명(실제 업로드된 파일명)
 		}
 		//db 에 저장
 		mapper.updateOfMember(dto);
-		
+
 		upload = null;
 		photoname = null;
 	}
-	
+
 	@PostMapping("/member/updatepass")
 	public void updatePass(@ModelAttribute MemberDto dto)
 	{

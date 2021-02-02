@@ -235,7 +235,7 @@ public class ShareboardController {
         return mapper.getSearchTotalCount(search);
     }
 
-    @GetMapping("/share/updateanswer")
+    @PostMapping("/share/updateanswer")
     public void updateshareboardanswer(@RequestParam String content, @RequestParam String num) {
         mapper.updateShareBoardAnswer(content, num);
     }

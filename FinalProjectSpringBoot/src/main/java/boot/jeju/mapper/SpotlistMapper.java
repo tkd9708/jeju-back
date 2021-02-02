@@ -21,5 +21,6 @@ public interface SpotlistMapper {
 	public void delete(String contentsid);
 	public void updateLikes(String contentsid);
 	public void updateStar(@Param("contentsid") String contentsid, @Param("avgStar") int avgStar);
+	public List<SpotlistDto> getHotSpotList();
 		
 }

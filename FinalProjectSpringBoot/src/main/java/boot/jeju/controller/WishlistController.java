@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import boot.jeju.data.ShareboardDto;
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
@@ -46,6 +47,7 @@ public class WishlistController {
 		private String content;
 		private String wishday;
 		private String wishtime;
+		private String addr;
 		
 		public void setNum(String num) {
 			this.num = num;
@@ -70,6 +72,10 @@ public class WishlistController {
 		public String getContent() {
 			return content;
 		}
+		
+		public String getAddr() {
+			return addr;
+		}
 		public void setContent(String content) {
 			this.content = content;
 		}
@@ -80,6 +86,10 @@ public class WishlistController {
 		
 		public void setWishtime(String wishtime) {
 			this.wishtime=wishtime;
+		}
+		
+		public void setAddr(String addr) {
+			this.addr=addr;
 		}
 		
 	}
@@ -153,8 +163,8 @@ public class WishlistController {
 		
 	}
 	@GetMapping("/wish/wishcount")
-	public int getWishtotalCount(@RequestParam String memId,@RequestParam String wishday) {
-		return mapper.getWishTotalCount(memId,wishday);
+	public int getWishtotalCount(@RequestParam String memId) {
+		return mapper.getWishTotalCount(memId);
 	}
 	
 	@GetMapping("/wish/daylist")
@@ -167,18 +177,23 @@ public class WishlistController {
 			dlist.setNum(dto.getNum());
 			dlist.setWishday(sdf.format(dto.getWishday()));
 			
+			
 			dlist.setWishtime(dto.getWishtime());
 			if(dto.getSpotId()!=null) {
 				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 				dlist.setContent("spot");
+				dlist.setAddr(dto.getContent());
 			}
 			else if(dto.getShareNum()!=null) {
 				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
 				dlist.setContent("share");
+				dlist.setAddr(shareMapper.getData(dto.getShareNum()).getAddr());
+				
 			}
 			else if(dto.getAroundId() !=null) {
 				dlist.setTitle(dto.getAroundId());
 				dlist.setContent(dto.getContent());
+				//dlist.setAddr(dto.getContent().split(",")[1]);
 			}
 			else {
 				dlist.setTitle(dto.getContent());

@@ -68,8 +68,8 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
-		select  count(*) from wishlist where memId=#{memId} and wishday=#{wishday}
+	<select id="getWishTotalCount" parameterType="String" resultType="int">
+		select  count(*) from wishlist where memId=#{memId}
 	</select>
 
 

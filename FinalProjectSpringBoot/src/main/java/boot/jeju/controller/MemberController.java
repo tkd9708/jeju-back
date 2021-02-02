@@ -73,8 +73,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/checkid")
-	public boolean checkid(@RequestParam String id,
-			HttpServletRequest request)
+	public boolean checkid(@RequestParam String id)
 	{
 		//중복 아이디 있는지 체크
 		if (mapper.idCheckOfMember(id) == 0) {
@@ -84,8 +83,7 @@ public class MemberController {
 	}
 
 	   @PostMapping("/member/login")
-	   public boolean login(@RequestBody MemberDto dto,
-	         HttpServletRequest request)
+	   public boolean login(@RequestBody MemberDto dto)
 	   {
 	      if (mapper.passCheckOfMember(dto) == 0) {
 	         return false;
@@ -121,9 +119,10 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/insertsosial")
-	public void insertSosial(HttpServletRequest request, @RequestBody MemberDto dto)
+	public void insertSosial(@RequestBody MemberDto dto)
 	{
-		mapper.insertOfSosialMember(dto);
+		if(this.checkid(dto.getId()))
+			mapper.insertOfSosialMember(dto);
 	}
 
 	@PostMapping("/member/delete")

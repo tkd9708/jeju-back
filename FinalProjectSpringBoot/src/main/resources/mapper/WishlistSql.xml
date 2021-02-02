@@ -68,8 +68,8 @@
 	
 	</select>
 	
-	<select id="getWishTotalCount" parameterType="String" resultType="int">
-		select  count(*) from wishlist where memId=#{memId}
+	<select id="getWishTotalCount" parameterType="HashMap" resultType="int">
+		select  count(*) from wishlist where memId=#{memId} and wishday=#{wishday}
 	</select>
 
 
@@ -87,6 +87,10 @@
 		</if>
 	</select>
 	
+
+	<select id="getmonthlist" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where memId=#{memId} and wishday=#{wishday} 
+	</select>
 	<select id="getSpot" parameterType="String" resultType="spotlist">
 		select * from spotlist where contentsid=#{contentsid}
 	</select>

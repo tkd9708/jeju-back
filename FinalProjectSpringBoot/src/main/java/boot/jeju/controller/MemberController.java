@@ -168,7 +168,7 @@ public class MemberController {
 				String path=request.getSession().getServletContext().getRealPath("");
 				System.out.println(path);
 
-				if(!deletePhoto.equals("no")) { // 기존 이미지가 존재할 경우 삭제
+				if(!deletePhoto.equals("no") && !deletePhoto.substring(0, 3).equals("http")) { // 기존 이미지가 존재할 경우 삭제
 					File file = new File(path  + deletePhoto);
 
 					if(file.exists())

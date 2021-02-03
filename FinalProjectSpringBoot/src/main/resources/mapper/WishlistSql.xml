@@ -38,7 +38,7 @@
 	</delete>
 	
 	<select id="getList" parameterType="String" resultType="wishlist">
-		select * from wishlist where memId=#{memId} order by wishday asc
+		select * from wishlist where memId=#{memId} order by wishday asc, wishtime asc
 	
 	</select>
 	
@@ -74,7 +74,7 @@
 
 
 	<select id="getDayMyto" parameterType="HashMap" resultType="wishlist">
-		select * from wishlist where memId=#{memId} and wishday=#{day}
+		select * from wishlist where memId=#{memId} and wishday=#{day} order by wishtime asc
 	</select>
 	
 	<select id="getPlanList" parameterType="HashMap" resultType="wishlist">
@@ -89,7 +89,7 @@
 	
 
 	<select id="getmonthlist" parameterType="HashMap" resultType="wishlist">
-		select * from wishlist where memId=#{memId} and wishday=#{wishday} 
+		select * from wishlist where memId=#{memId} and wishday=#{wishday}
 	</select>
 	<select id="getSpot" parameterType="String" resultType="spotlist">
 		select * from spotlist where contentsid=#{contentsid}

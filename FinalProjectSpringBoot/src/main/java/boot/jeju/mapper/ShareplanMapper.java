@@ -16,4 +16,6 @@ public interface ShareplanMapper {
 	public List<ShareplanDto> getGroupData(@Param("memId") String memId, @Param("wishday") String wishday);
 	public void insert(ShareplanDto dto);
 	public void delete(String num);
+	public String maxGroupNum();
+	
 }

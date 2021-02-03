@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import boot.jeju.data.DayListDto;
 import boot.jeju.data.ShareplanDto;
+import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareplanMapper;
+import boot.jeju.mapper.WishlistMapper;
 
 @RestController
 @CrossOrigin
@@ -19,6 +22,9 @@ public class ShareplanController {
 
 	@Autowired
 	ShareplanMapper mapper;
+	
+	@Autowired
+	WishlistController wishController;
 	
 	@GetMapping("/plan/list")
 	public List<ShareplanDto> getList(){
@@ -43,6 +49,24 @@ public class ShareplanController {
 	@PostMapping("/plan/insert")
 	public void insert(@RequestBody ShareplanDto dto) {
 		mapper.insert(dto);
+	}
+	
+	@GetMapping("/plan/groupinsert")
+	public void groupInsert(@RequestParam String memId, @RequestParam String wishday) {
+		List<DayListDto> list = wishController.getDayMyto(memId, wishday);
+		
+		String maxNum = String.valueOf(Integer.parseInt(mapper.maxGroupNum()) + 1);
+		
+		for(DayListDto dto : list) {
+			ShareplanDto sdto = new ShareplanDto();
+			sdto.setMemId(memId);
+			sdto.setGroupNum(maxNum);
+			sdto.setTitle(dto.getTitle());
+			sdto.setContent(dto.getAddr());
+			sdto.setWishday(dto.getWishday());
+			sdto.setWishtime(dto.getWishtime());
+			this.insert(sdto);
+		}
 	}
 	
 	@GetMapping("/plan/delete")

@@ -18,11 +18,15 @@
 	</select>
 	
 	<insert id="insert" parameterType="shareplan">
-		insert into shareplan(memId, title, content, wishday, wishtime) 
-			values (#{memId}, #{title}, #{content}, #{wishday}, #{wishtime})
+		insert into shareplan(groupNum, memId, title, content, wishday, wishtime) 
+			values (#{groupNum}, #{memId}, #{title}, #{content}, #{wishday}, #{wishtime})
 	</insert>
 	
 	<delete id="delete" parameterType="String">
 		delete from shareplan where num=#{num}
 	</delete>
+	
+	<select id="maxGroupNum" resultType="String">
+		select ifnull(max(groupNum),0) from shareplan
+	</select>
 </mapper>

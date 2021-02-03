@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Alias("shareplan")
 public class ShareplanDto {
 	private String num;
+	private String groupNum;
 	private String memId;
 	private String title;
 	private String content;
@@ -21,6 +22,12 @@ public class ShareplanDto {
 	}
 	public void setNum(String num) {
 		this.num = num;
+	}
+	public String getGroupNum() {
+		return groupNum;
+	}
+	public void setGroupNum(String groupNum) {
+		this.groupNum = groupNum;
 	}
 	public String getMemId() {
 		return memId;

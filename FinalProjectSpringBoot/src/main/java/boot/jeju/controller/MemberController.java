@@ -118,12 +118,14 @@ public class MemberController {
 		photoname = null;
 	}
 
-	@PostMapping("/member/insertsosial")
+	@PostMapping("/member/insertsocial")
 	public void insertSosial(@RequestBody MemberDto dto)
 	{
 		if(this.checkid(dto.getId()))
 			mapper.insertOfSosialMember(dto);
 		else {
+			String num = mapper.getDataOfMember(dto.getId()).getNum();
+			dto.setNum(num);
 			photoname = dto.getPhoto();
 			mapper.updateOfMember(dto);
 		}

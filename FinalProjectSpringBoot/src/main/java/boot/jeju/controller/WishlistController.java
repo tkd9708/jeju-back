@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import boot.jeju.data.DayListDto;
 import boot.jeju.data.ShareboardDto;
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
@@ -40,60 +41,6 @@ public class WishlistController {
 	SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM");
 	SimpleDateFormat sdf2=new SimpleDateFormat("YYYY-MM-dd");
 	
-
-	public class Daylist {
-		private String num;
-		private String title;
-		private String content;
-		private String wishday;
-		private String wishtime;
-		private String addr;
-		
-		public void setNum(String num) {
-			this.num = num;
-		}
-		public String getNum() {
-			return num;
-		}
-		public String getTitle() {
-			return title;
-		}
-		
-		public String getWishday() {
-			return wishday;
-		}
-		
-		public String getWishtime() {
-			return wishtime;
-		}
-		public void setTitle(String title) {
-			this.title = title;
-		}
-		public String getContent() {
-			return content;
-		}
-		
-		public String getAddr() {
-			return addr;
-		}
-		public void setContent(String content) {
-			this.content = content;
-		}
-		
-		public void setWishday(String wishday) {
-			this.wishday=wishday;
-		}
-		
-		public void setWishtime(String wishtime) {
-			this.wishtime=wishtime;
-		}
-		
-		public void setAddr(String addr) {
-			this.addr=addr;
-		}
-		
-	}
-
 	@PostMapping("/wish/insertaround")
 	public void insertAround(@RequestBody WishlistDto dto) {
 		 mapper.insertAround(dto);
@@ -168,12 +115,12 @@ public class WishlistController {
 	}
 	
 	@GetMapping("/wish/daylist")
-	public List<Daylist> getDayMyto(@RequestParam String memId, @RequestParam String day){
+	public List<DayListDto> getDayMyto(@RequestParam String memId, @RequestParam String day){
 		List<WishlistDto> list = mapper.getDayMyto(memId, day);
-		List<Daylist> result = new ArrayList<Daylist>();
+		List<DayListDto> result = new ArrayList<DayListDto>();
 		
 		for(WishlistDto dto : list) {
-			Daylist dlist = new Daylist();
+			DayListDto dlist = new DayListDto();
 			dlist.setNum(dto.getNum());
 			dlist.setWishday(sdf2.format(dto.getWishday()));
 			
@@ -213,10 +160,10 @@ public class WishlistController {
 	
 
 	@GetMapping("/wish/schedulelist")
-	public List<Daylist> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
+	public List<DayListDto> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
 		List<WishlistDto> list=mapper.getList(memId);
 		
-		List<Daylist> result=new ArrayList<Daylist>();
+		List<DayListDto> result=new ArrayList<DayListDto>();
 		for(WishlistDto dto:list) {
 			
 			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
@@ -226,7 +173,7 @@ public class WishlistController {
 				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
 //					System.out.println(dto.getWishday().toString().split("-")[1]);
 //					System.out.println(wishday.split("-")[1]);
-					Daylist dlist=new Daylist();
+					DayListDto dlist=new DayListDto();
 					
 					dlist.setWishday(dto.getWishday().toString());
 					if(dto.getShareNum()!=null) {

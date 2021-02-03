@@ -120,6 +120,7 @@ public class WishlistController {
 		List<DayListDto> result = new ArrayList<DayListDto>();
 		
 		for(WishlistDto dto : list) {
+//			System.out.println(dto.getWishtime());
 			DayListDto dlist = new DayListDto();
 			dlist.setNum(dto.getNum());
 			dlist.setWishday(sdf2.format(dto.getWishday()));

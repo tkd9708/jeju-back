@@ -24,7 +24,7 @@ public interface WishlistMapper {
 	public String getSpottitle(String contentsid);
 	public int getTotalCount(String memNum);
 	public String getShareSubject(String num);
-	public int getWishTotalCount(@Param("memId") String memId,@Param("wishday") String wishday);
+	public int getWishTotalCount(String memId);
 	public List<WishlistDto> getDayMyto(String memId, String day);
 
 	

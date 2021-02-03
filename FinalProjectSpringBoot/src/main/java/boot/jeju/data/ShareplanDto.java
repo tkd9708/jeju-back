@@ -12,8 +12,8 @@ public class ShareplanDto {
 	private String memId;
 	private String title;
 	private String content;
-	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
-	private Timestamp wishday;
+	//@JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
+	private String wishday;
 	private String wishtime;
 	
 	public String getNum() {
@@ -40,10 +40,10 @@ public class ShareplanDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Timestamp getWishday() {
+	public String getWishday() {
 		return wishday;
 	}
-	public void setWishday(Timestamp wishday) {
+	public void setWishday(String wishday) {
 		this.wishday = wishday;
 	}
 	public String getWishtime() {

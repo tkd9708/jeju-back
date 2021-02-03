@@ -46,7 +46,7 @@
 		select * from spotreview where memNum=#{memNum} order by num desc limit #{start},#{end}
 	
 	</select>
-	<select id=""></select>
+	
 	
 	<select id="getRecentreviews" parameterType="String" resultType="spotreview">
 		select * from spotreview where memNum=#{memNum} order by num desc limit 1,5

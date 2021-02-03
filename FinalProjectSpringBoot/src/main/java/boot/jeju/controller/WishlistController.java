@@ -175,7 +175,7 @@ public class WishlistController {
 		for(WishlistDto dto : list) {
 			Daylist dlist = new Daylist();
 			dlist.setNum(dto.getNum());
-			dlist.setWishday(sdf.format(dto.getWishday()));
+			dlist.setWishday(sdf2.format(dto.getWishday()));
 			
 			
 			dlist.setWishtime(dto.getWishtime());
@@ -193,7 +193,7 @@ public class WishlistController {
 			else if(dto.getAroundId() !=null) {
 				dlist.setTitle(dto.getAroundId());
 				dlist.setContent(dto.getContent());
-				//dlist.setAddr(dto.getContent().split(",")[1]);
+				dlist.setAddr(dto.getContent().split(",")[1]);
 			}
 			else {
 				dlist.setTitle(dto.getContent());

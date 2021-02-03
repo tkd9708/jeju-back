@@ -24,8 +24,11 @@
 			,#{email},#{email2},now())
 	</insert>
 	<update id="updateOfMember" parameterType="member">
-		update member set name=#{name},gender=#{gender}, photo=#{photo}, 
-		address=#{address}, addrdetail=#{addrdetail}, pass=#{pass},
+		update member set name=#{name},gender=#{gender}
+		<if test="photo!=null">
+		, photo=#{photo}
+		</if>
+		,address=#{address}, addrdetail=#{addrdetail}, pass=#{pass},
 		email=#{email}, email2=#{email2}, hp=#{hp} where id=#{id}
 	</update>
 	<update id="updateOfPass" parameterType="member">

@@ -141,10 +141,10 @@ public class SpotlistController {
 	@GetMapping("/spot/searchlist")
 	public List<SpotlistDto> getSearchList(@RequestParam int start, @RequestParam int perPage,
 										   @RequestParam String category, String search) {
-		System.out.println("start:" + start);
-		System.out.println("perPage:" + perPage);
-		System.out.println("category:" + category);
-		System.out.println("search:" + search);
+//		System.out.println("start:" + start);
+//		System.out.println("perPage:" + perPage);
+//		System.out.println("category:" + category);
+//		System.out.println("search:" + search);
 
 		return mapper.getSearchList(start, perPage, category, search);
 	}

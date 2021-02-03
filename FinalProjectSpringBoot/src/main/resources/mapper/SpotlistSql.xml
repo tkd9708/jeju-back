@@ -88,6 +88,6 @@
 	</update>
 
 	<select id="getHotSpotList" resultType="spotlist">
-		select * from spotlist order by likes asc limit 0, 5
+		select * from spotlist order by likes desc limit 0, 5
 	</select>
 </mapper>

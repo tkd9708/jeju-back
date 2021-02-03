@@ -123,6 +123,10 @@ public class MemberController {
 	{
 		if(this.checkid(dto.getId()))
 			mapper.insertOfSosialMember(dto);
+		else {
+			photoname = dto.getPhoto();
+			mapper.updateOfMember(dto);
+		}
 	}
 
 	@PostMapping("/member/delete")

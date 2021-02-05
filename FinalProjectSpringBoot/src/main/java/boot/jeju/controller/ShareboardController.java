@@ -76,9 +76,27 @@ public class ShareboardController {
         upload = uploadFile;
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("photoname", photoname);
+        map.put("photoname", uploadFile.getOriginalFilename());
         return map;
     }
+    
+    @GetMapping("/share/delupload")
+	public void delUpload(@RequestParam String num, HttpServletRequest request) {
+    	
+    	if(mapper.getData(num).getPhoto() != "no") {
+    		ShareboardDto dto = mapper.getData(num);
+    		String path = request.getSession().getServletContext().getRealPath("");
+            
+    		File file = new File(path + mapper.getData(num).getPhoto());
+            if (file.exists())
+                file.delete();
+            
+            dto.setPhoto("no");
+            mapper.updateShareBoard(dto);
+    	}
+		photoname = null;
+		upload = null;
+	}
 
     @PostMapping(value = "/share/insert")
     public void insert(

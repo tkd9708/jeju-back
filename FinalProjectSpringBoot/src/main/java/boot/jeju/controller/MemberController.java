@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import boot.jeju.data.MemberDto;
+import boot.jeju.data.ShareboardDto;
 import boot.jeju.mapper.MemberMapper;
 
 @RestController
@@ -67,7 +68,20 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/delupload")
-	public void delUpload() {
+	public void delUpload(@RequestParam String id, HttpServletRequest request) {
+		
+		if(mapper.getDataOfMember(id).getPhoto() != "no") {
+			MemberDto dto = mapper.getDataOfMember(id);
+    		String path = request.getSession().getServletContext().getRealPath("");
+            
+    		File file = new File(path + mapper.getDataOfMember(id).getPhoto());
+            if (file.exists())
+                file.delete();
+            
+            dto.setPhoto("no");
+            mapper.updateOfMember(dto);
+    	}
+		
 		photoname = null;
 		upload = null;
 	}

@@ -27,6 +27,12 @@
 		select * from shareboard where regroup=#{regroup} and relevel!=0 order by restep asc
 
 	</select>
+	
+	<select id="getDelReviewList" parameterType="HashMap" resultType="shareboard">
+		select * from shareboard where regroup=#{regroup} and relevel!=0 and restep > #{restep} order by restep asc
+
+	</select>
+	
 	<update id="updateLikes" parameterType="String">
 
 		update shareboard set likes=likes+1 where num=#{num}

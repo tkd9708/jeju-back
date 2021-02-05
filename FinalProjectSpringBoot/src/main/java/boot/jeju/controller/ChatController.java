@@ -33,6 +33,12 @@ public class ChatController {
 		return mapper.getRoom(user);
 	}
 	
+	// user이 searchId 검색 
+	@GetMapping("/chat/getSearchIdRoom")
+	public List<ChatroomDto> getSearchIdRoom(@RequestParam String user, @RequestParam String searchId){
+		return mapper.getSearchIdRoom(user, searchId);
+	}
+	
 	// 해당 방의 메시지 리스트
 	@GetMapping("/chat/getMsgs")
 	public List<ChatmsgDto> getMsgs(@RequestParam String roomNum){

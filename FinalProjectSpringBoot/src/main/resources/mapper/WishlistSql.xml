@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boot.jeju.mapper.WishlistMapper">
 	<insert id="insertAround" parameterType="wishlist">
-		insert into wishlist (memId,aroundId,content,wishday,wishtime)
-		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,aroundId,content,wishday,wishtime,money)
+		 values (#{memId},#{aroundId},#{content},#{wishday},#{wishtime},#{money})
 	
 	</insert>
 	<insert id="insertSpot" parameterType="wishlist">
-		insert into wishlist (memId,spotId,content,wishday,wishtime)
-		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,spotId,content,wishday,wishtime,money)
+		 values (#{memId},#{spotId},#{content},#{wishday},#{wishtime},#{money})
 		
 	</insert>
 	<select id="isSpotSearch" parameterType="HashMap" resultType="int">
@@ -21,8 +21,8 @@
 	</select>
 	
 	<insert id="insertContent" parameterType="wishlist">
-		insert into wishlist (memId,content,wishday,wishtime)
-		 values (#{memId},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,content,wishday,wishtime,money)
+		 values (#{memId},#{content},#{wishday},#{wishtime},#{money})
 	
 	</insert>
 	

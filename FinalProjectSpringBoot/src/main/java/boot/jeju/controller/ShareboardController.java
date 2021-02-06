@@ -4,6 +4,7 @@ package boot.jeju.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,18 @@ public class ShareboardController {
         return mapper.getList(start, perPage);
 
     }
+    
+    @GetMapping("/share/photolist")
+    public List<String> sharePhotoList(@RequestParam int start, @RequestParam int perPage) {
+    	List<ShareboardDto> list = mapper.getList(start, perPage);
+        List<String> result = new ArrayList<String>();
+        
+        for(ShareboardDto dto : list) {
+        	result.add(dto.getPhoto());
+        }
+
+        return result;
+    }
 
     @PostMapping(value = "/share/upload", consumes = {"multipart/form-data"})
     public Map<String, String> fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request) {
@@ -63,9 +76,27 @@ public class ShareboardController {
         upload = uploadFile;
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("photoname", photoname);
+        map.put("photoname", uploadFile.getOriginalFilename());
         return map;
     }
+    
+    @GetMapping("/share/delupload")
+	public void delUpload(@RequestParam String num, HttpServletRequest request) {
+    	
+    	if(mapper.getData(num).getPhoto() != "no") {
+    		ShareboardDto dto = mapper.getData(num);
+    		String path = request.getSession().getServletContext().getRealPath("");
+            
+    		File file = new File(path + mapper.getData(num).getPhoto());
+            if (file.exists())
+                file.delete();
+            
+            dto.setPhoto("no");
+            mapper.updateShareBoard(dto);
+    	}
+		photoname = null;
+		upload = null;
+	}
 
     @PostMapping(value = "/share/insert")
     public void insert(
@@ -174,7 +205,7 @@ public class ShareboardController {
         mapper.sharedelete(dto.getNum(), dto.getRegroup());
     }
 
-    @PostMapping("/share/deleteanswer")
+    @GetMapping("/share/deleteanswer")
     public void deleteReview(@RequestParam String num, HttpServletRequest request) {
 //        String deletePhoto = mapper.getData(num).getPhoto();
 //        if (!deletePhoto.equals("no")) {
@@ -184,7 +215,23 @@ public class ShareboardController {
 //                file.delete();
 //        }
 //        mapper.deleteReview(num);
-        mapper.updateShareBoardAnswer("삭제된 글입니다.", num);
+    	if(mapper.getData(num).getRelevel() == 1) {
+    		int regroup = mapper.getData(num).getRegroup();
+    		int restep = mapper.getData(num).getRestep();
+    		List<ShareboardDto> list = mapper.getDelReviewList(regroup, restep);
+    		
+    		for(ShareboardDto dto : list) {
+    			if(dto.getRelevel() == 1 && dto.getNum()!=num)
+    				break;
+    			else if(dto.getRelevel() >= 1) {
+    				mapper.deleteReview(dto.getNum());
+    			}
+    		}
+    		mapper.deleteReview(num);
+    	}
+    	else {
+            mapper.updateShareBoardAnswer("삭제된 글입니다.", num);
+    	}
     }
 
     @GetMapping("/share/answercount")

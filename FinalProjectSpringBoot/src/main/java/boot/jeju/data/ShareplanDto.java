@@ -16,7 +16,14 @@ public class ShareplanDto {
 	//@JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
 	private String wishday;
 	private String wishtime;
+	private String comment;
 	
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public String getNum() {
 		return num;
 	}

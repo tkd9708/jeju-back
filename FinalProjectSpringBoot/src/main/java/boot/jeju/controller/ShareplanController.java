@@ -41,21 +41,23 @@ public class ShareplanController {
 		return mapper.getData(num);
 	}
 	
-	@GetMapping("/plan/group")
-	public List<ShareplanDto> getGroupData(@RequestParam String memId, @RequestParam String wishday){
-		return mapper.getGroupData(memId, wishday);
-	}
+//	@GetMapping("/plan/group")
+//	public List<ShareplanDto> tgetGroupDaa(@RequestParam String memId, @RequestParam String wishday){
+//		return mapper.getGroupData(memId, wishday);
+//	}
 	
+
 	@PostMapping("/plan/insert")
 	public void insert(@RequestBody ShareplanDto dto) {
 		mapper.insert(dto);
 	}
 	
-	@GetMapping("/plan/groupinsert")
-	public void groupInsert(@RequestParam String memId, @RequestParam String wishday) {
+	@PostMapping("/plan/groupinsert")
+	public void groupInsert(@RequestParam String memId, @RequestParam String wishday,@RequestParam String comment) {
 		List<DayListDto> list = wishController.getDayMyto(memId, wishday);
 		
 		String maxNum = String.valueOf(Integer.parseInt(mapper.maxGroupNum()) + 1);
+		
 		
 		for(DayListDto dto : list) {
 			ShareplanDto sdto = new ShareplanDto();
@@ -65,6 +67,7 @@ public class ShareplanController {
 			sdto.setContent(dto.getAddr());
 			sdto.setWishday(dto.getWishday());
 			sdto.setWishtime(dto.getWishtime());
+			sdto.setComment(comment);
 			this.insert(sdto);
 		}
 	}
@@ -72,5 +75,24 @@ public class ShareplanController {
 	@GetMapping("/plan/delete")
 	public void delete(@RequestParam String num) {
 		mapper.delete(num);
+	}
+	
+	@GetMapping("/plan/groupnum")
+	public List<ShareplanDto> getgroupnum() {
+		return mapper.getgroupnum();
+	}
+	
+	@GetMapping("/plan/groupdata")
+	public List<ShareplanDto> getgroupdata(@RequestParam String groupnum) {
+		return mapper.getgroupdata(groupnum);
+	}
+	
+	@GetMapping("/plan/group")
+	public List<ShareplanDto> getPlan(@RequestParam String wishday){
+		return mapper.getPlan(wishday);
+	}
+	@GetMapping("/plan/groupdelete")
+	public void groupdelete(@RequestParam String groupnum) {
+		mapper.groupdelete(groupnum);
 	}
 }

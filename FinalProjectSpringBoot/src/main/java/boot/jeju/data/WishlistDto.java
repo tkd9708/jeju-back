@@ -19,6 +19,7 @@ public class WishlistDto {
 	private String title;
 	private String subject;
 	private String wishtime;
+	private String money;
 	public String getNum() {
 		return num;
 	}
@@ -79,6 +80,12 @@ public class WishlistDto {
 	}
 	public void setWishtime(String wishtime) {
 		this.wishtime = wishtime;
+	}
+	public String getMoney() {
+		return money;
+	}
+	public void setMoney(String money) {
+		this.money = money;
 	}
 	
 	

@@ -15,6 +15,7 @@ public interface ShareboardMapper {
 	public void insertBoard(ShareboardDto dto);
 	public ShareboardDto getData(String num);
 	public List<ShareboardDto> getReviewList(int regroup);
+	public List<ShareboardDto> getDelReviewList(@Param("regroup")int regroup,@Param("restep") int restep);
 	public void updateLikes(String num);
 	public void updateRestep(@Param("regroup") int regroup,@Param("restep") int restep);
 	public void isGroupStep(int regroup);

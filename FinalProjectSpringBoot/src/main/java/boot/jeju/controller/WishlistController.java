@@ -120,6 +120,7 @@ public class WishlistController {
 		List<DayListDto> result = new ArrayList<DayListDto>();
 		
 		for(WishlistDto dto : list) {
+//			System.out.println(dto.getWishtime());
 			DayListDto dlist = new DayListDto();
 			dlist.setNum(dto.getNum());
 			dlist.setWishday(sdf2.format(dto.getWishday()));
@@ -177,7 +178,7 @@ public class WishlistController {
 					
 					dlist.setWishday(dto.getWishday().toString());
 					if(dto.getShareNum()!=null) {
-						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
+						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
 				
 					}else if(dto.getAroundId()!=null) {
 						dlist.setTitle(dto.getAroundId());
@@ -186,7 +187,7 @@ public class WishlistController {
 						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 					}
 					else {
-						dlist.setTitle(dto.getContent());
+						dlist.setTitle(dto.getContent().split(",")[1]);
 					}
 					result.add(dlist);
 				}	

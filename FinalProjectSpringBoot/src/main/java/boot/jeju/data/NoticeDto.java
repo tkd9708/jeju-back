@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Alias("notice")
 public class NoticeDto {
 	private String num;
+	private String id;
 	private String subject;
 	private String content;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -16,6 +17,12 @@ public class NoticeDto {
 	private int readcount;
 	private String star;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getNum() {
 		return num;
 	}

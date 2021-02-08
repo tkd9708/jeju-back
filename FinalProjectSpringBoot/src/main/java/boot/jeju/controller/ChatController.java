@@ -1,6 +1,8 @@
 package boot.jeju.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,5 +51,21 @@ public class ChatController {
 	@PostMapping("/chat/insertMsg")
 	public void insertMsg(@RequestBody ChatmsgDto dto) {
 		mapper.insertMsg(dto);
+	}
+	
+	// 각 방마다 마지막 메시지
+	@GetMapping("/chat/lastMsg")
+	public Map<String, String> getLastMsg(@RequestParam String roomNum){
+		String lastMsg = mapper.getLastMsg(roomNum).get(0).getMsg();
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("lastMsg", lastMsg);
+		return map;
+	}
+	
+	// 각 방의 메시지 갯수
+	@GetMapping("/chat/msgCount")
+	public int getMsgTotalCount(@RequestParam String roomNum) {
+		return mapper.getMsgTotalCount(roomNum);
 	}
 }

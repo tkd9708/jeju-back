@@ -20,4 +20,12 @@
 	<select id="getSearchIdRoom" parameterType="HashMap" resultType="chatroom">
 		select * from chatroom where user1=#{user} and user2=#{searchId} or user1=#{searchId} and user2=#{user}
 	</select>
+	
+	<select id="getLastMsg" parameterType="String" resultType="chatmsg">
+		select * from chatmsg where roomNum=#{roomNum} order by writeday desc
+	</select>
+	
+	<select id="getMsgTotalCount" parameterType="String" resultType="int">
+		select count(*) from chatmsg where roomNum=#{roomNum}
+	</select>
 </mapper>

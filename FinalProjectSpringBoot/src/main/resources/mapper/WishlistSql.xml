@@ -40,7 +40,9 @@
 	</select>
 	
 	<select id="getBudget" parameterType="HashMap" resultType="wishlist">
-		select * from wishlist where wishday BETWEEN date(#{wishday1}) AND date(#{wishday2}) and memId=#{memId} and not money is null
+		select * from wishlist where wishday>=#{wishday1} And 
+		wishday &lt; #{wishday2} 
+		and memId=#{memId} and not money is null ORDER BY wishday
 	</select>
 	
 	<select id="getMyreviews" parameterType="HashMap" resultType="spotreview">

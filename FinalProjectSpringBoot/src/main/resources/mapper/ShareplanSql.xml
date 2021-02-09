@@ -19,8 +19,8 @@
 	</select> -->
 	
 	<insert id="insert" parameterType="shareplan">
-		insert into shareplan(groupNum, memId, title, content, wishday, wishtime,comment ,wishNum) 
-			values (#{groupNum}, #{memId}, #{title}, #{content}, #{wishday}, #{wishtime},#{comment}, #{wishNum})
+		insert into shareplan(groupNum, memId, title, content, wishday, wishtime, comment, wishNum) 
+			values (#{groupNum}, #{memId}, #{title}, #{content}, #{wishday}, #{wishtime}, #{comment}, #{wishNum})
 	</insert>
 	
 	<delete id="delete" parameterType="String">

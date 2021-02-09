@@ -73,6 +73,7 @@ public class ShareplanController {
 			sdto.setWishday(dto.getWishday());
 			sdto.setWishtime(dto.getWishtime());
 			sdto.setComment(comment);
+			sdto.setWishNum(dto.getNum());
 			this.insert(sdto);
 		}
 	}

@@ -119,6 +119,7 @@ public class WishlistController {
 		List<WishlistDto> list = mapper.getDayMyto(memId, day);
 		List<DayListDto> result = new ArrayList<DayListDto>();
 		
+		
 		for(WishlistDto dto : list) {
 //			System.out.println(dto.getWishtime());
 			DayListDto dlist = new DayListDto();
@@ -159,33 +160,35 @@ public class WishlistController {
 		return list;
 	}
 	
-	@GetMapping("/wish/schedulemonthlist")
-	public List<String> getMonthDayList(@RequestParam String memId, @RequestParam String wishday) {
-		List<WishlistDto> list=mapper.getList(memId);
-		
-		List<String> result=new ArrayList<String>();
-		String preDay = "";
-		
-		for(WishlistDto dto:list) {
-			
-			
-			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
-				
-				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
-
-					if(!preDay.equals(dto.getWishday().toString())) {
-						result.add(dto.getWishday().toString());
-						preDay = dto.getWishday().toString();
-					}
-					
-				}	
-				
-			}
-			
-				
-		}
-		return result;
-	}
+//	@GetMapping("/wish/schedulemonthlist")
+//	public List<WishlistDto> getMonthDayList(@RequestParam String memId, @RequestParam String wishday) {
+//		List<WishlistDto> list=mapper.getList(memId);
+//		List<WishlistDto> result = new ArrayList<WishlistDto>();
+//		
+//		String preDay = "";
+//		
+//		for(WishlistDto dto:list) {
+//			
+//			
+//			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
+//				
+//				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
+//
+//					if(!preDay.equals(dto.getWishday().toString())) {
+//						WishlistDto wdto = new WishlistDto();
+//						wdto.setWishday(dto.getWishday());
+//						result.add(wdto);
+//						preDay = dto.getWishday().toString();
+//					}
+//					
+//				}	
+//				
+//			}
+//			
+//				
+//		}
+//		return result;
+//	}
 	
 	@GetMapping("/wish/schedulelist")
 	public List<DayListDto> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
@@ -194,46 +197,29 @@ public class WishlistController {
 		List<DayListDto> result=new ArrayList<DayListDto>();
 		for(WishlistDto dto:list) {
 			
-			if(dto.getWishday().toString().equals(wishday)) {
-				DayListDto dlist=new DayListDto();
+			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
 				
-				dlist.setWishday(dto.getWishday().toString());
-				if(dto.getShareNum()!=null) {
-					dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
-			
-				}else if(dto.getAroundId()!=null) {
-					dlist.setTitle(dto.getAroundId());
+				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
+					DayListDto dlist=new DayListDto();
 					
-				}else if(dto.getSpotId()!=null) {
-					dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
-				}
-				else {
-					dlist.setTitle(dto.getContent().split(",")[1]);
-				}
-				result.add(dlist);
+					dlist.setWishday(dto.getWishday().toString());
+					if(dto.getShareNum()!=null) {
+						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
+				
+					}else if(dto.getAroundId()!=null) {
+						dlist.setTitle(dto.getAroundId());
+						
+					}else if(dto.getSpotId()!=null) {
+						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+					}
+					else {
+						dlist.setTitle(dto.getContent().split(",")[1]);
+					}
+					result.add(dlist);
+				}	
+				
 			}
-//			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
-//				
-//				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
-//					DayListDto dlist=new DayListDto();
-//					
-//					dlist.setWishday(dto.getWishday().toString());
-//					if(dto.getShareNum()!=null) {
-//						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
-//				
-//					}else if(dto.getAroundId()!=null) {
-//						dlist.setTitle(dto.getAroundId());
-//						
-//					}else if(dto.getSpotId()!=null) {
-//						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
-//					}
-//					else {
-//						dlist.setTitle(dto.getContent().split(",")[1]);
-//					}
-//					result.add(dlist);
-//				}	
-//				
-//			}
+			
 				
 		}
 		return result;

@@ -7,7 +7,15 @@ public class ChatroomDto {
 	private String num;
 	private String user1;
 	private String user2;
-	
+	private String lastMsg;
+
+	public String getLastMsg() {
+		return lastMsg;
+	}
+
+	public void setLastMsg(String lastMsg) {
+		this.lastMsg = lastMsg;
+	}
 	public String getNum() {
 		return num;
 	}
@@ -26,5 +34,5 @@ public class ChatroomDto {
 	public void setUser2(String user2) {
 		this.user2 = user2;
 	}
-	
+
 }

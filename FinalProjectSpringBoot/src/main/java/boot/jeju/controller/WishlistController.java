@@ -87,6 +87,19 @@ public class WishlistController {
 		return mapper.getList(memId);
 	}
 	
+	@GetMapping("/wish/budget")
+	public List<WishlistDto> getBudget(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		return mapper.getBudget(memId, wishday1, wishday2);
+	}
+	@GetMapping("/wish/budgetsum")
+	public int getBudgetSum(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		return mapper.getBudgetSum(memId, wishday1, wishday2);
+	}
+	
 	@GetMapping("/wish/myreview")
 	public List<SpotreviewDto> getMyreviews(@RequestParam String memNum,@RequestParam int start,@RequestParam int end){
 		return mapper.getMyreviews(memNum, start, end);
@@ -118,6 +131,7 @@ public class WishlistController {
 	public List<DayListDto> getDayMyto(@RequestParam String memId, @RequestParam String day){
 		List<WishlistDto> list = mapper.getDayMyto(memId, day);
 		List<DayListDto> result = new ArrayList<DayListDto>();
+		
 		
 		for(WishlistDto dto : list) {
 //			System.out.println(dto.getWishtime());
@@ -159,7 +173,36 @@ public class WishlistController {
 		return list;
 	}
 	
-
+//	@GetMapping("/wish/schedulemonthlist")
+//	public List<WishlistDto> getMonthDayList(@RequestParam String memId, @RequestParam String wishday) {
+//		List<WishlistDto> list=mapper.getList(memId);
+//		List<WishlistDto> result = new ArrayList<WishlistDto>();
+//		
+//		String preDay = "";
+//		
+//		for(WishlistDto dto:list) {
+//			
+//			
+//			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
+//				
+//				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
+//
+//					if(!preDay.equals(dto.getWishday().toString())) {
+//						WishlistDto wdto = new WishlistDto();
+//						wdto.setWishday(dto.getWishday());
+//						result.add(wdto);
+//						preDay = dto.getWishday().toString();
+//					}
+//					
+//				}	
+//				
+//			}
+//			
+//				
+//		}
+//		return result;
+//	}
+	
 	@GetMapping("/wish/schedulelist")
 	public List<DayListDto> getmonthlist(@RequestParam String memId,@RequestParam String wishday){
 		List<WishlistDto> list=mapper.getList(memId);
@@ -168,12 +211,8 @@ public class WishlistController {
 		for(WishlistDto dto:list) {
 			
 			if(dto.getWishday().toString().split("-")[0].equals(wishday.split("-")[0])) {
-//				System.out.println(dto.getWishday().toString().split("-")[0]);
-//				System.out.println(wishday.split("-")[0]);
 				
 				if(dto.getWishday().toString().split("-")[1].equals(wishday.split("-")[1])) {
-//					System.out.println(dto.getWishday().toString().split("-")[1]);
-//					System.out.println(wishday.split("-")[1]);
 					DayListDto dlist=new DayListDto();
 					
 					dlist.setWishday(dto.getWishday().toString());
@@ -193,6 +232,7 @@ public class WishlistController {
 				}	
 				
 			}
+			
 				
 		}
 		return result;

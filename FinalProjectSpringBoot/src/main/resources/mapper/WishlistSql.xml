@@ -23,23 +23,24 @@
 	<insert id="insertContent" parameterType="wishlist">
 		insert into wishlist (memId,content,wishday,wishtime,money)
 		 values (#{memId},#{content},#{wishday},#{wishtime},#{money})
-	
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
 		insert into wishlist (memId,shareNum,content,wishday,wishtime)
 		 values (#{memId},#{shareNum},#{content},#{wishday},#{wishtime})
-	
 	</insert>
+	
 	
 	<delete id="deleteContent" parameterType="String">
 		delete from wishlist where num=#{num}
-	
 	</delete>
 	
 	<select id="getList" parameterType="String" resultType="wishlist">
 		select * from wishlist where memId=#{memId} order by wishday asc, wishtime asc
+	</select>
 	
+	<select id="getBudget" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where wishday BETWEEN date(#{wishday1}) AND date(#{wishday2}) and memId=#{memId} and not money is null
 	</select>
 	
 	<select id="getMyreviews" parameterType="HashMap" resultType="spotreview">

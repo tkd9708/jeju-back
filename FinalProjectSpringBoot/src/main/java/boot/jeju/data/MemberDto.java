@@ -22,6 +22,13 @@ public class MemberDto {
 	private String hp;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp gaipday;
+	private String birth;
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 	public String getNum() {
 		return num;
 	}

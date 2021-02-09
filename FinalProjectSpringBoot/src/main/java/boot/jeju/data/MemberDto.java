@@ -23,6 +23,8 @@ public class MemberDto {
 	private String hp;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp gaipday;
+	
+	
 	public String getNum() {
 		return num;
 	}

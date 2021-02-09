@@ -27,13 +27,18 @@ public class ShareplanController {
 	WishlistController wishController;
 	
 	@GetMapping("/plan/list")
-	public List<ShareplanDto> getList(){
-		return mapper.getList();
+	public List<ShareplanDto> getList(@RequestParam String wishday){
+		return mapper.getList(wishday);
 	}
 	
+//	@GetMapping("/plan/id")
+//	public List<ShareplanDto> getId(){
+//		return mapper.getmemId();
+//	}
+	
 	@GetMapping("/plan/count")
-	public int getTotalCount() {
-		return mapper.getTotalCount();
+	public int getTotalCount(@RequestParam String memId) {
+		return mapper.getTotalCount(memId);
 	}
 	
 	@GetMapping("/plan/select")
@@ -68,6 +73,7 @@ public class ShareplanController {
 			sdto.setWishday(dto.getWishday());
 			sdto.setWishtime(dto.getWishtime());
 			sdto.setComment(comment);
+			sdto.setWishNum(dto.getNum());
 			this.insert(sdto);
 		}
 	}
@@ -95,4 +101,18 @@ public class ShareplanController {
 	public void groupdelete(@RequestParam String groupnum) {
 		mapper.groupdelete(groupnum);
 	}
+	
+	@GetMapping("/plan/plancount")
+	public int getgroupnumcount(@RequestParam String groupnum) {
+		return mapper.getplancount(groupnum);
+	}
+	
+//	@GetMapping("/plan/groupnumlist")
+//	public List<ShareplanDto> getgroupnumList(){
+//		return mapper.groupnumList();
+//	}
+//	@GetMapping("/plan/allgroupnum")
+//	public List<ShareplanDto> getAllgroupnum(){
+//		return mapper.getAllgroupnum();
+//	}
 }

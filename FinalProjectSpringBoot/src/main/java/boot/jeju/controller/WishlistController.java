@@ -93,6 +93,12 @@ public class WishlistController {
 									@RequestParam String wishday2){
 		return mapper.getBudget(memId, wishday1, wishday2);
 	}
+	@GetMapping("/wish/budgetsum")
+	public int getBudgetSum(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		return mapper.getBudgetSum(memId, wishday1, wishday2);
+	}
 	
 	@GetMapping("/wish/myreview")
 	public List<SpotreviewDto> getMyreviews(@RequestParam String memNum,@RequestParam int start,@RequestParam int end){

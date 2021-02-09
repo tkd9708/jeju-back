@@ -17,6 +17,7 @@ public class ShareplanDto {
 	private String wishday;
 	private String wishtime;
 	private String comment;
+	private String wishNum;
 	
 	public String getComment() {
 		return comment;
@@ -65,6 +66,12 @@ public class ShareplanDto {
 	}
 	public void setWishtime(String wishtime) {
 		this.wishtime = wishtime;
+	}
+	public String getWishNum() {
+		return wishNum;
+	}
+	public void setWishNum(String wishNum) {
+		this.wishNum = wishNum;
 	}
 	
 }

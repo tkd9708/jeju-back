@@ -26,8 +26,8 @@
 	</insert>
 	
 	<insert id="insertshare" parameterType="wishlist">
-		insert into wishlist (memId,shareNum,content,wishday,wishtime)
-		 values (#{memId},#{shareNum},#{content},#{wishday},#{wishtime})
+		insert into wishlist (memId,shareNum,content,wishday,wishtime,money)
+		 values (#{memId},#{shareNum},#{content},#{wishday},#{wishtime},#{money})
 	</insert>
 	
 	
@@ -44,7 +44,7 @@
 		wishday &lt; #{wishday2} 
 		and memId=#{memId} and not money is null ORDER BY wishday
 	</select>
-	<select id="getBudgetSum" parameterType="HashMap" resultType="wishlist">
+	<select id="getBudgetSum" parameterType="HashMap" resultType="int">
 		select sum(money) from wishlist where wishday>=#{wishday1} And 
 		wishday &lt; #{wishday2} 
 		and memId=#{memId} and not money is null ORDER BY wishday

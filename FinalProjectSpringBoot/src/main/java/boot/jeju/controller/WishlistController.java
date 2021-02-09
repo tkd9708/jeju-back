@@ -94,7 +94,7 @@ public class WishlistController {
 		return mapper.getBudget(memId, wishday1, wishday2);
 	}
 	@GetMapping("/wish/budgetsum")
-	public List<WishlistDto> getBudgetSum(@RequestParam String memId,
+	public int getBudgetSum(@RequestParam String memId,
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
 		return mapper.getBudgetSum(memId, wishday1, wishday2);

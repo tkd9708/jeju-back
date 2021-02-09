@@ -14,6 +14,7 @@ public class MemberDto {
 	private String pass;
 	private String name;
 	private String gender;
+	private String birth;
 	private String photo;
 	private String address;
 	private String addrdetail;
@@ -57,6 +58,12 @@ public class MemberDto {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 	public String getPhoto() {
 		return photo;

@@ -40,6 +40,8 @@ public class ChatController {
                 lastMsg = mapper.getLastMsg(dto.getNum()).get(0).getMsg();
             }
             dto.setLastMsg(lastMsg);
+            int msgCnt = mapper.getMsgTotalCount(dto.getNum());
+            dto.setMsgCnt(msgCnt);
         }
 
         return list;

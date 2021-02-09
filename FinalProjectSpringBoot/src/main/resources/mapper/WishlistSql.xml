@@ -44,31 +44,28 @@
 		wishday &lt; #{wishday2} 
 		and memId=#{memId} and not money is null ORDER BY wishday
 	</select>
-	
+	<select id="getBudgetSum" parameterType="HashMap" resultType="wishlist">
+		select sum(money) from wishlist where wishday>=#{wishday1} And 
+		wishday &lt; #{wishday2} 
+		and memId=#{memId} and not money is null ORDER BY wishday
+	</select>
 	<select id="getMyreviews" parameterType="HashMap" resultType="spotreview">
 		select * from spotreview where memNum=#{memNum} order by num desc limit #{start},#{end}
-	
 	</select>
-	
-	
 	<select id="getRecentreviews" parameterType="String" resultType="spotreview">
 		select * from spotreview where memNum=#{memNum} order by num desc limit 1,5
-	
 	</select>
 	
 	<select id="getSpottitle" parameterType="String" resultType="String">
 		select title from spotlist where contentsid=#{contentsid}
-	
 	</select>
 	
 	<select id="getTotalCount" parameterType="String" resultType="int">
 		select count(*) from spotreview where memNum=#{memNum}
-	
 	</select>
 	
 	<select id="getShareSubject" parameterType="String" resultType="String">
 		select subject from shareboard where num=#{num}
-	
 	</select>
 	
 	<select id="getWishTotalCount" parameterType="String" resultType="int">

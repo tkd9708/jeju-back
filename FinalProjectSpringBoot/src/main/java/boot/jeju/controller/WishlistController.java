@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boot.jeju.data.DayListDto;
 import boot.jeju.data.ShareboardDto;
+import boot.jeju.data.ShareplanDto;
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareboardMapper;
+import boot.jeju.mapper.ShareplanMapper;
 import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
 
@@ -37,7 +39,11 @@ public class WishlistController {
 	@Autowired
 	ShareboardMapper shareMapper;
 	
+	@Autowired
+	ShareplanMapper planMapper;
+	
 	WishlistDto dto=new WishlistDto();
+	
 	SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM");
 	SimpleDateFormat sdf2=new SimpleDateFormat("YYYY-MM-dd");
 	
@@ -79,6 +85,9 @@ public class WishlistController {
 	}
 	@GetMapping("/wish/delete")
 	public void deletecontent(@RequestParam String num) {
+		ShareplanDto sdto=new ShareplanDto();
+		sdto = planMapper.getData(num);
+		planMapper.delete(sdto.getNum());
 		mapper.deleteContent(num);
 	}
 	

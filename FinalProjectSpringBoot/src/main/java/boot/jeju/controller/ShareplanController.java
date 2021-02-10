@@ -42,8 +42,8 @@ public class ShareplanController {
 	}
 	
 	@GetMapping("/plan/select")
-	public ShareplanDto getData(@RequestParam String num) {
-		return mapper.getData(num);
+	public ShareplanDto getData(@RequestParam String wishnum) {
+		return mapper.getData(wishnum);
 	}
 	
 //	@GetMapping("/plan/group")

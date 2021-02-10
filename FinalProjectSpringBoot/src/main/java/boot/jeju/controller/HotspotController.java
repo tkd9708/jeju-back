@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,7 +63,7 @@ public class HotspotController {
 	@Autowired
 	SpotlistMapper spotMapper;
 	
-	
+	@GetMapping("/hotspot/list")
 	public List<Spotdata> getList(@RequestParam String groupNum, @RequestParam String day){
 		List<HotspotDto> list = mapper.getList(groupNum, day);
 		List<Spotdata> result = new ArrayList<Spotdata>();

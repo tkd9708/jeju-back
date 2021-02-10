@@ -12,7 +12,8 @@ public interface ShareplanMapper {
 
 	//public List<ShareplanDto> getList();
 	public int getTotalCount(String memId);
-	public ShareplanDto getData(String num);
+	public ShareplanDto getData(String wishnum);
+	
 	//public List<ShareplanDto> getGroupData(@Param("memId") String memId, @Param("wishday") String wishday);
 	public void insert(ShareplanDto dto);
 	public void delete(String num);

@@ -9,5 +9,5 @@ import boot.jeju.data.HotspotDto;
 
 @Mapper
 public interface HotspotMapper {
-	public List<HotspotDto> getList(@Param("groupNum") String groupNum, @Param("day") String num);
+	public List<HotspotDto> getList(@Param("groupNum") String groupNum, @Param("day") String day);
 }

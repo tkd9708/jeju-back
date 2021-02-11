@@ -8,6 +8,10 @@
 		select distinct groupNum from hotspot	
 	</select>
 	<select id="getDay" parameterType="HashMap" resultType="hotspot">
-		select day from hotspot where groupNum=#{groupNum}	
+		select * from hotspot where groupNum=#{groupNum}	
+	</select>
+	
+	<select id="getCountOfDay" parameterType="String" resultType="int">
+		select count(*) from hotspot where groupNum=#{groupNum}
 	</select>
 </mapper>

@@ -20,6 +20,7 @@ public class WishlistDto {
 	private String subject;
 	private String wishtime;
 	private String money;
+	private String capital;
 	public String getNum() {
 		return num;
 	}
@@ -87,7 +88,10 @@ public class WishlistDto {
 	public void setMoney(String money) {
 		this.money = money;
 	}
-	
-	
-	
+	public String getCapital() {
+		return capital;
+	}
+	public void setCapital(String capital) {
+		this.capital = capital;
+	}
 }

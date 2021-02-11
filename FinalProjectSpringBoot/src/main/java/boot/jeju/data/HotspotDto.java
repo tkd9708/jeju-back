@@ -8,7 +8,7 @@ public class HotspotDto {
 	public String groupNum;
 	public String title;
 	public String day;
-	
+	public String time;	
 	public String getNum() {
 		return Num;
 	}
@@ -33,6 +33,10 @@ public class HotspotDto {
 	public void setDay(String day) {
 		this.day = day;
 	}
-	
-	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

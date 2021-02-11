@@ -79,4 +79,14 @@ public class HotspotController {
 		}
 		return result;
 	}
+	
+	@GetMapping("/hotspot/group")
+	public List<HotspotDto> getGroupNum(){
+		return mapper.getGroupNum();
+	}
+	
+	@GetMapping("/hotspot/day")
+	public List<HotspotDto> getDay(@RequestParam String groupNum){
+		return mapper.getDay(groupNum);
+	}
 }

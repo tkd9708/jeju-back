@@ -100,7 +100,13 @@ public class WishlistController {
 	public int getBudgetSum(@RequestParam String memId,
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
-		return mapper.getBudgetSum(memId, wishday1, wishday2);
+		List<WishlistDto> list = mapper.getBudgetSum(memId, wishday1, wishday2);
+		int sum = 0;
+		
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getMoney());
+		}
+		return sum;
 	}
 	
 	@PostMapping("/wish/insertcapital")
@@ -112,7 +118,13 @@ public class WishlistController {
 	public int getCapitalSum(@RequestParam String memId,
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
-		return mapper.getCapitalSum(memId, wishday1, wishday2);
+		
+		List<WishlistDto> list = mapper.getCapitalSum(memId, wishday1, wishday2);
+		int sum = 0;
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getCapital());
+		}
+		return sum;
 	}
 	
 	@GetMapping("/wish/myreview")

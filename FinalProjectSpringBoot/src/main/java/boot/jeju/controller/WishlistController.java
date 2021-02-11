@@ -1,23 +1,22 @@
 package boot.jeju.controller;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import boot.jeju.data.DayListDto;
+
 import boot.jeju.data.ShareboardDto;
 import boot.jeju.data.ShareplanDto;
+
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
 import boot.jeju.data.WishlistDto;
@@ -107,6 +106,18 @@ public class WishlistController {
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
 		return mapper.getBudgetSum(memId, wishday1, wishday2);
+	}
+	
+	@PostMapping("/wish/insertcapital")
+	public void insertcapital(@RequestBody WishlistDto dto) {
+		mapper.insertCapital(dto);
+	}
+	
+	@GetMapping("/wish/capitalsum")
+	public int getCapitalSum(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		return mapper.getCapitalSum(memId, wishday1, wishday2);
 	}
 	
 	@GetMapping("/wish/myreview")

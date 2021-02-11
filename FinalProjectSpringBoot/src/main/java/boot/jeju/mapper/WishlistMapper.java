@@ -23,6 +23,8 @@ public interface WishlistMapper {
 	public List<WishlistDto> getBudget(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
 	public int getBudgetSum(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
 	public List<SpotreviewDto> getMyreviews(@Param("memNum") String memNum,@Param("start") int start,@Param("end") int end);
+	public void insertCapital(WishlistDto dto);
+	public int getCapitalSum(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
 	public List<SpotreviewDto> getRecentreviews(String memNum);
 	public String getSpottitle(String contentsid);
 	public int getTotalCount(String memNum);

@@ -41,21 +41,24 @@
 	
 	<select id="getBudget" parameterType="HashMap" resultType="wishlist">
 		select * from wishlist where wishday>=#{wishday1} And 
-		wishday &lt; #{wishday2} 
+
+		wishday &lt;= #{wishday2} 
 		and memId=#{memId} and (not money is null or not capital is null) ORDER BY wishday
 	</select>
-	<select id="getBudgetSum" parameterType="HashMap" resultType="int">
-		select sum(money) from wishlist where wishday>=#{wishday1} And 
-		wishday &lt; #{wishday2} 
+
+	<select id="getBudgetSum" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where wishday>=#{wishday1} And 
+		wishday &lt;= #{wishday2} 
 		and memId=#{memId} and not money is null
 	</select>
 	<insert id="insertCapital" parameterType="wishlist">
 		insert into wishlist (memId,content,wishday,capital)
 		 values (#{memId},#{content},#{wishday},#{capital})
 	</insert>
-	<select id="getCapitalSum" parameterType="HashMap" resultType="int">
-		select sum(capital) from wishlist where wishday>=#{wishday1} And 
-		wishday &lt; #{wishday2} 
+
+	<select id="getCapitalSum" parameterType="HashMap" resultType="wishlist">
+		select * from wishlist where wishday>=#{wishday1} And 
+		wishday &lt;= #{wishday2} 
 		and memId=#{memId} and not capital is null
 	</select>
 	

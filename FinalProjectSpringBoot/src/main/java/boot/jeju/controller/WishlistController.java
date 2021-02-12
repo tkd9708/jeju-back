@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boot.jeju.data.DayListDto;
 
-import boot.jeju.data.ShareboardDto;
-import boot.jeju.data.ShareplanDto;
-
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
+import boot.jeju.data.ShareplanDto;
 import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareboardMapper;
-import boot.jeju.mapper.ShareplanMapper;
 import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
-
+import boot.jeju.mapper.ShareplanMapper;
 
 @RestController
 @CrossOrigin
@@ -40,9 +37,8 @@ public class WishlistController {
 	
 	@Autowired
 	ShareplanMapper planMapper;
-	
+
 	WishlistDto dto=new WishlistDto();
-	
 	SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM");
 	SimpleDateFormat sdf2=new SimpleDateFormat("YYYY-MM-dd");
 	
@@ -105,7 +101,28 @@ public class WishlistController {
 	public int getBudgetSum(@RequestParam String memId,
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
-		return mapper.getBudgetSum(memId, wishday1, wishday2);
+		List<WishlistDto> list = mapper.getBudgetSum(memId, wishday1, wishday2);
+		int sum = 0;
+		
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getMoney());
+		}
+		return sum;
+	}
+	
+	
+	
+	@GetMapping("/wish/capitalsum")
+	public int getCapitalSum(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		
+		List<WishlistDto> list = mapper.getCapitalSum(memId, wishday1, wishday2);
+		int sum = 0;
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getCapital());
+		}
+		return sum;
 	}
 	
 	@PostMapping("/wish/insertcapital")
@@ -113,12 +130,7 @@ public class WishlistController {
 		mapper.insertCapital(dto);
 	}
 	
-	@GetMapping("/wish/capitalsum")
-	public int getCapitalSum(@RequestParam String memId,
-									@RequestParam String wishday1,
-									@RequestParam String wishday2){
-		return mapper.getCapitalSum(memId, wishday1, wishday2);
-	}
+	
 	
 	@GetMapping("/wish/myreview")
 	public List<SpotreviewDto> getMyreviews(@RequestParam String memNum,@RequestParam int start,@RequestParam int end){

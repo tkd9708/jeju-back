@@ -104,7 +104,7 @@ public class HotspotController {
 	@PostMapping("/hotspot/insert")
 	public void insert(@RequestParam String groupNum, @RequestParam String startDay, @RequestParam String memId) {
 		
-		List<HotspotDto> list = mapper.getDay(groupNum);
+		List<HotspotDto> list = mapper.getDays(groupNum);
 		startDay += " 00:00:00";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		

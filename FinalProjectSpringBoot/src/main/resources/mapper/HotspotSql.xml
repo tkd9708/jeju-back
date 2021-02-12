@@ -8,6 +8,9 @@
 		select distinct groupNum from hotspot	
 	</select>
 	<select id="getDay" parameterType="HashMap" resultType="hotspot">
+		select distinct day from hotspot where groupNum=#{groupNum}	
+	</select>
+	<select id="getDays" parameterType="HashMap" resultType="hotspot">
 		select * from hotspot where groupNum=#{groupNum}	
 	</select>
 	

@@ -21,8 +21,11 @@ public interface WishlistMapper {
 	public void deleteContent(String num);
 	public List<WishlistDto> getList(String memId);
 	public List<WishlistDto> getBudget(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
-	public int getBudgetSum(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
+	public List<WishlistDto> getBudgetSum(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
 	public List<SpotreviewDto> getMyreviews(@Param("memNum") String memNum,@Param("start") int start,@Param("end") int end);
+	public void insertCapital(WishlistDto dto);
+
+	public List<WishlistDto> getCapitalSum(@Param("memId") String memId, @Param("wishday1") String wishday1, @Param("wishday2") String wishday2);
 	public List<SpotreviewDto> getRecentreviews(String memNum);
 	public String getSpottitle(String contentsid);
 	public int getTotalCount(String memNum);

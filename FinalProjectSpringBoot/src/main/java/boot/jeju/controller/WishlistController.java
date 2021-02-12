@@ -1,29 +1,27 @@
 package boot.jeju.controller;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import boot.jeju.data.DayListDto;
-import boot.jeju.data.ShareboardDto;
+
 import boot.jeju.data.SpotlistDto;
 import boot.jeju.data.SpotreviewDto;
+import boot.jeju.data.ShareplanDto;
 import boot.jeju.data.WishlistDto;
 import boot.jeju.mapper.ShareboardMapper;
 import boot.jeju.mapper.SpotlistMapper;
 import boot.jeju.mapper.WishlistMapper;
-
+import boot.jeju.mapper.ShareplanMapper;
 
 @RestController
 @CrossOrigin
@@ -37,6 +35,9 @@ public class WishlistController {
 	@Autowired
 	ShareboardMapper shareMapper;
 	
+	@Autowired
+	ShareplanMapper planMapper;
+
 	WishlistDto dto=new WishlistDto();
 	SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM");
 	SimpleDateFormat sdf2=new SimpleDateFormat("YYYY-MM-dd");
@@ -79,6 +80,9 @@ public class WishlistController {
 	}
 	@GetMapping("/wish/delete")
 	public void deletecontent(@RequestParam String num) {
+		ShareplanDto sdto=new ShareplanDto();
+		sdto = planMapper.getData(num);
+		planMapper.delete(sdto.getNum());
 		mapper.deleteContent(num);
 	}
 	
@@ -97,8 +101,36 @@ public class WishlistController {
 	public int getBudgetSum(@RequestParam String memId,
 									@RequestParam String wishday1,
 									@RequestParam String wishday2){
-		return mapper.getBudgetSum(memId, wishday1, wishday2);
+		List<WishlistDto> list = mapper.getBudgetSum(memId, wishday1, wishday2);
+		int sum = 0;
+		
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getMoney());
+		}
+		return sum;
 	}
+	
+	
+	
+	@GetMapping("/wish/capitalsum")
+	public int getCapitalSum(@RequestParam String memId,
+									@RequestParam String wishday1,
+									@RequestParam String wishday2){
+		
+		List<WishlistDto> list = mapper.getCapitalSum(memId, wishday1, wishday2);
+		int sum = 0;
+		for(WishlistDto dto : list) {
+			sum += Integer.parseInt(dto.getCapital());
+		}
+		return sum;
+	}
+	
+	@PostMapping("/wish/insertcapital")
+	public void insertcapital(@RequestBody WishlistDto dto) {
+		mapper.insertCapital(dto);
+	}
+	
+	
 	
 	@GetMapping("/wish/myreview")
 	public List<SpotreviewDto> getMyreviews(@RequestParam String memNum,@RequestParam int start,@RequestParam int end){
@@ -145,23 +177,28 @@ public class WishlistController {
 				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 				dlist.setContent("spot");
 				dlist.setAddr(dto.getContent());
+				result.add(dlist);
 			}
 			else if(dto.getShareNum()!=null) {
 				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
 				dlist.setContent("share");
 				dlist.setAddr(shareMapper.getData(dto.getShareNum()).getAddr());
+				result.add(dlist);
 				
 			}
 			else if(dto.getAroundId() !=null) {
 				dlist.setTitle(dto.getAroundId());
 				dlist.setContent(dto.getContent());
 				dlist.setAddr(dto.getContent().split(",")[1]);
+				result.add(dlist);
 			}
 			else {
-				dlist.setTitle(dto.getContent());
-				dlist.setContent("myplan");
+				if(!dto.getContent().split(",")[0].equals("여행예산")) {
+					dlist.setTitle(dto.getContent());
+					dlist.setContent("myplan");
+					result.add(dlist);
+				}
 			}
-			result.add(dlist);
 		}
 		return result;
 	}
@@ -169,8 +206,19 @@ public class WishlistController {
 	@GetMapping("/wish/planlist")
 	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
 		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
+		List<WishlistDto> result = new ArrayList<WishlistDto>();
 		
-		return list;
+		for(WishlistDto dto : list) {
+			if(dto.getSpotId()==null&&dto.getShareNum()==null&&dto.getAroundId()==null) {
+				if(!dto.getContent().split(",")[0].equals("여행예산"))
+					result.add(dto);
+			}
+			else {
+				result.add(dto);
+			}
+		}
+		
+		return result;
 	}
 	
 //	@GetMapping("/wish/schedulemonthlist")
@@ -218,17 +266,22 @@ public class WishlistController {
 					dlist.setWishday(dto.getWishday().toString());
 					if(dto.getShareNum()!=null) {
 						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
+						result.add(dlist);
 				
 					}else if(dto.getAroundId()!=null) {
 						dlist.setTitle(dto.getAroundId());
+						result.add(dlist);
 						
 					}else if(dto.getSpotId()!=null) {
 						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+						result.add(dlist);
 					}
 					else {
-						dlist.setTitle(dto.getContent().split(",")[1]);
+						if(!dto.getContent().split(",")[0].equals("여행예산")) {
+							dlist.setTitle(dto.getContent().split(",")[1]);
+							result.add(dlist);
+						}
 					}
-					result.add(dlist);
 				}	
 				
 			}

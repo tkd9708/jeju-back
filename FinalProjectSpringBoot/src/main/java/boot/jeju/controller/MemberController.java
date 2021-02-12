@@ -218,4 +218,14 @@ public class MemberController {
 	{
 		mapper.updateOfPass(dto);
 	}
+	
+	@GetMapping("/member/oauthKakao")
+	public String oauthKakao(@RequestParam("code") String code)
+	{
+		System.out.println("Kakao code: " + code);
+		return "코드는 : " + code;
+	}
+	
+//	@PostMapping("/member/tokenKakaoUser")
+//	public String tokenKakaoUser(@RequestBody)
 }

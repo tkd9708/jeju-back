@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boot.jeju.mapper.ShareplanMapper">
-	<!-- <select id="getList" resultType="shareplan">
-		select * from shareplan
-	</select> -->
+
+	  <select id="getSharePlanList" parameterType="HashMap" resultType="shareplan">
+		select * from shareplan order by groupNum desc limit #{start},#{perPage}
+	</select>  
 	
 	<!-- <select id="getmemId" resultType="shareplan">
 		select distinct memId from shareplan
@@ -14,7 +15,7 @@
 	</select>
 	
 	<select id="getData" parameterType="String" resultType="shareplan">
-		select * from shareplan where num=#{num}
+		select * from shareplan where wishNum=#{wishNum}
 	</select>
 	
 	<!-- <select id="getGroupData" parameterType="HashMap" resultType="shareplan">
@@ -37,7 +38,10 @@
 		select * from shareplan where groupNum=#{groupNum}
 	</select> -->
 	<select id="getgroupnum" resultType="shareplan">
-		select distinct groupNum from shareplan order by groupNum desc
+		select distinct groupNum from shareplan order by wishday
+	</select>
+	<select id="getgroupnumDay" parameterType="String" resultType="String">
+		select distinct wishday from shareplan where groupNum=#{groupNum}
 	</select>
 	
 	<select id="getgroupdata" parameterType="String" resultType="shareplan">

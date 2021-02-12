@@ -107,6 +107,7 @@ public class HotspotController {
 		List<HotspotDto> list = mapper.getDay(groupNum);
 		startDay += " 00:00:00";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
 		try {
 			Date date = sdf.parse(startDay);
 			
@@ -121,10 +122,14 @@ public class HotspotController {
 				}
 				
 //				System.out.println(sdf.format(cal.getTime()));
+				String title = dto.getTitle();
+				System.out.println("TITLE" + title);
+				String addr = spotMapper.getData(title).getRoadaddr();
+				
 				WishlistDto wdto = new WishlistDto();
 				wdto.setMemId(memId);
 				wdto.setSpotId(dto.getTitle());
-				wdto.setContent(spotMapper.getData(dto.getTitle()).getRoadaddr());
+				wdto.setContent(addr);
 				wdto.setWishday(Timestamp.valueOf(sdf.format(cal.getTime())));
 				wdto.setWishtime(dto.getTime());
 				

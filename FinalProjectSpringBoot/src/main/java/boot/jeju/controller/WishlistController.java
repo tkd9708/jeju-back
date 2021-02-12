@@ -177,23 +177,28 @@ public class WishlistController {
 				dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
 				dlist.setContent("spot");
 				dlist.setAddr(dto.getContent());
+				result.add(dlist);
 			}
 			else if(dto.getShareNum()!=null) {
 				dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject());
 				dlist.setContent("share");
 				dlist.setAddr(shareMapper.getData(dto.getShareNum()).getAddr());
+				result.add(dlist);
 				
 			}
 			else if(dto.getAroundId() !=null) {
 				dlist.setTitle(dto.getAroundId());
 				dlist.setContent(dto.getContent());
 				dlist.setAddr(dto.getContent().split(",")[1]);
+				result.add(dlist);
 			}
 			else {
-				dlist.setTitle(dto.getContent());
-				dlist.setContent("myplan");
+				if(!dto.getContent().split(",")[0].equals("여행예산")) {
+					dlist.setTitle(dto.getContent());
+					dlist.setContent("myplan");
+					result.add(dlist);
+				}
 			}
-			result.add(dlist);
 		}
 		return result;
 	}
@@ -201,8 +206,19 @@ public class WishlistController {
 	@GetMapping("/wish/planlist")
 	public List<WishlistDto> getPlanList(@RequestParam String memId, @RequestParam String day, @RequestParam String category){
 		List<WishlistDto> list = mapper.getPlanList(memId, day, category);
+		List<WishlistDto> result = new ArrayList<WishlistDto>();
 		
-		return list;
+		for(WishlistDto dto : list) {
+			if(dto.getSpotId()==null&&dto.getShareNum()==null&&dto.getAroundId()==null) {
+				if(!dto.getContent().split(",")[0].equals("여행예산"))
+					result.add(dto);
+			}
+			else {
+				result.add(dto);
+			}
+		}
+		
+		return result;
 	}
 	
 //	@GetMapping("/wish/schedulemonthlist")
@@ -250,17 +266,22 @@ public class WishlistController {
 					dlist.setWishday(dto.getWishday().toString());
 					if(dto.getShareNum()!=null) {
 						dlist.setTitle(shareMapper.getData(dto.getShareNum()).getSubject().split(",")[1]);
+						result.add(dlist);
 				
 					}else if(dto.getAroundId()!=null) {
 						dlist.setTitle(dto.getAroundId());
+						result.add(dlist);
 						
 					}else if(dto.getSpotId()!=null) {
 						dlist.setTitle(spotMapper.getData(dto.getSpotId()).getTitle());
+						result.add(dlist);
 					}
 					else {
-						dlist.setTitle(dto.getContent().split(",")[1]);
+						if(!dto.getContent().split(",")[0].equals("여행예산")) {
+							dlist.setTitle(dto.getContent().split(",")[1]);
+							result.add(dlist);
+						}
 					}
-					result.add(dlist);
 				}	
 				
 			}

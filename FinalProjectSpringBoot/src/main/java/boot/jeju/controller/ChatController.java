@@ -36,10 +36,13 @@ public class ChatController {
         List<ChatroomDto> list = mapper.getRoom(user);
         for (ChatroomDto dto : list) {
             String lastMsg = "";
+            String lastWriteday = "";
             if (mapper.getLastMsg(dto.getNum()).size() > 0) {
                 lastMsg = mapper.getLastMsg(dto.getNum()).get(0).getMsg();
+                lastWriteday = mapper.getLastMsg(dto.getNum()).get(0).getWriteday();
             }
             dto.setLastMsg(lastMsg);
+            dto.setLastWriteday(lastWriteday);
             int msgCnt = mapper.getMsgTotalCount(dto.getNum());
             dto.setMsgCnt(msgCnt);
         }

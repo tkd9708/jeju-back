@@ -38,7 +38,10 @@
 		select * from shareplan where groupNum=#{groupNum}
 	</select> -->
 	<select id="getgroupnum" resultType="shareplan">
-		select distinct groupNum from shareplan order by groupNum desc
+		select distinct groupNum from shareplan order by wishday
+	</select>
+	<select id="getgroupnumDay" parameterType="String" resultType="String">
+		select distinct wishday from shareplan where groupNum=#{groupNum}
 	</select>
 	
 	<select id="getgroupdata" parameterType="String" resultType="shareplan">

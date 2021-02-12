@@ -20,6 +20,7 @@ public interface ShareplanMapper {
 	public String maxGroupNum();
 //	public List<ShareplanDto> getgroup(String groupnum);
 	public List<ShareplanDto> getgroupnum();
+	public String getgroupnumDay(String groupnum);
 	public List<ShareplanDto> getgroupdata(String groupnum);
 	public List<ShareplanDto> getPlan(String wishday);
 	public void groupdelete(String groupnum);

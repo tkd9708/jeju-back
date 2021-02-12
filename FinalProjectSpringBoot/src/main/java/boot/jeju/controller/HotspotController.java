@@ -28,6 +28,7 @@ class Spotdata {
 	public String img;
 	public String groupNum;
 	public String day;
+	public String contentsid;
 	
 	public String getTitle() {
 		return title;
@@ -59,6 +60,12 @@ class Spotdata {
 	public void setDay(String day) {
 		this.day = day;
 	}
+	public String getContentsid() {
+		return contentsid;
+	}
+	public void setContentsid(String contentsid) {
+		this.contentsid = contentsid;
+	}
 	
 }
 
@@ -86,6 +93,7 @@ public class HotspotController {
 			spotdata.setImg(spotMapper.getData(dto.getTitle()).getThumbnail());
 			spotdata.setGroupNum(groupNum);
 			spotdata.setDay(day);
+			spotdata.setContentsid(dto.getTitle());
 			result.add(spotdata);
 		}
 		return result;

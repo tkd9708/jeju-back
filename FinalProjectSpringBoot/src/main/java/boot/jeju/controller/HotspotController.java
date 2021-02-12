@@ -123,7 +123,7 @@ public class HotspotController {
 				
 //				System.out.println(sdf.format(cal.getTime()));
 				String title = dto.getTitle();
-				System.out.println("TITLE" + title);
+//				System.out.println("TITLE" + title);
 				String addr = spotMapper.getData(title).getRoadaddr();
 				
 				WishlistDto wdto = new WishlistDto();

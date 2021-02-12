@@ -27,8 +27,8 @@ public class ShareplanController {
 	WishlistController wishController;
 	
 	@GetMapping("/plan/list")
-	public List<ShareplanDto> getList(@RequestParam String wishday){
-		return mapper.getList(wishday);
+	public List<ShareplanDto> getList(@RequestParam int start,@RequestParam int perPage){
+		return mapper.getSharePlanList(start, perPage);
 	}
 	
 //	@GetMapping("/plan/id")

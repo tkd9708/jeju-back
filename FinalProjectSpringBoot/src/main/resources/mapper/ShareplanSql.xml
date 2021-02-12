@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boot.jeju.mapper.ShareplanMapper">
-	<!-- <select id="getList" resultType="shareplan">
-		select * from shareplan
-	</select> -->
+
+	  <select id="getSharePlanList" parameterType="HashMap" resultType="shareplan">
+		select * from shareplan order by groupNum desc limit #{start},#{perPage}
+	</select>  
 	
 	<!-- <select id="getmemId" resultType="shareplan">
 		select distinct memId from shareplan

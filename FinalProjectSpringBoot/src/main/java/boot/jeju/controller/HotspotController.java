@@ -101,7 +101,7 @@ public class HotspotController {
 		return mapper.getDay(groupNum);
 	}
 	
-	@GetMapping("/hotspot/insert")
+	@PostMapping("/hotspot/insert")
 	public void insert(@RequestParam String groupNum, @RequestParam String startDay, @RequestParam String memId) {
 		
 		List<HotspotDto> list = mapper.getDay(groupNum);
@@ -136,7 +136,5 @@ public class HotspotController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 }

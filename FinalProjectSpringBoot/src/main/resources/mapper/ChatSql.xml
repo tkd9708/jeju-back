@@ -28,4 +28,8 @@
 	<select id="getMsgTotalCount" parameterType="String" resultType="int">
 		select count(*) from chatmsg where roomNum=#{roomNum}
 	</select>
+
+	<select id="idCheckOfChat" parameterType="HashMap" resultType="int">
+		select count(*) from chatroom where user1=#{user} and user2=#{searchId} or user1=#{searchId} and user2=#{user}
+	</select>
 </mapper>

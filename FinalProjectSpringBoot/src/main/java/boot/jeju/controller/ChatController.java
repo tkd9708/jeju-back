@@ -56,6 +56,12 @@ public class ChatController {
         return mapper.getSearchIdRoom(user, searchId);
     }
 
+    // 중복 방이 있는지 검색.
+    @GetMapping("/chat/idCheckOfChat")
+    public int idCheckOfChat(@RequestParam String user, @RequestParam String searchId) {
+        return mapper.idCheckOfChat(user, searchId);
+    }
+
     // 해당 방의 메시지 리스트
     @GetMapping("/chat/getMsgs")
     public List<ChatmsgDto> getMsgs(@RequestParam String roomNum) {

@@ -62,7 +62,7 @@ public class ChatController {
         return mapper.idCheckOfChat(user, searchId);
     }
 
-    // 해당 방의 메시지 리스트
+    // 해당 방의 메시지 리 스트
     @GetMapping("/chat/getMsgs")
     public List<ChatmsgDto> getMsgs(@RequestParam String roomNum) {
         return mapper.getMsgs(roomNum);

@@ -45,6 +45,11 @@ public class ShareplanController {
 		return mapper.getTotalCount(memId);
 	}
 	
+	@GetMapping("/plan/allcount")
+	public int getAllTotalCount() {
+		return mapper.getAllTotalCount();
+	}
+	
 	@GetMapping("/plan/select")
 	public ShareplanDto getData(@RequestParam String wishnum) {
 		return mapper.getData(wishnum);
@@ -118,6 +123,12 @@ public class ShareplanController {
 		
 		return result;
 	}
+	
+	@GetMapping("/plan/allgroupnum")
+	public List<ShareplanDto> getAllgroupnum(@RequestParam int start, @RequestParam int perPage) {
+		return mapper.getAllgroupnum(start, perPage);
+	}
+	
 	
 	@GetMapping("/plan/groupdata")
 	public List<ShareplanDto> getgroupdata(@RequestParam String groupnum) {

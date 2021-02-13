@@ -40,6 +40,13 @@
 	<select id="getgroupnum" resultType="shareplan">
 		select distinct groupNum from shareplan order by wishday
 	</select>
+	<select id="getAllgroupnum" parameterType="HashMap" resultType="shareplan">
+		select distinct groupNum from shareplan order by wishday desc limit #{start},#{perPage}
+	</select>
+	<select id="getAllTotalCount" resultType="int">
+		select count(distinct groupNum) from shareplan
+	</select>
+	
 	<select id="getgroupnumDay" parameterType="String" resultType="String">
 		select distinct wishday from shareplan where groupNum=#{groupNum}
 	</select>

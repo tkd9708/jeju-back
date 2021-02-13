@@ -82,7 +82,11 @@ public class WishlistController {
 	public void deletecontent(@RequestParam String num) {
 		ShareplanDto sdto=new ShareplanDto();
 		sdto = planMapper.getData(num);
-		planMapper.delete(sdto.getNum());
+		
+		if(sdto!=null) {
+			planMapper.delete(sdto.getNum());
+			
+		}
 		mapper.deleteContent(num);
 	}
 	

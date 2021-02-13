@@ -3,7 +3,7 @@
 <mapper namespace="boot.jeju.mapper.ShareplanMapper">
 
 	  <select id="getSharePlanList" parameterType="HashMap" resultType="shareplan">
-		select * from shareplan order by groupNum desc limit #{start},#{perPage}
+		select * from shareplan group by groupNum order by groupNum desc limit 0,10  
 	</select>  
 	
 	<!-- <select id="getmemId" resultType="shareplan">

@@ -9,8 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import boot.jeju.data.MemberDto;
@@ -35,7 +40,12 @@ public class MemberController {
 	MultipartFile upload;
 	String photoname;
 	String idcanUse="false";
-
+	String KakaoAuthCode;
+	
+//	카카오 REST API 키
+	private final static String Kakao_key = "23ac9824a4a7d2262c92c0c80de5eab3";
+	private final static String ClientSecret = "iqDBo1s9JirNraT2rLvfz6al7P8bfOa6";
+	
 	@GetMapping("/member/list")
 	public List<MemberDto> getList(){
 		return mapper.getListOfMember();
@@ -220,12 +230,42 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/oauthKakao")
-	public String oauthKakao(@RequestParam("code") String code)
+	public String oauthKakao(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response)
 	{
 		System.out.println("Kakao code: " + code);
-		return "코드는 : " + code;
+		KakaoAuthCode = code;
+		return code;
 	}
 	
-//	@PostMapping("/member/tokenKakaoUser")
-//	public String tokenKakaoUser(@RequestBody)
+//	accessToken 역할 = 카카오에 정보를 받기 위한 key (10분 ~ 1시간)
+//	refreshToken -> accessToken 을 받을 수 있음. (10일 ~ 30일)
+	@PostMapping("/member/tokenKakao")
+	public Map<String, String> tokenKakaoUser(/*@RequestParam Map<String, String> parameters */HttpServletRequest request, HttpServletResponse response)
+	{
+		RestTemplate rest = new RestTemplate();
+//		사용자 인증정보 받기 위한 세팅
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("grant_type", "=authorization_code");
+		map.put("client_id", "=" + Kakao_key); // 카카오 앱에 있는 REST KEY
+//		인가 코드가 리다이렉트된 URI
+		map.put("redirect_uri", "=http://ec2-3-36-28-35.ap-northeast-2.compute.amazonaws.com:5000/member/oauthKakao"); // 카카오 앱에 등록한 redirect URL
+		map.put("code", "="+KakaoAuthCode); // 인가 코드 받기 요청으로 얻은 인가 코드
+		map.put("client_secret", "="+ClientSecret); // 토큰 발급 시, 보안을 강화하기 위해 추가 확인하는 코드
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Context-type", "application/json");
+		
+		HttpEntity<Map<String, String>> entity = new HttpEntity<>(map, headers);
+		
+//		사용자 인증정보 요청
+		ResponseEntity<Map> rs = rest.postForEntity("https://kauth.kakao.com/oauth/token", entity, Map.class);
+		
+//		access_token, refresh_token Get
+		String Access = rs.getBody().get("access_token").toString();
+		String Refresh = rs.getBody().get("refresh_token").toString();
+		
+		System.out.println("Access 토큰은 : " + Access);
+		System.out.println("Refresh 토큰은 : " + Refresh);
+		return map;
+	}
 }

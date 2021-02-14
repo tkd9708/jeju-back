@@ -126,12 +126,14 @@ public class ShareplanController {
 	
 	@GetMapping("/plan/allgroupnum")
 	public List<ShareplanDto> getAllgroupnum(@RequestParam int start, @RequestParam int perPage) {
+//		System.out.println(start + ", " + perPage);
 		return mapper.getAllgroupnum(start, perPage);
 	}
 	
 	
 	@GetMapping("/plan/groupdata")
 	public List<ShareplanDto> getgroupdata(@RequestParam String groupnum) {
+//		System.out.println(groupnum);
 		return mapper.getgroupdata(groupnum);
 	}
 	

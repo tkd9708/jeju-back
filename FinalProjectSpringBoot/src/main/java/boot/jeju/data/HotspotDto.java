@@ -4,16 +4,16 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("hotspot")
 public class HotspotDto {
-	public String Num;
+	public String num;
 	public String groupNum;
 	public String title;
 	public String day;
-	
+	public String time;	
 	public String getNum() {
-		return Num;
+		return num;
 	}
 	public void setNum(String num) {
-		Num = num;
+		this.num = num;
 	}
 	public String getGroupNum() {
 		return groupNum;
@@ -33,6 +33,10 @@ public class HotspotDto {
 	public void setDay(String day) {
 		this.day = day;
 	}
-	
-	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

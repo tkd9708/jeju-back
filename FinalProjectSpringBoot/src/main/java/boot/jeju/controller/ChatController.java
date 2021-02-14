@@ -36,10 +36,13 @@ public class ChatController {
         List<ChatroomDto> list = mapper.getRoom(user);
         for (ChatroomDto dto : list) {
             String lastMsg = "";
+            String lastWriteday = "";
             if (mapper.getLastMsg(dto.getNum()).size() > 0) {
                 lastMsg = mapper.getLastMsg(dto.getNum()).get(0).getMsg();
+                lastWriteday = mapper.getLastMsg(dto.getNum()).get(0).getWriteday();
             }
             dto.setLastMsg(lastMsg);
+            dto.setLastWriteday(lastWriteday);
             int msgCnt = mapper.getMsgTotalCount(dto.getNum());
             dto.setMsgCnt(msgCnt);
         }
@@ -53,7 +56,13 @@ public class ChatController {
         return mapper.getSearchIdRoom(user, searchId);
     }
 
-    // 해당 방의 메시지 리스트
+    // 중복 방이 있는지 검색.
+    @GetMapping("/chat/idCheckOfChat")
+    public int idCheckOfChat(@RequestParam String user, @RequestParam String searchId) {
+        return mapper.idCheckOfChat(user, searchId);
+    }
+
+    // 해당 방의 메시지 리 스트
     @GetMapping("/chat/getMsgs")
     public List<ChatmsgDto> getMsgs(@RequestParam String roomNum) {
         return mapper.getMsgs(roomNum);

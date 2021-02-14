@@ -14,6 +14,7 @@ public interface ChatMapper {
 	public void createRoom(ChatroomDto dto);
 	public List<ChatroomDto> getRoom(String user);
 	public List<ChatroomDto> getSearchIdRoom(@Param("user") String user, @Param("searchId") String searchId);
+	public int idCheckOfChat(@Param("user") String user, @Param("searchId") String searchId);
 	public void insertMsg(ChatmsgDto dto);
 	public List<ChatmsgDto> getMsgs(String roomNum);
 	public List<ChatmsgDto> getLastMsg(String roomNum);

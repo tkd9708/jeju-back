@@ -10,7 +10,7 @@ import boot.jeju.data.ShareplanDto;
 @Mapper
 public interface ShareplanMapper {
 
-	//public List<ShareplanDto> getList();
+	public List<ShareplanDto> getSharePlanList(@Param("start") int start,@Param("perPage") int perPage);
 	public int getTotalCount(String memId);
 	public ShareplanDto getData(String wishnum);
 	
@@ -20,6 +20,10 @@ public interface ShareplanMapper {
 	public String maxGroupNum();
 //	public List<ShareplanDto> getgroup(String groupnum);
 	public List<ShareplanDto> getgroupnum();
+	
+	public int getAllTotalCount();
+	public List<ShareplanDto> getAllgroupnum(@Param("start") int start,@Param("perPage") int perPage);
+	public String getgroupnumDay(String groupnum);
 	public List<ShareplanDto> getgroupdata(String groupnum);
 	public List<ShareplanDto> getPlan(String wishday);
 	public void groupdelete(String groupnum);

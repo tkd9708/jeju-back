@@ -320,9 +320,15 @@ public class SpotlistController {
 
 	@GetMapping("/spot/updatestar")
 	public void updateStar(@RequestParam String contentsid) {
-		if(reviewMapper.getTotalCount(contentsid) != 0) {int avgStar = reviewMapper.getAvgStar(contentsid) / reviewMapper.getTotalCount(contentsid);
-		mapper.updateStar(contentsid, avgStar);
+		if(reviewMapper.getTotalCount(contentsid) != 0) {
+			int avgStar = reviewMapper.getAvgStar(contentsid) / reviewMapper.getTotalCount(contentsid);
+		
+			mapper.updateStar(contentsid, avgStar);
+		}
+		else{
+			if(mapper.getData(contentsid).getStar() != 0)
+				mapper.updateStar(contentsid, 0);
+		}
 	}
-}
 
 }

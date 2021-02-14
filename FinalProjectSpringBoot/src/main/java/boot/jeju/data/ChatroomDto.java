@@ -9,6 +9,15 @@ public class ChatroomDto {
     private String user2;
     private String lastMsg;
     private int msgCnt;
+    private String lastWriteday;
+
+    public String getLastWriteday() {
+        return lastWriteday;
+    }
+
+    public void setLastWriteday(String lastWriteday) {
+        this.lastWriteday = lastWriteday;
+    }
 
     public int getMsgCnt() {
         return msgCnt;

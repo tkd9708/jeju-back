@@ -67,31 +67,38 @@ public class ShareplanController {
 	}
 	
 	@PostMapping("/plan/groupinsert")
-	public void groupInsert(@RequestParam String memId, @RequestParam String wishday,@RequestParam String comment) {
+	public boolean groupInsert(@RequestParam String memId, @RequestParam String wishday,@RequestParam String comment) {
 		List<DayListDto> list = wishController.getDayMyto(memId, wishday);
 		
-		String maxNum = String.valueOf(Integer.parseInt(mapper.maxGroupNum()) + 1);
-		
-		
-		for(DayListDto dto : list) {
-			ShareplanDto sdto = new ShareplanDto();
-			sdto.setMemId(memId);
-			sdto.setGroupNum(maxNum);
-//			if(dto.getTitle().contains(",")) {
-//				sdto.setTitle(dto.getTitle().split(",")[1]);
-//			}
-//			else {
-//				
-//			}
-			sdto.setTitle(dto.getTitle());
-			sdto.setContent(dto.getAddr());
-			sdto.setWishday(dto.getWishday());
-			sdto.setWishtime(dto.getWishtime());
-			sdto.setComment(comment);
-			sdto.setWishNum(dto.getNum());
-			this.insert(sdto);
-//			System.out.println(sdto.getTitle());
+		if(!list.isEmpty()) {
+			String maxNum = String.valueOf(Integer.parseInt(mapper.maxGroupNum()) + 1);
+			
+			
+			for(DayListDto dto : list) {
+				ShareplanDto sdto = new ShareplanDto();
+				sdto.setMemId(memId);
+				sdto.setGroupNum(maxNum);
+//				if(dto.getTitle().contains(",")) {
+//					sdto.setTitle(dto.getTitle().split(",")[1]);
+//				}
+//				else {
+//					
+//				}
+				sdto.setTitle(dto.getTitle());
+				sdto.setContent(dto.getAddr());
+				sdto.setWishday(dto.getWishday());
+				sdto.setWishtime(dto.getWishtime());
+				sdto.setComment(comment);
+				sdto.setWishNum(dto.getNum());
+				this.insert(sdto);
+//				System.out.println(sdto.getTitle());
+			}
+			return true;
 		}
+		else {
+			return false;
+		}
+		
 	}
 	
 	@GetMapping("/plan/delete")

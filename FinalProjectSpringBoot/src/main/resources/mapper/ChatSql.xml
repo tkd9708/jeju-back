@@ -6,7 +6,7 @@
 	</insert>
 
 	<select id="getRoom" parameterType="String" resultType="chatroom">
-		select * from chatroom where user1=#{user} or user2=#{user}
+		select * from chatroom where user1=#{user} or user2=#{user} order by num desc
 	</select>
 
 	<insert id="insertMsg" parameterType="chatmsg">

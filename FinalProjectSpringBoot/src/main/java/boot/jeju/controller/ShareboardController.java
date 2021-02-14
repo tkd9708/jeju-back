@@ -235,8 +235,8 @@ public class ShareboardController {
     }
 
     @GetMapping("/share/answercount")
-    public int getCount(@RequestParam String num) {
-        return mapper.getCount(num);
+    public int getCount(@RequestParam String regroup) {
+        return mapper.getCount(regroup);
     }
 
     @PostMapping(value = "/share/update")
